@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A Saga de Berk | Como Treinar o Seu Dragão</title>
     
     <!-- Google Fonts -->
@@ -21,18 +21,14 @@
             --text-light: #f0f0f0;
             --text-dim: #aaaaaa;
             --border-color: rgba(255, 255, 255, 0.1);
-            
-            /* Cores do tema (Fogo) */
-            --color-1: #ff6b35; /* Laranja */
-            --color-2: #f7931e; /* Dourado */
-            
-            /* Estado padrão dos botões */
+            --color-1: #ff6b35;
+            --color-2: #f7931e;
             --btn-bg: #2c2c2c;
             --btn-text: #cccccc;
         }
 
         /* --- Reset & Base --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
 
         body {
@@ -40,11 +36,20 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Impede rolagem horizontal */
             position: relative;
+            width: 100%;
         }
 
-        /* --- Fundo Animado (Aurora de Fogo) --- */
+        /* --- Impedir Seleção de Texto na Interface --- */
+        header, .movie-card, .tabs-container, .btn, .settings-wrapper, .brand-logo, .episode-item {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Padrão */
+        }
+
+        /* --- Fundo Animado --- */
         .animated-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -54,7 +59,6 @@
             z-index: -2;
         }
 
-        /* Camada de Fundo do Usuário */
         .user-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -81,31 +85,31 @@
         /* --- Logo --- */
         .brand-logo {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 70px;
+            top: 15px;
+            left: 15px;
+            width: 60px;
             z-index: 1000;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
             transition: 0.3s;
         }
         .brand-logo:hover { transform: scale(1.1); }
 
-        /* --- PAINEL DE CONFIGURAÇÕES (ENGRENAGEM) --- */
+        /* --- PAINEL DE CONFIGURAÇÕES --- */
         .settings-wrapper {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             z-index: 2000;
         }
 
         .settings-toggle {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: rgba(0,0,0,0.6);
             border: 1px solid var(--border-color);
             border-radius: 50%;
             color: white;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             transition: 0.3s;
             display: flex;
@@ -119,14 +123,14 @@
 
         .settings-panel {
             position: absolute;
-            top: 60px;
+            top: 55px;
             right: 0;
-            width: 300px; /* Largura aumentada para 4 colunas de thumb */
-            background: rgba(20, 20, 20, 0.95);
+            width: 280px;
+            background: rgba(20, 20, 20, 0.98);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -141,25 +145,26 @@
 
         .settings-title {
             font-family: 'Cinzel', serif;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #888;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .setting-group { margin-bottom: 20px; }
+        .setting-group { margin-bottom: 15px; }
 
-        /* Botão de Música dentro do Painel */
+        /* Música */
         .music-control {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             cursor: pointer;
+            padding: 5px;
         }
         .play-state-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: #333;
             color: white;
@@ -167,33 +172,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px;
             transition: 0.3s;
             flex-shrink: 0;
         }
         .play-state-btn.playing { 
             background: var(--color-1); 
-            box-shadow: 0 0 15px var(--color-1); 
+            box-shadow: 0 0 10px var(--color-1); 
         }
-        .music-label { font-size: 1rem; color: #ddd; }
+        .music-label { font-size: 0.9rem; color: #ddd; }
 
         /* Miniaturas de Fundo */
         .bg-thumbs-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 colunas */
-            gap: 8px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
         }
         .bg-thumb {
             width: 100%;
             aspect-ratio: 16/9;
-            border-radius: 5px;
+            border-radius: 4px;
             background-size: cover;
             background-position: center;
             cursor: pointer;
             border: 2px solid transparent;
             opacity: 0.6;
             transition: 0.2s;
-            background-color: #222; /* Fundo caso imagem não carregue */
+            background-color: #222;
         }
         .bg-thumb:hover { opacity: 1; }
         .bg-thumb.active { border-color: var(--color-1); opacity: 1; }
@@ -205,15 +210,11 @@
             justify-content: center;
             border: 2px dashed #444;
             color: #666;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
         }
-        .upload-label:hover { 
-            border-color: var(--color-1); 
-            color: var(--color-1); 
-            opacity: 1;
-        }
+        .upload-label:hover { border-color: var(--color-1); color: var(--color-1); opacity: 1; }
         #customBgInput { display: none; }
 
         /* --- Header --- */
@@ -225,23 +226,24 @@
             text-align: center;
             position: relative;
             z-index: 1;
+            padding: 0 20px; /* Padding seguro */
         }
 
         header h1 {
             font-family: 'Cinzel', serif;
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             color: white;
-            text-shadow: 0 0 30px rgba(0,0,0,0.8);
-            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
         }
 
         header p {
             max-width: 600px;
             margin: 0 auto;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #ddd;
             background: rgba(0,0,0,0.4);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
         }
 
@@ -253,21 +255,21 @@
             position: relative;
             z-index: 2;
         }
-        section { margin-bottom: 80px; }
+        section { margin-bottom: 60px; }
 
         .section-title {
             font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             color: white;
         }
 
         /* --- Grid de Filmes --- */
         .movies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
         }
 
         .movie-card {
@@ -284,12 +286,12 @@
 
         .movie-card img {
             width: 100%;
-            height: 350px;
+            height: 300px;
             object-fit: cover;
         }
 
         .movie-card-body {
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -297,63 +299,69 @@
 
         .movie-card-title {
             font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
         }
 
         .movie-card-desc {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-dim);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-grow: 1;
+            /* Permite selecionar a descrição se quiser copiar */
+            user-select: text; 
         }
 
-        /* --- BOTÕES (CINZA -> COLORIDO) --- */
+        /* --- BOTÕES (CINZA -> COLORIDO + CLIQUE SUAVE) --- */
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-top: auto;
         }
 
         .btn {
             flex: 1;
-            padding: 12px 10px;
+            padding: 10px 8px;
             border-radius: 6px;
             text-align: center;
             text-decoration: none;
             font-family: 'Cinzel', serif;
             font-weight: 700;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            transition: all 0.2s ease; /* Transição rápida para feedback */
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 5px;
             white-space: nowrap;
             
-            /* Estado Inicial: Cinza */
+            /* Estado Inicial */
             background-color: var(--btn-bg);
             color: var(--btn-text);
             border: none;
             box-shadow: none;
         }
 
+        /* Efeito de Clique Suave (Diminui levemente) */
+        .btn:active {
+            transform: scale(0.95);
+        }
+
         /* Estado Hover: Colorido */
-        .btn:hover, .btn:active {
+        .btn:hover {
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .btn-watch:hover, .btn-watch:active {
+        .btn-watch:hover {
             background: linear-gradient(45deg, var(--color-1), var(--color-2));
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.4);
         }
 
-        .btn-download:hover, .btn-download:active {
+        .btn-download:hover {
             background: linear-gradient(45deg, #d3273b, var(--color-1));
-            box-shadow: 0 5px 15px rgba(211, 39, 59, 0.4);
+            box-shadow: 0 4px 10px rgba(211, 39, 59, 0.4);
         }
 
         /* --- Abas da Série --- */
@@ -361,7 +369,7 @@
             background: var(--glass-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             backdrop-filter: blur(10px);
         }
 
@@ -369,7 +377,7 @@
             display: flex;
             justify-content: center;
             gap: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
@@ -378,10 +386,11 @@
             border: none;
             color: var(--text-dim);
             font-family: 'Cinzel', serif;
-            padding: 8px 15px;
+            padding: 6px 12px;
             cursor: pointer;
             border-radius: 20px;
             transition: 0.3s;
+            font-size: 0.9rem;
         }
         .tab-btn.active { 
             background: rgba(255,255,255,0.1);
@@ -393,30 +402,38 @@
         .tab-content.active { display: block; animation: fadeIn 0.5s; }
 
         /* --- Lista de Episódios --- */
-        .episode-list { display: grid; gap: 10px; }
+        .episode-list { display: grid; gap: 8px; }
 
         .episode-item {
             display: flex;
             align-items: center;
             background: rgba(255,255,255,0.03);
-            padding: 10px 15px;
+            padding: 10px 12px;
             border-radius: 8px;
-            gap: 10px;
+            gap: 8px;
         }
         .episode-item:hover { background: rgba(255,255,255,0.08); }
 
         .ep-number {
             font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: rgba(255,255,255,0.2);
-            min-width: 30px;
+            min-width: 25px;
             text-align: center;
         }
 
-        .ep-title { flex-grow: 1; font-size: 1rem; }
+        .ep-title { 
+            flex-grow: 1; 
+            font-size: 0.9rem; 
+            padding-right: 5px;
+        }
 
-        .ep-actions { display: flex; gap: 8px; }
-        .ep-btn { padding: 6px 12px; font-size: 0.8rem; }
+        .ep-actions { 
+            display: flex; 
+            gap: 6px; 
+            flex-shrink: 0;
+        }
+        .ep-btn { padding: 6px 10px; font-size: 0.8rem; }
 
         /* --- Modal --- */
         .modal {
@@ -429,27 +446,28 @@
             backdrop-filter: blur(5px);
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
         
         .modal-content {
             background: #141414;
             border: 1px solid #333;
             border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
-            padding: 30px;
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
             text-align: center;
             position: relative;
         }
-        .modal-title { font-family: 'Cinzel', serif; font-size: 1.4rem; margin-bottom: 20px; color: white; }
-        .modal-options { display: flex; flex-direction: column; gap: 10px; }
+        .modal-title { font-family: 'Cinzel', serif; font-size: 1.2rem; margin-bottom: 15px; color: white; }
+        .modal-options { display: flex; flex-direction: column; gap: 8px; }
         
         .modal-link {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 12px;
+            padding: 10px;
             background: #222;
             color: white;
             text-decoration: none;
@@ -470,20 +488,51 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Responsividade */
+        /* --- RESPONSIVIDADE MOBILE PRIORITÁRIA --- */
         @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
-            .settings-panel { width: 260px; }
-            .ep-actions { flex-direction: column; gap: 5px; }
-            .ep-btn { width: 100%; font-size: 0.9rem; }
+            .brand-logo { width: 50px; top: 10px; left: 10px; }
+            .settings-toggle { width: 40px; height: 40px; top: 10px; right: 10px; }
+            .settings-panel { width: 260px; padding: 10px; }
+
+            header h1 { font-size: 2rem; }
+            header p { font-size: 1rem; padding: 10px; }
+
+            .section-title { font-size: 1.6rem; }
+            
+            .movies-grid { 
+                grid-template-columns: 1fr; /* Uma coluna só no mobile */
+                gap: 15px; 
+            }
+            .movie-card img { height: auto; min-height: 250px; }
+            .movie-card-body { padding: 12px; }
+
+            /* Episódios no Mobile */
+            .episode-item {
+                flex-wrap: wrap; /* Permite quebrar linha */
+            }
+            .ep-title {
+                order: 2;
+                width: 100%; /* Título ocupa a linha inteira abaixo do número */
+                margin-top: 5px;
+                text-align: left; /* Alinha texto à esquerda */
+            }
+            .ep-actions {
+                order: 3;
+                width: 100%;
+                margin-top: 8px;
+                justify-content: space-between; /* Botões espaçados */
+            }
+            .ep-btn {
+                width: 48%;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Fundo Animado Sutil -->
+    <!-- Fundo Animado -->
     <div class="animated-bg"></div>
-    <!-- Fundo do Usuário -->
     <div id="userBg" class="user-bg"></div>
 
     <!-- Áudio -->
@@ -506,14 +555,13 @@
                     <button class="play-state-btn" id="playStateBtn">
                         <i class="fas fa-play"></i>
                     </button>
-                    <span class="music-label">Tocar Trilha Sonora</span>
+                    <span class="music-label">Tocar Trilha</span>
                 </div>
             </div>
             
             <div class="setting-group">
                 <div class="settings-title">Tema de Fundo</div>
                 <div class="bg-thumbs-grid">
-                    <!-- Imagens Locais -->
                     <div class="bg-thumb active" onclick="changeBg(0)" style="background-image: url('img1.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(1)" style="background-image: url('img2.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(2)" style="background-image: url('img3.jpg');"></div>
@@ -522,7 +570,6 @@
                     <div class="bg-thumb" onclick="changeBg(5)" style="background-image: url('img6.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(6)" style="background-image: url('img7.jpg');"></div>
                     
-                    <!-- Upload Personalizado -->
                     <label for="customBgInput" class="bg-thumb upload-label" title="Carregar sua imagem">
                         <i class="fas fa-plus"></i>
                     </label>
@@ -671,7 +718,6 @@
                 "T2_EP11": { assistir: { googleDrive: "https://drive.google.com/file/d/1-FNgoarUGjXLtU-BMLv07l-Fpmqj9hSX/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/bze5h7m6fpu1" }, baixar: { googleDrive: "https://drive.google.com/file/d/1-FNgoarUGjXLtU-BMLv07l-Fpmqj9hSX/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/bze5h7m6fpu1" } },
                 "T2_EP12": { assistir: { googleDrive: "https://drive.google.com/file/d/1kb9g4sOONpB8QDAl929t38Yqctq9VN55/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/839257zbfo1s" }, baixar: { googleDrive: "https://drive.google.com/file/d/1kb9g4sOONpB8QDAl929t38Yqctq9VN55/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/839257zbfo1s" } },
                 "T2_EP13": { assistir: { googleDrive: "https://drive.google.com/file/d/1BR--8Gg9LrALc-5KNVBKcTK-oQ4tt9M9/view?usp=drivesdk", dsvPlay: "https://doodstream.com/d/5v2lnas39ots" }, baixar: { googleDrive: "https://drive.google.com/file/d/1BR--8Gg9LrALc-5KNVBKcTK-oQ4tt9M9/view?usp=drivesdk", dsvPlay: "https://doodstream.com/d/5v2lnas39ots" } },
-                // PLACEHOLDERS RESTANTES
                 "T3_EP1": { assistir: { googleDrive: "#" }, baixar: { googleDrive: "#" } },
             };
 
@@ -696,41 +742,25 @@
             // 2. Troca de Fundo
             const userBg = document.getElementById('userBg');
             const thumbs = document.querySelectorAll('.bg-thumb:not(.upload-label)');
-            
-            // Mapeando imagens locais
-            const backgrounds = [
-                'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 
-                'img5.jpg', 'img6.jpg', 'img7.jpg'
-            ];
+            const backgrounds = [ 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg' ];
 
             window.changeBg = (index) => {
-                // Remove active de todos (incluindo o botão de upload se tiver classe ativa manual)
                 document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
-                
-                // Adiciona active no clicado
                 thumbs[index].classList.add('active');
-                
-                // Aplica o fundo
                 userBg.style.backgroundImage = `url('${backgrounds[index]}')`;
                 userBg.classList.add('active');
             };
 
-            // 3. Upload de Imagem Personalizada
+            // 3. Upload
             const customInput = document.getElementById('customBgInput');
             const uploadLabel = document.querySelector('.upload-label');
-
             customInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(evt) {
-                        // Remove active de todos
                         document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
-                        
-                        // Marca o botão de upload como ativo visualmente (opcional)
                         uploadLabel.classList.add('active');
-                        
-                        // Aplica a imagem carregada
                         userBg.style.backgroundImage = `url('${evt.target.result}')`;
                         userBg.classList.add('active');
                     };
@@ -756,18 +786,15 @@
                 }
                 isPlaying = !isPlaying;
             };
-
             musicControl.addEventListener('click', toggleMusic);
 
             // 5. Gerar Episódios
             for (let s = 1; s <= 6; s++) {
                 const container = document.querySelector(`#tab-${s} .episode-list`);
                 const titles = epTitles[s] || [];
-                
                 for (let i = 1; i <= 13; i++) {
                     const title = titles[i-1] || `Episódio ${i}`;
                     const id = `T${s}_EP${i}`;
-                    
                     const item = document.createElement('div');
                     item.className = 'episode-item';
                     item.innerHTML = `
@@ -785,12 +812,10 @@
             // 6. Abas
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
-
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     tabBtns.forEach(b => b.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
-                    
                     btn.classList.add('active');
                     document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
                 });
@@ -809,7 +834,6 @@
                     const id = target.dataset.itemId;
                     const action = target.dataset.actionType;
                     const title = target.dataset.title;
-                    
                     const links = mediaLinks[id]?.[action];
 
                     if (!links || (links.googleDrive && (links.googleDrive.startsWith("LINK_") || links.googleDrive === "#"))) {
@@ -821,7 +845,6 @@
 
                     modalTitle.textContent = title;
                     modalOptions.innerHTML = '';
-
                     const createLink = (url, name, icon) => {
                         if(!url || url === "#" || url.startsWith("LINK_")) return;
                         const a = document.createElement('a');
@@ -831,15 +854,10 @@
                         a.innerHTML = `<i class="${icon}"></i> ${name}`;
                         modalOptions.appendChild(a);
                     };
-
                     createLink(links.googleDrive, 'Google Drive', 'fab fa-google-drive');
                     createLink(links.dsvPlay, 'DSV Play', 'fas fa-play-circle');
                     createLink(links.streamHG, 'StreamHG', 'fas fa-film');
-
-                    if (modalOptions.children.length === 0) {
-                        modalOptions.innerHTML = '<p style="color:white; text-align:center">Nenhum link disponível.</p>';
-                    }
-
+                    if (modalOptions.children.length === 0) modalOptions.innerHTML = '<p style="color:white; text-align:center">Nenhum link disponível.</p>';
                     modal.style.display = 'flex';
                 }
             });
