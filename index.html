@@ -24,6 +24,8 @@
             --color-2: #f7931e;
             --btn-bg: #2c2c2c;
             --btn-text: #cccccc;
+            /* Nova cor para trailer */
+            --color-trailer: #6c5ce7;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -417,10 +419,10 @@
             text-decoration: none;
             font-family: 'Cinzel', serif;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem; /* Tamanho ajustado para caber 3 botões */
             
-            /* Transição Suave (Cubic-bezier dá um efeito elástico mais natural) */
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Transição Suave e Otimizada para Mobile */
+            transition: all 0.15s ease-out;
             
             cursor: pointer;
             display: flex;
@@ -432,12 +434,15 @@
             background-color: var(--btn-bg);
             color: var(--btn-text);
             border: none;
-            box-shadow: none;
+            
+            /* Melhora a resposta ao toque no mobile */
+            touch-action: manipulation;
         }
 
         /* Efeito de Clique Suave */
         .btn:active {
-            transform: scale(0.96);
+            transform: scale(0.95);
+            filter: brightness(0.9);
         }
 
         .btn:hover {
@@ -448,6 +453,11 @@
         .btn-watch:hover {
             background: linear-gradient(45deg, var(--color-1), var(--color-2));
             box-shadow: 0 4px 10px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-trailer:hover {
+            background: linear-gradient(45deg, #5f27cd, var(--color-trailer));
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.4);
         }
 
         .btn-download:hover {
@@ -594,6 +604,14 @@
             .movie-card img { height: auto; min-height: 250px; }
             .movie-card-body { padding: 12px; }
 
+            /* Ajustes Botões Mobile */
+            .action-buttons { gap: 6px; }
+            .btn { 
+                padding: 8px 5px; 
+                font-size: 0.75rem; /* Menor para caber 3 */
+            }
+            .btn i { font-size: 0.9rem; } /* Ícones um pouco maiores que o texto */
+
             .episode-item { flex-wrap: wrap; }
             .ep-title { order: 2; width: 100%; margin-top: 5px; text-align: left; }
             .ep-actions { order: 3; width: 100%; margin-top: 8px; justify-content: space-between; }
@@ -602,7 +620,7 @@
             /* Ajustes Welcome Mobile */
             .welcome-title { font-size: 1.8rem; }
             .welcome-subtitle { font-size: 1rem; }
-            .welcome-grid { grid-template-columns: 1fr 1fr; } /* 2 colunas no mobile */
+            .welcome-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -690,6 +708,7 @@
                         <p class="movie-card-desc">Um jovem viking desajustado forma uma amizade improvável.</p>
                         <div class="action-buttons">
                             <a href="#" class="btn btn-watch" data-item-id="filme_1" data-action-type="assistir" data-title="HTTYD 1"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-trailer" data-item-id="filme_1" data-action-type="trailer" data-title="HTTYD 1"><i class="fab fa-youtube"></i> Trailer</a>
                             <a href="#" class="btn btn-download" data-item-id="filme_1" data-action-type="baixar" data-title="HTTYD 1"><i class="fas fa-download"></i> Baixar</a>
                         </div>
                     </div>
@@ -703,6 +722,7 @@
                         <p class="movie-card-desc">Soluço e Banguela descobrem uma caverna de gelo.</p>
                         <div class="action-buttons">
                             <a href="#" class="btn btn-watch" data-item-id="filme_2" data-action-type="assistir" data-title="HTTYD 2"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-trailer" data-item-id="filme_2" data-action-type="trailer" data-title="HTTYD 2"><i class="fab fa-youtube"></i> Trailer</a>
                             <a href="#" class="btn btn-download" data-item-id="filme_2" data-action-type="baixar" data-title="HTTYD 2"><i class="fas fa-download"></i> Baixar</a>
                         </div>
                     </div>
@@ -716,12 +736,13 @@
                         <p class="movie-card-desc">A amizade é testada contra um caçador implacável.</p>
                         <div class="action-buttons">
                             <a href="#" class="btn btn-watch" data-item-id="filme_3" data-action-type="assistir" data-title="HTTYD 3"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-trailer" data-item-id="filme_3" data-action-type="trailer" data-title="HTTYD 3"><i class="fab fa-youtube"></i> Trailer</a>
                             <a href="#" class="btn btn-download" data-item-id="filme_3" data-action-type="baixar" data-title="HTTYD 3"><i class="fas fa-download"></i> Baixar</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 4 -->
+                <!-- Card 4: Live Action -->
                 <div class="movie-card">
                     <img src="https://images.justwatch.com/poster/331878544/s718/how-to-train-your-dragon-2025.jpg" alt="Live Action">
                     <div class="movie-card-body">
@@ -729,6 +750,7 @@
                         <p class="movie-card-desc">A magia de Berk ganha vida real.</p>
                         <div class="action-buttons">
                             <a href="#" class="btn btn-watch" data-item-id="filme_live_action" data-action-type="assistir" data-title="Live Action"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-trailer" data-item-id="filme_live_action" data-action-type="trailer" data-title="Live Action"><i class="fab fa-youtube"></i> Trailer</a>
                             <a href="#" class="btn btn-download" data-item-id="filme_live_action" data-action-type="baixar" data-title="Live Action"><i class="fas fa-download"></i> Baixar</a>
                         </div>
                     </div>
@@ -773,10 +795,26 @@
             
             // --- DADOS ---
             const mediaLinks = {
-                "filme_1": { assistir: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" }, baixar: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" } },
-                "filme_2": { assistir: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" }, baixar: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" } },
-                "filme_3": { assistir: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" }, baixar: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" } },
-                "filme_live_action": { assistir: { googleDrive: "https://drive.google.com/file/d/13xy61gCh0R6TWwsHmvESwaDDm1wWwM12/view?usp=drivesdk", dsvPlay: null }, baixar: { googleDrive: "https://drive.google.com/file/d/1V9D1pb47Ej0mb0Alb2Tk9ZeMDqFI4YtY/view?usp=drivesdk", dsvPlay: "LINK_BAIXAR_DSV_PLAY_LIVE_ACTION" } },
+                "filme_1": { 
+                    assistir: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" }, 
+                    baixar: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" },
+                    trailer: { youtube: "https://www.youtube.com/watch?v=2Aoy-6j5dKg" }
+                },
+                "filme_2": { 
+                    assistir: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" }, 
+                    baixar: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" },
+                    trailer: { youtube: "https://www.youtube.com/watch?v=5VTWYDP-ngs" }
+                },
+                "filme_3": { 
+                    assistir: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" }, 
+                    baixar: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" },
+                    trailer: { youtube: "https://www.youtube.com/watch?v=SkcucKDrbOI" }
+                },
+                "filme_live_action": { 
+                    assistir: { googleDrive: "https://drive.google.com/file/d/13xy61gCh0R6TWwsHmvESwaDDm1wWwM12/view?usp=drivesdk" }, 
+                    baixar: { googleDrive: "https://drive.google.com/file/d/1V9D1pb47Ej0mb0Alb2Tk9ZeMDqFI4YtY/view?usp=drivesdk" }, 
+                    trailer: { youtube: "https://www.youtube.com/watch?v=oXyF5rDQDQM" } 
+                },
                 "T1_EP1": { assistir: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" }, baixar: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" } },
                 "T1_EP2": { assistir: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" }, baixar: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" } },
                 "T1_EP3": { assistir: { googleDrive: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kvdk3mcdk09t" }, baixar: { googleDrive: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kvdk3mcdk09t" } },
@@ -1012,6 +1050,7 @@
 
                     modalTitle.textContent = title;
                     modalOptions.innerHTML = '';
+                    
                     const createLink = (url, name, icon) => {
                         if(!url || url === "#" || url.startsWith("LINK_")) return;
                         const a = document.createElement('a');
@@ -1021,9 +1060,13 @@
                         a.innerHTML = `<i class="${icon}"></i> ${name}`;
                         modalOptions.appendChild(a);
                     };
+                    
+                    // Ordem de exibição no modal
                     createLink(links.googleDrive, 'Google Drive', 'fab fa-google-drive');
                     createLink(links.dsvPlay, 'DSV Play', 'fas fa-play-circle');
                     createLink(links.streamHG, 'StreamHG', 'fas fa-film');
+                    createLink(links.youtube, 'YouTube', 'fab fa-youtube'); // Adicionado suporte ao YouTube
+                    
                     if (modalOptions.children.length === 0) modalOptions.innerHTML = '<p style="color:white; text-align:center">Nenhum link disponível.</p>';
                     modal.style.display = 'flex';
                 }
