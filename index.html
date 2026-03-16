@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
     <style>
-        /* --- TEMA: FOGO & CINZA --- */
         :root {
             --bg-dark: #0a0a0a;
             --glass-bg: rgba(20, 20, 20, 0.85);
@@ -27,7 +26,6 @@
             --btn-text: #cccccc;
         }
 
-        /* --- Reset & Base --- */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
 
@@ -36,20 +34,119 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
-            overflow-x: hidden; /* Impede rolagem horizontal */
+            overflow-x: hidden;
             position: relative;
             width: 100%;
         }
 
-        /* --- Impedir Seleção de Texto na Interface --- */
-        header, .movie-card, .tabs-container, .btn, .settings-wrapper, .brand-logo, .episode-item {
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* IE10+/Edge */
-            user-select: none; /* Padrão */
+        /* Impedir Seleção */
+        header, .movie-card, .tabs-container, .btn, .settings-wrapper, .brand-logo, .episode-item, .welcome-screen {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
-        /* --- Fundo Animado --- */
+        /* --- TELA DE BOAS-VINDAS (ONBOARDING) --- */
+        .welcome-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a, #000000);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        .welcome-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .welcome-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 0 0 20px var(--color-1);
+        }
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .welcome-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .welcome-card {
+            aspect-ratio: 16/9;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            background-color: #222;
+        }
+        .welcome-card:hover {
+            transform: scale(1.03);
+            border-color: rgba(255,255,255,0.5);
+        }
+        .welcome-card.selected {
+            border-color: var(--color-1);
+            box-shadow: 0 0 20px var(--color-1);
+        }
+        
+        .welcome-card.upload-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #555;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .welcome-card.upload-card:hover {
+            border-color: var(--color-1);
+            color: var(--color-1);
+        }
+        .welcome-card.upload-card i { font-size: 2rem; margin-bottom: 5px; }
+
+        .btn-start {
+            padding: 15px 60px;
+            font-size: 1.2rem;
+            font-family: 'Cinzel', serif;
+            background: transparent;
+            border: 2px solid #555;
+            color: #555;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-start.active {
+            background: linear-gradient(45deg, var(--color-1), var(--color-2));
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 25px rgba(255, 107, 53, 0.4);
+        }
+
+        /* --- Fundo e Interface Principal --- */
         .animated-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -76,13 +173,11 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- Scrollbar --- */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--color-1); }
 
-        /* --- Logo --- */
         .brand-logo {
             position: fixed;
             top: 15px;
@@ -94,7 +189,7 @@
         }
         .brand-logo:hover { transform: scale(1.1); }
 
-        /* --- PAINEL DE CONFIGURAÇÕES --- */
+        /* --- Configurações --- */
         .settings-wrapper {
             position: fixed;
             top: 15px;
@@ -154,7 +249,6 @@
 
         .setting-group { margin-bottom: 15px; }
 
-        /* Música */
         .music-control {
             display: flex;
             align-items: center;
@@ -182,7 +276,6 @@
         }
         .music-label { font-size: 0.9rem; color: #ddd; }
 
-        /* Miniaturas de Fundo */
         .bg-thumbs-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -203,7 +296,6 @@
         .bg-thumb:hover { opacity: 1; }
         .bg-thumb.active { border-color: var(--color-1); opacity: 1; }
 
-        /* Botão de Upload */
         .upload-label {
             display: flex;
             align-items: center;
@@ -215,7 +307,7 @@
             transition: 0.3s;
         }
         .upload-label:hover { border-color: var(--color-1); color: var(--color-1); opacity: 1; }
-        #customBgInput { display: none; }
+        #customBgInput, #welcomeCustomInput { display: none; }
 
         /* --- Header --- */
         header {
@@ -226,7 +318,7 @@
             text-align: center;
             position: relative;
             z-index: 1;
-            padding: 0 20px; /* Padding seguro */
+            padding: 0 20px;
         }
 
         header h1 {
@@ -308,11 +400,9 @@
             color: var(--text-dim);
             margin-bottom: 15px;
             flex-grow: 1;
-            /* Permite selecionar a descrição se quiser copiar */
-            user-select: text; 
         }
 
-        /* --- BOTÕES (CINZA -> COLORIDO + CLIQUE SUAVE) --- */
+        /* --- BOTÕES (SUAVES) --- */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -328,7 +418,10 @@
             font-family: 'Cinzel', serif;
             font-weight: 700;
             font-size: 0.9rem;
-            transition: all 0.2s ease; /* Transição rápida para feedback */
+            
+            /* Transição Suave (Cubic-bezier dá um efeito elástico mais natural) */
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -336,19 +429,17 @@
             gap: 5px;
             white-space: nowrap;
             
-            /* Estado Inicial */
             background-color: var(--btn-bg);
             color: var(--btn-text);
             border: none;
             box-shadow: none;
         }
 
-        /* Efeito de Clique Suave (Diminui levemente) */
+        /* Efeito de Clique Suave */
         .btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
-        /* Estado Hover: Colorido */
         .btn:hover {
             color: white;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -488,7 +579,7 @@
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- RESPONSIVIDADE MOBILE PRIORITÁRIA --- */
+        /* --- RESPONSIVIDADE MOBILE --- */
         @media (max-width: 768px) {
             .brand-logo { width: 50px; top: 10px; left: 10px; }
             .settings-toggle { width: 40px; height: 40px; top: 10px; right: 10px; }
@@ -499,37 +590,35 @@
 
             .section-title { font-size: 1.6rem; }
             
-            .movies-grid { 
-                grid-template-columns: 1fr; /* Uma coluna só no mobile */
-                gap: 15px; 
-            }
+            .movies-grid { grid-template-columns: 1fr; gap: 15px; }
             .movie-card img { height: auto; min-height: 250px; }
             .movie-card-body { padding: 12px; }
 
-            /* Episódios no Mobile */
-            .episode-item {
-                flex-wrap: wrap; /* Permite quebrar linha */
-            }
-            .ep-title {
-                order: 2;
-                width: 100%; /* Título ocupa a linha inteira abaixo do número */
-                margin-top: 5px;
-                text-align: left; /* Alinha texto à esquerda */
-            }
-            .ep-actions {
-                order: 3;
-                width: 100%;
-                margin-top: 8px;
-                justify-content: space-between; /* Botões espaçados */
-            }
-            .ep-btn {
-                width: 48%;
-                font-size: 0.85rem;
-            }
+            .episode-item { flex-wrap: wrap; }
+            .ep-title { order: 2; width: 100%; margin-top: 5px; text-align: left; }
+            .ep-actions { order: 3; width: 100%; margin-top: 8px; justify-content: space-between; }
+            .ep-btn { width: 48%; font-size: 0.85rem; }
+
+            /* Ajustes Welcome Mobile */
+            .welcome-title { font-size: 1.8rem; }
+            .welcome-subtitle { font-size: 1rem; }
+            .welcome-grid { grid-template-columns: 1fr 1fr; } /* 2 colunas no mobile */
         }
     </style>
 </head>
 <body>
+
+    <!-- TELA DE BOAS VINDAS -->
+    <div id="welcomeScreen" class="welcome-screen">
+        <h1 class="welcome-title">Bem-vindo a Berk</h1>
+        <p class="welcome-subtitle">Escolha um cenário para personalizar sua experiência.</p>
+        
+        <div class="welcome-grid" id="welcomeGrid">
+            <!-- Opções geradas via JS -->
+        </div>
+
+        <button id="startBtn" class="btn-start" disabled>Iniciar Jornada</button>
+    </div>
 
     <!-- Fundo Animado -->
     <div class="animated-bg"></div>
@@ -562,7 +651,7 @@
             <div class="setting-group">
                 <div class="settings-title">Tema de Fundo</div>
                 <div class="bg-thumbs-grid">
-                    <div class="bg-thumb active" onclick="changeBg(0)" style="background-image: url('img1.jpg');"></div>
+                    <div class="bg-thumb" onclick="changeBg(0)" style="background-image: url('img1.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(1)" style="background-image: url('img2.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(2)" style="background-image: url('img3.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(3)" style="background-image: url('img4.jpg');"></div>
@@ -589,12 +678,10 @@
 
     <!-- Conteúdo -->
     <div class="container">
-        
         <!-- Filmes -->
         <section id="filmes">
             <h2 class="section-title">A Saga Cinematográfica</h2>
             <div class="movies-grid">
-                
                 <!-- Card 1 -->
                 <div class="movie-card">
                     <img src="https://play-lh.googleusercontent.com/HZMJhVtMGLbPZj1_4ILmj9h68CBEkUnPD6vW8DC4llKb6jwzasAqMFHgtKCfx9bMo44C" alt="HTTYD 1">
@@ -646,7 +733,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -671,7 +757,6 @@
                 <div id="tab-6" class="tab-content"><div class="episode-list"></div></div>
             </div>
         </section>
-
     </div>
 
     <!-- Modal -->
@@ -730,7 +815,89 @@
                 6: ["Vivendo no Limite", "Saindo da Fritura", "Siga o Líder", "Gême-intuição", "Hora do Skrill", "Entre a Rocha e o Lugar Difícil", "O Inimigo do Meu Inimigo", "Um Ótimo Dia para Corrida de Dragões", "A Alvorada da Destruição", "Que Confusão", "Algo Podre", "A Noite Mais Escura", "Asas de Fogo, Parte 1"]
             };
 
-            // --- LÓGICA ---
+            const images = [ 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg' ];
+            const userBg = document.getElementById('userBg');
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const startBtn = document.getElementById('startBtn');
+            const welcomeGrid = document.getElementById('welcomeGrid');
+            
+            let selectedBg = null;
+
+            // --- LÓGICA DA TELA DE BOAS VINDAS ---
+            const hasVisited = localStorage.getItem('berk_visited');
+
+            if (!hasVisited) {
+                // Montar grid de boas vindas
+                images.forEach((img, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'welcome-card';
+                    card.style.backgroundImage = `url('${img}')`;
+                    card.onclick = () => selectWelcomeBg(index, `url('${img}')`);
+                    welcomeGrid.appendChild(card);
+                });
+
+                // Adicionar opção de upload
+                const uploadCard = document.createElement('div');
+                uploadCard.className = 'welcome-card upload-card';
+                uploadCard.innerHTML = '<i class="fas fa-plus"></i> Adicionar';
+                const inputUpload = document.createElement('input');
+                inputUpload.type = 'file';
+                inputUpload.accept = 'image/*';
+                inputUpload.style.display = 'none';
+                inputUpload.id = 'welcomeUploadInput';
+                
+                inputUpload.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(evt) {
+                            selectWelcomeBg(-1, `url('${evt.target.result}')`);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                
+                uploadCard.onclick = () => inputUpload.click();
+                welcomeGrid.appendChild(inputUpload);
+                welcomeGrid.appendChild(uploadCard);
+
+            } else {
+                welcomeScreen.classList.add('hidden');
+                // Carregar fundo salvo (opcional)
+                const savedBg = localStorage.getItem('berk_bg');
+                if(savedBg) {
+                    userBg.style.backgroundImage = savedBg;
+                    userBg.classList.add('active');
+                }
+            }
+
+            function selectWelcomeBg(index, url) {
+                // Remover seleção anterior
+                document.querySelectorAll('.welcome-card').forEach(c => c.classList.remove('selected'));
+                
+                // Se for upload, seleciona o último card (upload)
+                if (index === -1) {
+                    document.querySelector('.upload-card').classList.add('selected');
+                } else {
+                    welcomeGrid.children[index].classList.add('selected');
+                }
+
+                selectedBg = url;
+                startBtn.disabled = false;
+                startBtn.classList.add('active');
+            }
+
+            startBtn.addEventListener('click', () => {
+                if (selectedBg) {
+                    userBg.style.backgroundImage = selectedBg;
+                    userBg.classList.add('active');
+                    localStorage.setItem('berk_visited', 'true');
+                    localStorage.setItem('berk_bg', selectedBg);
+                    welcomeScreen.classList.add('hidden');
+                }
+            });
+
+            // --- LÓGICA PRINCIPAL ---
 
             // 1. Painel de Configurações
             const settingsToggle = document.getElementById('settingsToggle');
@@ -739,30 +906,30 @@
                 settingsPanel.classList.toggle('active');
             });
 
-            // 2. Troca de Fundo
-            const userBg = document.getElementById('userBg');
-            const thumbs = document.querySelectorAll('.bg-thumb:not(.upload-label)');
-            const backgrounds = [ 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg' ];
-
+            // 2. Troca de Fundo (Painel normal)
+            const thumbs = document.querySelectorAll('.settings-wrapper .bg-thumb:not(.upload-label)');
+            
             window.changeBg = (index) => {
-                document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.settings-wrapper .bg-thumb').forEach(t => t.classList.remove('active'));
                 thumbs[index].classList.add('active');
-                userBg.style.backgroundImage = `url('${backgrounds[index]}')`;
+                userBg.style.backgroundImage = `url('${images[index]}')`;
                 userBg.classList.add('active');
+                localStorage.setItem('berk_bg', `url('${images[index]}')`);
             };
 
-            // 3. Upload
+            // 3. Upload (Painel normal)
             const customInput = document.getElementById('customBgInput');
-            const uploadLabel = document.querySelector('.upload-label');
+            const uploadLabel = document.querySelector('.settings-wrapper .upload-label');
             customInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(evt) {
-                        document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.settings-wrapper .bg-thumb').forEach(t => t.classList.remove('active'));
                         uploadLabel.classList.add('active');
                         userBg.style.backgroundImage = `url('${evt.target.result}')`;
                         userBg.classList.add('active');
+                        localStorage.setItem('berk_bg', `url('${evt.target.result}')`);
                     };
                     reader.readAsDataURL(file);
                 }
