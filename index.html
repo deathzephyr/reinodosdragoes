@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Favicon (Ícone da aba do navegador) -->
+    <link rel="icon" href="logo.png" type="image/png">
     <title>A Saga de Berk | Como Treinar o Seu Dragão</title>
     
     <!-- Google Fonts -->
@@ -322,12 +324,33 @@
             padding: 0 20px;
         }
 
+        /* Container do Título com Logo */
+        .header-title-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .main-logo {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.5));
+            animation: dragonFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes dragonFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         header h1 {
             font-family: 'Cinzel', serif;
             font-size: 3.5rem;
             color: white;
             text-shadow: 0 0 20px rgba(0,0,0,0.8);
-            margin-bottom: 15px;
+            margin: 0;
         }
 
         header p {
@@ -419,29 +442,22 @@
             font-family: 'Cinzel', serif;
             font-weight: 700;
             font-size: 0.85rem;
-            
-            /* Transição rápida para resposta imediata */
             transition: transform 0.1s ease, filter 0.1s ease, background 0.2s ease;
-            
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
             white-space: nowrap;
-            
             background-color: var(--btn-bg);
             color: var(--btn-text);
             border: none;
-            
-            /* Otimização para toque mobile */
             touch-action: manipulation;
         }
 
-        /* EFEITO DE CLIQUE APRIMORADO (SUAVE) */
         .btn:active {
-            transform: scale(0.94); /* Encolhe um pouco */
-            filter: brightness(0.7); /* Escurece */
+            transform: scale(0.94);
+            filter: brightness(0.7);
         }
 
         .btn:hover {
@@ -583,6 +599,7 @@
             .settings-toggle { width: 40px; height: 40px; top: 10px; right: 10px; }
             .settings-panel { width: 260px; padding: 10px; }
 
+            .main-logo { width: 80px; }
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; padding: 10px; }
 
@@ -631,7 +648,7 @@
         <source src="Test Drive.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Logo -->
+    <!-- Logo Flutuante (Canto Superior Esquerdo) -->
     <img src="logo.png" class="brand-logo" alt="Logo">
 
     <!-- PAINEL DE CONFIGURAÇÕES -->
@@ -663,11 +680,15 @@
         </div>
     </div>
 
-    <!-- Header -->
+    <!-- Header Principal -->
     <header>
-        <div>
-            <h1>Reino dos Dragões</h1>
-            <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk.</p>
+        <div class="header-title-box">
+            <!-- Logo Centralizado no Título -->
+            <img src="logo.png" class="main-logo" alt="Logo Berk">
+            <div>
+                <h1>A Saga de Berk</h1>
+                <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk.</p>
+            </div>
         </div>
     </header>
 
