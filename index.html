@@ -403,7 +403,7 @@
             flex-grow: 1;
         }
 
-        /* --- BOTÕES (SUAVES) --- */
+        /* --- BOTÕES (SUAVES E RESPONSIVOS) --- */
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -419,22 +419,29 @@
             font-family: 'Cinzel', serif;
             font-weight: 700;
             font-size: 0.85rem;
-            transition: all 0.15s ease-out;
+            
+            /* Transição rápida para resposta imediata */
+            transition: transform 0.1s ease, filter 0.1s ease, background 0.2s ease;
+            
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
             white-space: nowrap;
+            
             background-color: var(--btn-bg);
             color: var(--btn-text);
             border: none;
+            
+            /* Otimização para toque mobile */
             touch-action: manipulation;
         }
 
+        /* EFEITO DE CLIQUE APRIMORADO (SUAVE) */
         .btn:active {
-            transform: scale(0.95);
-            filter: brightness(0.9);
+            transform: scale(0.94); /* Encolhe um pouco */
+            filter: brightness(0.7); /* Escurece */
         }
 
         .btn:hover {
@@ -442,20 +449,9 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .btn-watch:hover {
-            background: linear-gradient(45deg, var(--color-1), var(--color-2));
-            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.4);
-        }
-
-        .btn-trailer:hover {
-            background: linear-gradient(45deg, #5f27cd, var(--color-trailer));
-            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.4);
-        }
-
-        .btn-download:hover {
-            background: linear-gradient(45deg, #d3273b, var(--color-1));
-            box-shadow: 0 4px 10px rgba(211, 39, 59, 0.4);
-        }
+        .btn-watch:hover { background: linear-gradient(45deg, var(--color-1), var(--color-2)); }
+        .btn-trailer:hover { background: linear-gradient(45deg, #5f27cd, var(--color-trailer)); }
+        .btn-download:hover { background: linear-gradient(45deg, #d3273b, var(--color-1)); }
 
         /* --- Abas da Série --- */
         .tabs-container {
@@ -614,7 +610,8 @@
         }
     </style>
 </head>
-<body>
+<!-- O HACK: ontouchstart="" força o CSS :active a funcionar instantaneamente em iOS/Android -->
+<body ontouchstart="">
 
     <!-- TELA DE BOAS VINDAS -->
     <div id="welcomeScreen" class="welcome-screen">
