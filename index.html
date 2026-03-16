@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Ícone da Aba do Navegador (Favicon) -->
     <link rel="icon" href="logo.png" type="image/png">
     <title>Reino dos Dragões | Como Treinar o Seu Dragão</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
     <style>
@@ -42,7 +38,6 @@
             width: 100%;
         }
 
-        /* Impedir Seleção */
         header, .movie-card, .tabs-container, .btn, .settings-wrapper, .brand-logo, .episode-item, .welcome-screen {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -66,536 +61,185 @@
             opacity: 1;
             transition: opacity 0.5s ease;
         }
-        .welcome-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            z-index: -1;
-        }
+        .welcome-screen.hidden { opacity: 0; pointer-events: none; z-index: -1; }
 
-        .welcome-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: white;
-            text-shadow: 0 0 20px var(--color-1);
-        }
-        .welcome-subtitle {
-            font-size: 1.2rem;
-            color: #ccc;
-            margin-bottom: 30px;
-            max-width: 500px;
-        }
+        .welcome-title { font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 10px; color: white; text-shadow: 0 0 20px var(--color-1); }
+        .welcome-subtitle { font-size: 1.2rem; color: #ccc; margin-bottom: 30px; max-width: 500px; }
 
-        .welcome-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: 30px;
-        }
+        .welcome-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; width: 100%; max-width: 800px; margin-bottom: 30px; }
 
         .welcome-card {
-            aspect-ratio: 16/9;
-            border-radius: 10px;
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
-            background-color: #222;
+            aspect-ratio: 16/9; border-radius: 10px; background-size: cover; background-position: center;
+            cursor: pointer; border: 3px solid transparent; transition: all 0.3s; position: relative; overflow: hidden; background-color: #222;
         }
-        .welcome-card:hover {
-            transform: scale(1.03);
-            border-color: rgba(255,255,255,0.5);
-        }
-        .welcome-card.selected {
-            border-color: var(--color-1);
-            box-shadow: 0 0 20px var(--color-1);
-        }
+        .welcome-card:hover { transform: scale(1.03); border-color: rgba(255,255,255,0.5); }
+        .welcome-card.selected { border-color: var(--color-1); box-shadow: 0 0 20px var(--color-1); }
         
-        .welcome-card.upload-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed #555;
-            color: #777;
-            font-size: 0.9rem;
-        }
-        .welcome-card.upload-card:hover {
-            border-color: var(--color-1);
-            color: var(--color-1);
-        }
+        .welcome-card.upload-card { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed #555; color: #777; font-size: 0.9rem; }
+        .welcome-card.upload-card:hover { border-color: var(--color-1); color: var(--color-1); }
         .welcome-card.upload-card i { font-size: 2rem; margin-bottom: 5px; }
 
-        .btn-start {
-            padding: 15px 60px;
-            font-size: 1.2rem;
-            font-family: 'Cinzel', serif;
-            background: transparent;
-            border: 2px solid #555;
-            color: #555;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn-start.active {
-            background: linear-gradient(45deg, var(--color-1), var(--color-2));
-            border-color: transparent;
-            color: white;
-            box-shadow: 0 0 25px rgba(255, 107, 53, 0.4);
-        }
+        .btn-start { padding: 15px 60px; font-size: 1.2rem; font-family: 'Cinzel', serif; background: transparent; border: 2px solid #555; color: #555; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
+        .btn-start.active { background: linear-gradient(45deg, var(--color-1), var(--color-2)); border-color: transparent; color: white; box-shadow: 0 0 25px rgba(255, 107, 53, 0.4); }
 
         /* --- Fundo e Interface Principal --- */
         .animated-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(45deg, #1a1a1a, #2c2c2c, #1a1a1a);
-            background-size: 400% 400%;
-            animation: auroraGradient 25s ease infinite;
-            z-index: -2;
+            background-size: 400% 400%; animation: auroraGradient 25s ease infinite; z-index: -2;
         }
 
-        .user-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
+        .user-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1; opacity: 0; transition: opacity 1s ease; }
         .user-bg.active { opacity: 1; }
 
-        @keyframes auroraGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Efeito de Partículas (Brasas) */
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+        .particle {
+            position: absolute;
+            bottom: -10px;
+            width: 6px; height: 6px;
+            background: rgba(255, 107, 53, 0.6);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            box-shadow: 0 0 5px rgba(255, 107, 53, 0.4);
         }
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-110vh) translateX(50px) scale(0); opacity: 0; }
+        }
+
+        @keyframes auroraGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--color-1); }
 
-        /* Logo fixa no canto superior esquerdo */
-        .brand-logo {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            width: 60px;
-            z-index: 1000;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
-            transition: 0.3s;
-        }
+        .brand-logo { position: fixed; top: 15px; left: 15px; width: 60px; z-index: 1000; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); transition: 0.3s; }
         .brand-logo:hover { transform: scale(1.1); }
 
         /* --- Configurações --- */
-        .settings-wrapper {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            z-index: 2000;
-        }
+        .settings-wrapper { position: fixed; top: 15px; right: 15px; z-index: 2000; }
+        .settings-toggle { width: 45px; height: 45px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-color); border-radius: 50%; color: white; font-size: 18px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .settings-toggle:hover { background: rgba(255,255,255,0.1); transform: rotate(90deg); }
 
-        .settings-toggle {
-            width: 45px;
-            height: 45px;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .settings-toggle:hover { 
-            background: rgba(255,255,255,0.1); 
-            transform: rotate(90deg); 
-        }
+        .settings-panel { position: absolute; top: 55px; right: 0; width: 280px; background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(10px); border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; }
+        .settings-panel.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        .settings-panel {
-            position: absolute;
-            top: 55px;
-            right: 0;
-            width: 280px;
-            background: rgba(20, 20, 20, 0.98);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 15px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-        }
-        
-        .settings-panel.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .settings-title {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
+        .settings-title { font-family: 'Cinzel', serif; font-size: 0.9rem; color: #888; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .setting-group { margin-bottom: 15px; }
 
-        .music-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            padding: 5px;
-        }
-        .play-state-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #333;
-            color: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: 0.3s;
-            flex-shrink: 0;
-        }
-        .play-state-btn.playing { 
-            background: var(--color-1); 
-            box-shadow: 0 0 10px var(--color-1); 
-        }
+        .music-control { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px; }
+        .play-state-btn { width: 36px; height: 36px; border-radius: 50%; background: #333; color: white; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: 0.3s; flex-shrink: 0; }
+        .play-state-btn.playing { background: var(--color-1); box-shadow: 0 0 10px var(--color-1); }
         .music-label { font-size: 0.9rem; color: #ddd; }
 
-        .bg-thumbs-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-        }
-        .bg-thumb {
-            width: 100%;
-            aspect-ratio: 16/9;
-            border-radius: 4px;
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            border: 2px solid transparent;
-            opacity: 0.6;
-            transition: 0.2s;
-            background-color: #222;
-        }
+        .bg-thumbs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .bg-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 4px; background-size: cover; background-position: center; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; background-color: #222; }
         .bg-thumb:hover { opacity: 1; }
         .bg-thumb.active { border-color: var(--color-1); opacity: 1; }
 
-        .upload-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed #444;
-            color: #666;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+        .upload-label { display: flex; align-items: center; justify-content: center; border: 2px dashed #444; color: #666; font-size: 16px; cursor: pointer; transition: 0.3s; }
         .upload-label:hover { border-color: var(--color-1); color: var(--color-1); opacity: 1; }
         #customBgInput, #welcomeCustomInput { display: none; }
 
         /* --- Header --- */
-        header {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            padding: 0 20px;
-        }
-
-        header h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5rem;
-            color: white;
-            text-shadow: 0 0 20px rgba(0,0,0,0.8);
-            margin-bottom: 15px;
-        }
-
-        header p {
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.2rem;
-            color: #ddd;
-            background: rgba(0,0,0,0.4);
-            padding: 15px;
-            border-radius: 10px;
-        }
+        header { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 1; padding: 0 20px; }
+        header h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; color: white; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 15px; }
+        header p { max-width: 600px; margin: 0 auto; font-size: 1.2rem; color: #ddd; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; }
 
         /* --- Container --- */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 2;
-        }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
         section { margin-bottom: 60px; }
 
-        .section-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            text-align: center;
-            margin-bottom: 30px;
-            color: white;
-        }
+        .section-title { font-family: 'Cinzel', serif; font-size: 2rem; text-align: center; margin-bottom: 30px; color: white; }
 
-        /* --- Grid de Filmes --- */
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
+        /* --- Grid de Filmes (Com Efeito de Brilho) --- */
+        .movies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
 
         .movie-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s;
+            background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-color);
+            border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s;
+            position: relative;
         }
         .movie-card:hover { transform: translateY(-5px); }
 
-        .movie-card img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
+        /* Efeito de Brilho no Card */
+        .movie-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s; z-index: 1; pointer-events: none;
         }
+        .movie-card:hover::before { left: 100%; }
 
-        .movie-card-body {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
+        .movie-card img { width: 100%; height: 300px; object-fit: cover; position: relative; z-index: 0; }
 
-        .movie-card-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-        }
+        .movie-card-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; position: relative; z-index: 2; }
+        .movie-card-title { font-family: 'Cinzel', serif; font-size: 1.2rem; margin-bottom: 8px; }
+        .movie-card-desc { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 15px; flex-grow: 1; }
 
-        .movie-card-desc {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            margin-bottom: 15px;
-            flex-grow: 1;
-        }
-
-        /* --- BOTÕES (SUAVES E RESPONSIVOS) --- */
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: auto;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 10px 8px;
-            border-radius: 6px;
-            text-align: center;
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-            font-size: 0.85rem;
-            transition: transform 0.1s ease, filter 0.1s ease, background 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            white-space: nowrap;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            touch-action: manipulation;
-        }
-
-        .btn:active {
-            transform: scale(0.94);
-            filter: brightness(0.7);
-        }
-
-        .btn:hover {
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
+        /* --- BOTÕES --- */
+        .action-buttons { display: flex; gap: 8px; margin-top: auto; }
+        .btn { flex: 1; padding: 10px 8px; border-radius: 6px; text-align: center; text-decoration: none; font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.85rem; transition: transform 0.1s ease, filter 0.1s ease, background 0.2s ease; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; white-space: nowrap; background-color: var(--btn-bg); color: var(--btn-text); border: none; touch-action: manipulation; }
+        .btn:active { transform: scale(0.94); filter: brightness(0.7); }
+        .btn:hover { color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .btn-watch:hover { background: linear-gradient(45deg, var(--color-1), var(--color-2)); }
         .btn-trailer:hover { background: linear-gradient(45deg, #5f27cd, var(--color-trailer)); }
         .btn-download:hover { background: linear-gradient(45deg, #d3273b, var(--color-1)); }
 
-        /* --- ABAS DA SÉRIE (MELHORADAS) --- */
-        .tabs-container {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .tabs-nav {
-            display: flex;
-            justify-content: center;
-            gap: 12px; /* Aumentado o espaço entre botões */
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 50px; /* Estilo pílula no container */
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-dim);
-            font-family: 'Cinzel', serif;
-            padding: 10px 24px; /* Muito maior */
-            cursor: pointer;
-            border-radius: 30px; /* Bem arredondado */
-            transition: 0.3s;
-            font-size: 1.1rem; /* Fonte maior */
-            font-weight: 700;
-        }
-        .tab-btn.active { 
-            background: linear-gradient(45deg, var(--color-1), var(--color-2)); /* Gradiente vibrante */
-            border-color: transparent;
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-        }
-        .tab-btn:hover { 
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
+        /* --- ABAS DA SÉRIE --- */
+        .tabs-container { background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; backdrop-filter: blur(10px); }
+        .tabs-nav { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 50px; }
+        .tab-btn { background: transparent; border: 1px solid transparent; color: var(--text-dim); font-family: 'Cinzel', serif; padding: 10px 24px; cursor: pointer; border-radius: 30px; transition: 0.3s; font-size: 1.1rem; font-weight: 700; }
+        .tab-btn.active { background: linear-gradient(45deg, var(--color-1), var(--color-2)); border-color: transparent; color: white; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4); }
+        .tab-btn:hover { color: white; background: rgba(255, 255, 255, 0.1); }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.5s; }
 
-        /* --- LISTA DE EPISÓDIOS (MELHORADA) --- */
-        .episode-list { 
-            display: grid; 
-            gap: 12px; /* Mais espaço entre itens */
-        }
+        /* --- LISTA DE EPISÓDIOS --- */
+        .episode-list { display: grid; gap: 12px; }
+        .episode-item { display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 15px 20px; border-radius: 12px; gap: 15px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+        .episode-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(255, 107, 53, 0.3); transform: translateX(5px); }
+        .ep-number { font-family: 'Cinzel', serif; font-size: 1.5rem; color: rgba(255, 255, 255, 0.15); min-width: 40px; text-align: center; font-weight: 900; transition: color 0.3s; }
+        .episode-item:hover .ep-number { color: var(--color-1); }
+        .ep-title { flex-grow: 1; font-size: 1.1rem; color: var(--text-light); padding-right: 10px; }
+        .ep-actions { display: flex; gap: 10px; flex-shrink: 0; }
+        .ep-btn { padding: 10px 18px; font-size: 0.95rem; }
 
-        .episode-item {
-            display: flex;
-            align-items: center;
-            background: rgba(255,255,255,0.03);
-            padding: 15px 20px; /* Mais espaço interno */
-            border-radius: 12px; /* Mais arredondado */
-            gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        .episode-item:hover { 
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255, 107, 53, 0.3);
-            transform: translateX(5px);
-        }
-
-        .ep-number {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem; /* Número grande */
-            color: rgba(255, 255, 255, 0.15);
-            min-width: 40px;
+        /* --- RODAPÉ (FOOTER) --- */
+        footer {
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
             text-align: center;
-            font-weight: 900;
-            transition: color 0.3s;
+            margin-top: 40px;
         }
-        .episode-item:hover .ep-number {
-            color: var(--color-1);
-        }
+        .footer-content { max-width: 800px; margin: 0 auto; }
+        .footer-logo { width: 80px; margin-bottom: 20px; opacity: 0.6; filter: grayscale(100%); }
+        .footer-text { color: #666; font-size: 0.9rem; margin-bottom: 15px; }
+        .footer-links { display: flex; justify-content: center; gap: 15px; font-size: 1.5rem; }
+        .footer-links a { color: #555; transition: 0.3s; }
+        .footer-links a:hover { color: var(--color-1); }
 
-        .ep-title { 
-            flex-grow: 1; 
-            font-size: 1.1rem; /* Título maior */
-            color: var(--text-light);
-            padding-right: 10px;
+        /* --- BOTÃO VOLTAR AO TOPO --- */
+        .scroll-top-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+            background: linear-gradient(45deg, var(--color-1), var(--color-2));
+            border: none; border-radius: 50%; color: white; font-size: 20px;
+            cursor: pointer; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
         }
+        .scroll-top-btn.visible { opacity: 1; visibility: visible; }
+        .scroll-top-btn:active { transform: scale(0.9); }
 
-        .ep-actions { 
-            display: flex; 
-            gap: 10px; 
-            flex-shrink: 0;
-        }
-        .ep-btn { 
-            padding: 10px 18px; /* Botões maiores */
-            font-size: 0.95rem; 
-        }
-
-        /* --- Modal --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 3000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .modal-content {
-            background: #141414;
-            border: 1px solid #333;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 350px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
+        /* --- MODAL --- */
+        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: #141414; border: 1px solid #333; border-radius: 12px; width: 100%; max-width: 350px; padding: 20px; text-align: center; position: relative; }
         .modal-title { font-family: 'Cinzel', serif; font-size: 1.2rem; margin-bottom: 15px; color: white; }
         .modal-options { display: flex; flex-direction: column; gap: 8px; }
-        
-        .modal-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px;
-            background: #222;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: 0.3s;
-        }
+        .modal-link { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px; background: #222; color: white; text-decoration: none; border-radius: 6px; transition: 0.3s; }
         .modal-link:hover { background: var(--color-1); color: white; }
-
-        .close-btn {
-            position: absolute;
-            top: 10px; right: 15px;
-            font-size: 20px;
-            color: #555;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 20px; color: #555; cursor: pointer; transition: 0.3s; }
         .close-btn:hover { color: white; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -605,60 +249,26 @@
             .brand-logo { width: 50px; top: 10px; left: 10px; }
             .settings-toggle { width: 40px; height: 40px; top: 10px; right: 10px; }
             .settings-panel { width: 260px; padding: 10px; }
-
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; padding: 10px; }
-
             .section-title { font-size: 1.6rem; }
-            
             .movies-grid { grid-template-columns: 1fr; gap: 15px; }
             .movie-card img { height: auto; min-height: 250px; }
             .movie-card-body { padding: 12px; }
-
             .action-buttons { gap: 6px; }
-            .btn { 
-                padding: 8px 5px; 
-                font-size: 0.75rem;
-            }
+            .btn { padding: 8px 5px; font-size: 0.75rem; }
             .btn i { font-size: 0.9rem; }
 
-            /* Ajustes Séries Mobile */
-            .tabs-nav {
-                gap: 8px;
-                padding: 5px;
-                border-radius: 15px;
-            }
-            .tab-btn {
-                padding: 8px 16px;
-                font-size: 1rem;
-                flex-grow: 1; /* Ocupa espaço igual */
-                text-align: center;
-            }
-
-            .episode-item { 
-                flex-wrap: wrap; 
-                padding: 12px;
-            }
+            .tabs-nav { gap: 8px; padding: 5px; border-radius: 15px; }
+            .tab-btn { padding: 8px 16px; font-size: 1rem; flex-grow: 1; text-align: center; }
+            .episode-item { flex-wrap: wrap; padding: 12px; }
             .ep-number { font-size: 1.2rem; min-width: 30px; }
-            .ep-title { 
-                order: 2; 
-                width: 100%; 
-                margin-top: 5px; 
-                text-align: left; 
-                font-size: 1rem;
-            }
-            .ep-actions { 
-                order: 3; 
-                width: 100%; 
-                margin-top: 10px; 
-                justify-content: space-between; 
-            }
-            .ep-btn { 
-                width: 48%; 
-                font-size: 0.9rem; 
-                padding: 10px 0;
-            }
+            .ep-title { order: 2; width: 100%; margin-top: 5px; text-align: left; font-size: 1rem; }
+            .ep-actions { order: 3; width: 100%; margin-top: 10px; justify-content: space-between; }
+            .ep-btn { width: 48%; font-size: 0.9rem; padding: 10px 0; }
 
+            .scroll-top-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+            
             .welcome-title { font-size: 1.8rem; }
             .welcome-subtitle { font-size: 1rem; }
             .welcome-grid { grid-template-columns: 1fr 1fr; }
@@ -671,21 +281,19 @@
     <div id="welcomeScreen" class="welcome-screen">
         <h1 class="welcome-title">Bem-vindo a Berk</h1>
         <p class="welcome-subtitle">Escolha um cenário para personalizar sua experiência.</p>
-        
         <div class="welcome-grid" id="welcomeGrid"></div>
         <button id="startBtn" class="btn-start" disabled>Iniciar Jornada</button>
     </div>
 
-    <!-- Fundo Animado -->
+    <!-- Fundo Animado e Partículas -->
     <div class="animated-bg"></div>
     <div id="userBg" class="user-bg"></div>
+    <div class="particles" id="particles"></div>
 
     <!-- Áudio -->
-    <audio id="bgMusic" loop>
-        <source src="Test Drive.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" loop><source src="Test Drive.mp3" type="audio/mpeg"></audio>
 
-    <!-- Logo Fixa no Canto Superior Esquerdo -->
+    <!-- Logo Fixa -->
     <img src="logo.png" class="brand-logo" alt="Logo">
 
     <!-- PAINEL DE CONFIGURAÇÕES -->
@@ -699,7 +307,6 @@
                     <span class="music-label">Tocar Trilha</span>
                 </div>
             </div>
-            
             <div class="setting-group">
                 <div class="settings-title">Tema de Fundo</div>
                 <div class="bg-thumbs-grid">
@@ -812,6 +419,21 @@
         </section>
     </div>
 
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="footer-content">
+            <img src="logo.png" class="footer-logo" alt="Logo Footer">
+            <p class="footer-text">Reino dos Dragões. Todos os direitos reservados aos criadores da franquia.</p>
+            <p class="footer-text" style="font-size: 0.8rem; opacity: 0.7;">Desenvolvido para Debora Vezetiv</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÃO VOLTAR AO TOPO -->
+    <button class="scroll-top-btn" id="scrollTopBtn">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <!-- Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
@@ -826,34 +448,18 @@
             
             // --- DADOS ---
             const mediaLinks = {
-                "filme_1": { 
-                    assistir: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" }, 
-                    baixar: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" },
-                    trailer: { youtube: "https://youtu.be/RA0nWjiY4_0?feature=shared" }
-                },
-                "filme_2": { 
-                    assistir: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" }, 
-                    baixar: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" },
-                    trailer: { youtube: "https://youtu.be/mxyOFw8SeSM?feature=shared" }
-                },
-                "filme_3": { 
-                    assistir: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" }, 
-                    baixar: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" },
-                    trailer: { youtube: "https://youtu.be/lNbJy1R7EWQ?si=e1Z5G2XC8KuQBW6k" }
-                },
-                "filme_live_action": { 
-                    assistir: { googleDrive: "https://drive.google.com/file/d/13xy61gCh0R6TWwsHmvESwaDDm1wWwM12/view?usp=drivesdk" }, 
-                    baixar: { googleDrive: "https://drive.google.com/file/d/1V9D1pb47Ej0mb0Alb2Tk9ZeMDqFI4YtY/view?usp=drivesdk" }, 
-                    trailer: { youtube: "https://youtu.be/UEA1AMi1QSg?si=FfjXoDTZcggZf5BS" } 
-                },
+                "filme_1": { assistir: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" }, baixar: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" }, trailer: { youtube: "https://youtu.be/RA0nWjiY4_0?feature=shared" } },
+                "filme_2": { assistir: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" }, baixar: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" }, trailer: { youtube: "https://youtu.be/mxyOFw8SeSM?feature=shared" } },
+                "filme_3": { assistir: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" }, baixar: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" }, trailer: { youtube: "https://youtu.be/lNbJy1R7EWQ?si=e1Z5G2XC8KuQBW6k" } },
+                "filme_live_action": { assistir: { googleDrive: "https://drive.google.com/file/d/13xy61gCh0R6TWwsHmvESwaDDm1wWwM12/view?usp=drivesdk" }, baixar: { googleDrive: "https://drive.google.com/file/d/1V9D1pb47Ej0mb0Alb2Tk9ZeMDqFI4YtY/view?usp=drivesdk" }, trailer: { youtube: "https://youtu.be/UEA1AMi1QSg?si=FfjXoDTZcggZf5BS" } },
                 "T1_EP1": { assistir: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" }, baixar: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" } },
                 "T1_EP2": { assistir: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" }, baixar: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" } },
                 "T1_EP3": { assistir: { googleDrive: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kvdk3mcdk09t" }, baixar: { googleDrive: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kvdk3mcdk09t" } },
                 "T1_EP4": { assistir: { googleDrive: "https://drive.google.com/file/d/18HknyA_0cncwQ4q708CADy5gnbKNq7rk/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cxidqgeh3t1z" }, baixar: { googleDrive: "https://drive.google.com/file/d/18HknyA_0cncwQ4q708CADy5gnbKNq7rk/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cxidqgeh3t1z" } },
-                "T1_EP5": { assistir: { googleDrive: "https://drive.google.com/file/d/1uKngefJb1uHofnzQk9iffcKlud6ab90b/view?usp=drivesdk", dsvPlay: null }, baixar: { googleDrive: "https://drive.google.com/file/d/1uKngefJb1uHofnzQk9iffcKlud6ab90b/view?usp=drivesdk", streamHG: "LINK_BAIXAR_STREAMHG_T1_EP5" } },
+                "T1_EP5": { assistir: { googleDrive: "https://drive.google.com/file/d/1uKngefJb1uHofnzQk9iffcKlud6ab90b/view?usp=drivesdk" }, baixar: { googleDrive: "https://drive.google.com/file/d/1uKngefJb1uHofnzQk9iffcKlud6ab90b/view?usp=drivesdk" } },
                 "T1_EP6": { assistir: { googleDrive: "https://drive.google.com/file/d/1NVW6hAOzMF6cOCXuHkCG0ylJO9qmU_iG/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/th0r2s2ohi0o" }, baixar: { googleDrive: "https://drive.google.com/file/d/1NVW6hAOzMF6cOCXuHkCG0ylJO9qmU_iG/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/th0r2s2ohi0o" } },
                 "T1_EP7": { assistir: { googleDrive: "https://drive.google.com/file/d/1yRhEsKHElOPlR4XEwoF3NR6T1eoA8YB1/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/w4z4cucjnavk" }, baixar: { googleDrive: "https://drive.google.com/file/d/1yRhEsKHElOPlR4XEwoF3NR6T1eoA8YB1/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/w4z4cucjnavk" } },
-                "T1_EP8": { assistir: { googleDrive: "https://drive.google.com/file/d/1mg2nRmgGDAEusUsmnXVR76X5FfJOoFlq/view?usp=drivesdk", dsvPlay: null }, baixar: { googleDrive: "https://drive.google.com/file/d/1mg2nRmgGDAEusUsmnXVR76X5FfJOoFlq/view?usp=drivesdk", streamHG: "LINK_BAIXAR_STREAMHG_T1_EP8" } },
+                "T1_EP8": { assistir: { googleDrive: "https://drive.google.com/file/d/1mg2nRmgGDAEusUsmnXVR76X5FfJOoFlq/view?usp=drivesdk" }, baixar: { googleDrive: "https://drive.google.com/file/d/1mg2nRmgGDAEusUsmnXVR76X5FfJOoFlq/view?usp=drivesdk" } },
                 "T1_EP9": { assistir: { googleDrive: "https://drive.google.com/file/d/1drl2h8tFCiT6CfULDjWQgF9286JgD6vU/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/r9w8dcewvs3e" }, baixar: { googleDrive: "https://drive.google.com/file/d/1drl2h8tFCiT6CfULDjWQgF9286JgD6vU/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/r9w8dcewvs3e" } },
                 "T1_EP10": { assistir: { googleDrive: "https://drive.google.com/file/d/13jnUxJ8Kygw0E8Qj2fSx8zXmGEtr9gZ-/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/tuj5gfi8iorj" }, baixar: { googleDrive: "https://drive.google.com/file/d/13jnUxJ8Kygw0E8Qj2fSx8zXmGEtr9gZ-/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/tuj5gfi8iorj" } },
                 "T1_EP11": { assistir: { googleDrive: "https://drive.google.com/file/d/1ID2zqlLsQN3EQf1SKEAflKNk-LHChu3C/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kzcfls0lztlw" }, baixar: { googleDrive: "https://drive.google.com/file/d/1ID2zqlLsQN3EQf1SKEAflKNk-LHChu3C/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kzcfls0lztlw" } },
@@ -863,7 +469,7 @@
                 "T2_EP2": { assistir: { googleDrive: "https://drive.google.com/file/d/1SO4jAEcDLv4hRUYs4l8ZuxcsZHIO863L/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/wmw694gzif5p" }, baixar: { googleDrive: "https://drive.google.com/file/d/1SO4jAEcDLv4hRUYs4l8ZuxcsZHIO863L/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/wmw694gzif5p" } },
                 "T2_EP3": { assistir: { googleDrive: "https://drive.google.com/file/d/1NHUjUMb0GF7VswdkTGUCWBiypKbBecWA/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/jguuefu7kjzy" }, baixar: { googleDrive: "https://drive.google.com/file/d/1NHUjUMb0GF7VswdkTGUCWBiypKbBecWA/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/jguuefu7kjzy" } },
                 "T2_EP4": { assistir: { googleDrive: "https://drive.google.com/file/d/13693wZ8tsC_-DkhMitAzvBCzhwMVq36H/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr5kp7ig7q9q" }, baixar: { googleDrive: "https://drive.google.com/file/d/13693wZ8tsC_-DkhMitAzvBCzhwMVq36H/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr5kp7ig7q9q" } },
-                "T2_EP5": { assistir: { googleDrive: "LINK_T2_EP5", dsvPlay: "LINK_T2_EP5" }, baixar: { googleDrive: "LINK_T2_EP5", dsvPlay: "LINK_T2_EP5" } },
+                "T2_EP5": { assistir: { googleDrive: "#" }, baixar: { googleDrive: "#" } },
                 "T2_EP6": { assistir: { googleDrive: "https://drive.google.com/file/d/1IKvDQPJtfxG2LJaZ81DuOmRfDDl9Y22S/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/s1guwfl4awc9" }, baixar: { googleDrive: "https://drive.google.com/file/d/1IKvDQPJtfxG2LJaZ81DuOmRfDDl9Y22S/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/s1guwfl4awc9" } },
                 "T2_EP7": { assistir: { googleDrive: "https://drive.google.com/file/d/1s3LY6FP4eo-Xy15IYZs4uwLE9M0dOGkx/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/fgh64jb6l4ba" }, baixar: { googleDrive: "https://drive.google.com/file/d/1s3LY6FP4eo-Xy15IYZs4uwLE9M0dOGkx/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/fgh64jb6l4ba" } },
                 "T2_EP8": { assistir: { googleDrive: "https://drive.google.com/file/d/1WvUDxG_SLBL0P8icGOXeRyO-cmVsHjRi/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/227bauepdxuv" }, baixar: { googleDrive: "https://drive.google.com/file/d/1WvUDxG_SLBL0P8icGOXeRyO-cmVsHjRi/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/227bauepdxuv" } },
@@ -889,8 +495,37 @@
             const welcomeScreen = document.getElementById('welcomeScreen');
             const startBtn = document.getElementById('startBtn');
             const welcomeGrid = document.getElementById('welcomeGrid');
+            const particlesContainer = document.getElementById('particles');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
             
             let selectedBg = null;
+
+            // --- CRIAR PARTÍCULAS DE BRASA ---
+            function createParticles() {
+                for(let i = 0; i < 20; i++) {
+                    const p = document.createElement('div');
+                    p.classList.add('particle');
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    p.style.animationDelay = Math.random() * 5 + 's';
+                    p.style.width = (Math.random() * 4 + 2) + 'px';
+                    p.style.height = p.style.width;
+                    particlesContainer.appendChild(p);
+                }
+            }
+            createParticles();
+
+            // --- LÓGICA SCROLL TO TOP ---
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+            });
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
 
             // --- LÓGICA DA TELA DE BOAS VINDAS ---
             const hasVisited = localStorage.getItem('berk_visited');
