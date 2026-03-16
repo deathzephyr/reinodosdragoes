@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,663 +8,643 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome (para os ícones) -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
     <style>
-        /* --- Variáveis de Cor e Fonte (Tema Viking Aprimorado) --- */
+        /* --- TEMA: FOGO & CINZA --- */
         :root {
-            --deep-ocean-blue: #0c1929;
-            --dragon-fire-orange: #ff6b35;
-            --dragon-fire-glow: #ff9558;
-            --driftwood-brown: #8b6f47;
-            --parchment-beige: #f4e8d0;
-            --stone-gray: #4a4a4a;
-            --night-fury-shadow: rgba(12, 25, 41, 0.7);
-            --font-heading: 'Cinzel', serif;
-            --font-body: 'Kalam', cursive;
+            --bg-dark: #0a0a0a;
+            --glass-bg: rgba(20, 20, 20, 0.85);
+            --text-light: #f0f0f0;
+            --text-dim: #aaaaaa;
+            --border-color: rgba(255, 255, 255, 0.1);
+            
+            /* Cores do tema (Fogo) */
+            --color-1: #ff6b35; /* Laranja */
+            --color-2: #f7931e; /* Dourado */
+            
+            /* Estado padrão dos botões */
+            --btn-bg: #2c2c2c;
+            --btn-text: #cccccc;
         }
 
-        /* --- Reset e Estilos Gerais --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        /* --- Reset & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: var(--font-body);
-            background: url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
-            background-size: cover;
-            color: var(--parchment-beige);
+            font-family: 'Kalam', cursive;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             line-height: 1.6;
+            overflow-x: hidden;
             position: relative;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('https://www.transparenttextures.com/patterns/papyrus.png');
-            opacity: 0.15;
-            pointer-events: none;
+        /* --- Fundo Animado (Aurora de Fogo) --- */
+        .animated-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #1a1a1a, #2c2c2c, #1a1a1a);
+            background-size: 400% 400%;
+            animation: auroraGradient 25s ease infinite;
+            z-index: -2;
         }
 
-        main, footer {
+        /* Camada de Fundo do Usuário */
+        .user-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .user-bg.active { opacity: 1; }
+
+        @keyframes auroraGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-1); }
+
+        /* --- Logo --- */
+        .brand-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 70px;
+            z-index: 1000;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+            transition: 0.3s;
+        }
+        .brand-logo:hover { transform: scale(1.1); }
+
+        /* --- PAINEL DE CONFIGURAÇÕES (ENGRENAGEM) --- */
+        .settings-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .settings-toggle {
+            width: 50px;
+            height: 50px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .settings-toggle:hover { 
+            background: rgba(255,255,255,0.1); 
+            transform: rotate(90deg); 
+        }
+
+        .settings-panel {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 300px; /* Largura aumentada para 4 colunas de thumb */
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .settings-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .settings-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .setting-group { margin-bottom: 20px; }
+
+        /* Botão de Música dentro do Painel */
+        .music-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+        .play-state-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #333;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+        .play-state-btn.playing { 
+            background: var(--color-1); 
+            box-shadow: 0 0 15px var(--color-1); 
+        }
+        .music-label { font-size: 1rem; color: #ddd; }
+
+        /* Miniaturas de Fundo */
+        .bg-thumbs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 colunas */
+            gap: 8px;
+        }
+        .bg-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 5px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.6;
+            transition: 0.2s;
+            background-color: #222; /* Fundo caso imagem não carregue */
+        }
+        .bg-thumb:hover { opacity: 1; }
+        .bg-thumb.active { border-color: var(--color-1); opacity: 1; }
+
+        /* Botão de Upload */
+        .upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #444;
+            color: #666;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .upload-label:hover { 
+            border-color: var(--color-1); 
+            color: var(--color-1); 
+            opacity: 1;
+        }
+        #customBgInput { display: none; }
+
+        /* --- Header --- */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             position: relative;
             z-index: 1;
         }
 
-        /* --- Cabeçalho Principal (Hero) --- */
-        .hero-header {
-            background: linear-gradient(rgba(12, 25, 41, 0.6), rgba(12, 25, 41, 0.9)), url('https://images5.alphacoders.com/935/935943.jpg') no-repeat center center/cover;
-            color: var(--parchment-beige);
-            text-align: center;
-            padding: 120px 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background: linear-gradient(90deg, var(--dragon-fire-orange), var(--dragon-fire-glow), var(--dragon-fire-orange));
-        }
-
-        .hero-header h1 {
-            font-family: var(--font-heading);
+        header h1 {
+            font-family: 'Cinzel', serif;
             font-size: 4.5rem;
-            font-weight: 900;
-            text-shadow: 3px 3px 6px var(--night-fury-shadow);
+            color: white;
+            text-shadow: 0 0 30px rgba(0,0,0,0.8);
             margin-bottom: 20px;
-            letter-spacing: 2px;
         }
 
-        .hero-header p {
-            font-size: 1.4rem;
-            max-width: 800px;
+        header p {
+            max-width: 600px;
             margin: 0 auto;
-            font-weight: 400;
+            font-size: 1.4rem;
+            color: #ddd;
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 10px;
         }
 
-        /* --- Container Principal --- */
-        .content-wrapper {
-            max-width: 1200px;
-            margin: 50px auto;
+        /* --- Container --- */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
             padding: 0 20px;
-        }
-
-        /* --- Seções de Conteúdo --- */
-        .content-section {
-            margin-bottom: 80px;
-        }
-
-        .content-section h2 {
-            font-family: var(--font-heading);
-            font-size: 3rem;
-            text-align: center;
-            color: var(--parchment-beige);
-            margin-bottom: 50px;
             position: relative;
-            padding-bottom: 20px;
-            text-shadow: 2px 2px 4px var(--night-fury-shadow);
+            z-index: 2;
+        }
+        section { margin-bottom: 80px; }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
         }
 
-        /* --- Divisor Temático (Machado Viking) --- */
-        .content-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 25px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23ff6b35' d='M50,0 L60,10 L50,20 L40,10 Z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        /* --- Grid de Filmes (Design de Pergaminho) --- */
+        /* --- Grid de Filmes --- */
         .movies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .movie-card {
-            background: rgba(244, 232, 208, 0.1);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(12, 25, 41, 0.5);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s;
         }
-
-        .movie-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 15px 40px 0 rgba(255, 107, 53, 0.3);
-            border-color: var(--dragon-fire-orange);
-        }
+        .movie-card:hover { transform: translateY(-5px); }
 
         .movie-card img {
             width: 100%;
-            height: 450px;
+            height: 350px;
             object-fit: cover;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .movie-card-content {
-            padding: 25px;
-            flex-grow: 1;
+        .movie-card-body {
+            padding: 20px;
             display: flex;
             flex-direction: column;
-        }
-
-        .movie-card h3 {
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            color: var(--parchment-beige);
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px var(--night-fury-shadow);
-        }
-
-        .movie-card .badge {
-            background-color: var(--dragon-fire-orange);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .movie-card p {
-            font-size: 1.1rem;
             flex-grow: 1;
-            color: #e0e0e0;
         }
 
-        /* --- Botões de Ação (Temáticos e com Modal) --- */
+        .movie-card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .movie-card-desc {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* --- BOTÕES (CINZA -> COLORIDO) --- */
         .action-buttons {
             display: flex;
-            gap: 15px;
-            margin-top: 25px;
+            gap: 10px;
+            margin-top: auto;
         }
 
-        .action-buttons a {
-            flex-grow: 1;
+        .btn {
+            flex: 1;
+            padding: 12px 10px;
+            border-radius: 6px;
             text-align: center;
-            padding: 15px;
-            border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: white;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 2px solid transparent;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+            
+            /* Estado Inicial: Cinza */
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            box-shadow: none;
         }
 
-        .action-buttons a:hover {
-            transform: translateY(-3px);
+        /* Estado Hover: Colorido */
+        .btn:hover, .btn:active {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .btn-watch {
-            background: linear-gradient(145deg, #28a745, #20c037);
-        }
-        .btn-watch:hover {
-            box-shadow: 0 0 20px rgba(40, 167, 69, 0.6);
+        .btn-watch:hover, .btn-watch:active {
+            background: linear-gradient(45deg, var(--color-1), var(--color-2));
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
         }
 
-        .btn-download {
-            background: linear-gradient(145deg, #007bff, #0056b3);
+        .btn-download:hover, .btn-download:active {
+            background: linear-gradient(45deg, #d3273b, var(--color-1));
+            box-shadow: 0 5px 15px rgba(211, 39, 59, 0.4);
         }
-        .btn-download:hover {
-            box-shadow: 0 0 20px rgba(0, 123, 255, 0.6);
-        }
-        
-        /* --- Abas para as Temporadas (Design de Pergaminho) --- */
+
+        /* --- Abas da Série --- */
         .tabs-container {
-            background: rgba(244, 232, 208, 0.1);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 32px 0 rgba(12, 25, 41, 0.5);
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
         }
 
-        .tab-buttons {
+        .tabs-nav {
             display: flex;
             justify-content: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 30px;
-            flex-wrap: wrap;
             gap: 5px;
-        }
-
-        .tab-buttons button {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-bottom: 3px solid transparent;
-            padding: 15px 25px;
-            font-size: 1.1rem;
-            font-family: var(--font-heading);
-            font-weight: 600;
-            color: var(--parchment-beige);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .tab-buttons button.active {
-            background: var(--dragon-fire-orange);
-            color: white;
-            border-bottom-color: white;
-        }
-
-        .tab-buttons button:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .season-content {
-            display: none;
-        }
-
-        .season-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .season-content h3 {
-            font-family: var(--font-heading);
-            color: var(--parchment-beige);
-            font-size: 1.8rem;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
-            text-shadow: 1px 1px 3px var(--night-fury-shadow);
+            flex-wrap: wrap;
         }
 
-        /* --- Lista de Episódios (Design de Pergaminho) --- */
-        .episode-list {
-            list-style: none;
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            font-family: 'Cinzel', serif;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: 0.3s;
         }
+        .tab-btn.active { 
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .tab-btn:hover { color: white; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+
+        /* --- Lista de Episódios --- */
+        .episode-list { display: grid; gap: 10px; }
 
         .episode-item {
             display: flex;
             align-items: center;
-            padding: 20px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 5px solid var(--dragon-fire-orange);
+            background: rgba(255,255,255,0.03);
+            padding: 10px 15px;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            gap: 10px;
         }
+        .episode-item:hover { background: rgba(255,255,255,0.08); }
 
-        .episode-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        .episode-number {
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            color: var(--dragon-fire-orange);
-            margin-right: 25px;
-            min-width: 50px;
-            text-align: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-
-        .episode-title {
+        .ep-number {
+            font-family: 'Cinzel', serif;
             font-size: 1.2rem;
-            font-weight: 700;
-            flex-grow: 1;
-            color: var(--parchment-beige);
+            color: rgba(255,255,255,0.2);
+            min-width: 30px;
+            text-align: center;
         }
 
-        .episode-item .action-buttons {
-            margin-top: 0;
-        }
-        
-        .episode-item .action-buttons a {
-            padding: 10px 18px;
-            font-size: 1rem;
-            flex-grow: 0;
-        }
-        
-        /* --- Modal de Opções --- */
+        .ep-title { flex-grow: 1; font-size: 1rem; }
+
+        .ep-actions { display: flex; gap: 8px; }
+        .ep-btn { padding: 6px 12px; font-size: 0.8rem; }
+
+        /* --- Modal --- */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.7);
-            animation: fadeIn 0.4s;
-        }
-
-        .modal-content {
-            background: linear-gradient(145deg, var(--deep-ocean-blue), #1a2f45);
-            margin: 15% auto;
-            padding: 30px;
-            border: 1px solid var(--dragon-fire-orange);
-            border-radius: 15px;
-            width: 80%;
-            max-width: 500px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            text-align: center;
-            animation: slideIn 0.5s;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: var(--parchment-beige);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .modal-content h3 {
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            color: var(--parchment-beige);
-            margin-bottom: 25px;
-        }
-
-        .modal-options {
-            display: flex;
+            z-index: 3000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+            align-items: center;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
         }
-
-        .modal-options a {
+        
+        .modal-content {
+            background: #141414;
+            border: 1px solid #333;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        .modal-title { font-family: 'Cinzel', serif; font-size: 1.4rem; margin-bottom: 20px; color: white; }
+        .modal-options { display: flex; flex-direction: column; gap: 10px; }
+        
+        .modal-link {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
-            padding: 15px 25px;
-            background-color: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            background: #222;
             color: white;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            transition: 0.3s;
         }
+        .modal-link:hover { background: var(--color-1); color: white; }
 
-        .modal-options a:hover {
-            background-color: var(--dragon-fire-orange);
-            transform: scale(1.05);
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 20px;
+            color: #555;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        
-        .modal-options p {
-            color: #aaa;
-            width: 100%;
-        }
+        .close-btn:hover { color: white; }
 
-        /* --- Rodapé --- */
-        footer {
-            background-color: var(--deep-ocean-blue);
-            color: var(--parchment-beige);
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 80px;
-            border-top: 5px solid var(--dragon-fire-orange);
-        }
-        
-        footer p {
-            margin: 0;
-            font-size: 1.1rem;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- Responsividade --- */
+        /* Responsividade */
         @media (max-width: 768px) {
-            .content-wrapper { padding: 0 25px; }
-            .hero-header h1 { font-size: 2.8rem; }
-            .hero-header p { font-size: 1.1rem; }
-            .content-section h2 { font-size: 2.2rem; margin-bottom: 40px; }
-            .movies-grid { gap: 25px; }
-            .movie-card-content { padding: 20px; }
-            .movie-card h3 { font-size: 1.6rem; }
-            .movie-card p { font-size: 1rem; }
-            .action-buttons a { font-size: 1rem; padding: 12px; }
-            .tab-buttons button { padding: 12px 18px; font-size: 1rem; }
-            .episode-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            .episode-number { font-size: 1.8rem; margin-right: 0; margin-bottom: -10px; }
-            .episode-title { font-size: 1.1rem; width: 100%; }
-            .episode-item .action-buttons { width: 100%; margin-top: 0; gap: 10px; }
-            .episode-item .action-buttons a { flex-grow: 1; padding: 12px; font-size: 1rem; }
-            .modal-content { width: 95%; margin: 30% auto; padding: 25px; }
-            .modal-content h3 { font-size: 1.6rem; }
-            .modal-options { flex-direction: column; gap: 15px; }
-            .modal-options a { width: 100%; justify-content: center; padding: 15px; }
+            header h1 { font-size: 2.5rem; }
+            .settings-panel { width: 260px; }
+            .ep-actions { flex-direction: column; gap: 5px; }
+            .ep-btn { width: 100%; font-size: 0.9rem; }
         }
-
     </style>
 </head>
 <body>
 
-    <!-- Cabeçalho -->
-    <header class="hero-header">
-        <h1>Reino dos Dragões</h1>
-        <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk. Entre batalhas, descobertas e alianças improváveis, este é o portal para o mundo onde humanos e dragões mudaram a história.</p>
-    </header>
+    <!-- Fundo Animado Sutil -->
+    <div class="animated-bg"></div>
+    <!-- Fundo do Usuário -->
+    <div id="userBg" class="user-bg"></div>
 
-    <!-- Conteúdo Principal -->
-    <main class="content-wrapper">
+    <!-- Áudio -->
+    <audio id="bgMusic" loop>
+        <source src="Test Drive.mp3" type="audio/mpeg">
+    </audio>
 
-        <!-- Seção de Filmes -->
-        <section id="filmes" class="content-section">
-            <h2>A Saga Cinematográfica</h2>
-            <div class="movies-grid">
-                
-                <!-- Filme 1 -->
-                <div class="movie-card">
-                    <img src="https://play-lh.googleusercontent.com/HZMJhVtMGLbPZj1_4ILmj9h68CBEkUnPD6vW8DC4llKb6jwzasAqMFHgtKCfx9bMo44C" alt="Como Treinar o Seu Dragão (2010)">
-                    <div class="movie-card-content">
-                        <h3>Como Treinar o Seu Dragão</h3>
-                        <span class="badge">2010</span>
-                        <p>Um jovem viking desajustado forma uma amizade improvável com um dragão raro, mudando o futuro de sua tribo para sempre.</p>
-                        <div class="action-buttons">
-                            <a href="#" class="btn-watch" data-item-id="filme_1" data-action-type="assistir" data-title="Assistir: Como Treinar o Seu Dragão (2010)"><i class="fas fa-play"></i> Assistir</a>
-                            <a href="#" class="btn-download" data-item-id="filme_1" data-action-type="baixar" data-title="Baixar: Como Treinar o Seu Dragão (2010)"><i class="fas fa-download"></i> Baixar</a>
-                        </div>
-                    </div>
+    <!-- Logo -->
+    <img src="logo.png" class="brand-logo" alt="Logo">
+
+    <!-- PAINEL DE CONFIGURAÇÕES -->
+    <div class="settings-wrapper">
+        <button class="settings-toggle" id="settingsToggle">
+            <i class="fas fa-cog"></i>
+        </button>
+        <div class="settings-panel" id="settingsPanel">
+            <div class="setting-group">
+                <div class="settings-title">Música Ambiente</div>
+                <div class="music-control" id="musicControl">
+                    <button class="play-state-btn" id="playStateBtn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <span class="music-label">Tocar Trilha Sonora</span>
                 </div>
-
-                <!-- Filme 2 -->
-                <div class="movie-card">
-                    <img src="https://play-lh.googleusercontent.com/1r9pjEP2W5IEBNZ54m5ppGlpj-YE7quFCHMNtHsYJtiPTnU2uSMguEk6Dm59EdsCL7Th=w240-h480-rw" alt="Como Treinar o Seu Dragão 2 (2014)">
-                    <div class="movie-card-content">
-                        <h3>Como Treinar o Seu Dragão 2</h3>
-                        <span class="badge">2014</span>
-                        <p>Soluço e Banguela descobrem uma caverna de gelo com centenas de dragões e um misterioso cavaleiro que ameaça a paz.</p>
-                        <div class="action-buttons">
-                            <a href="#" class="btn-watch" data-item-id="filme_2" data-action-type="assistir" data-title="Assistir: Como Treinar o Seu Dragão 2 (2014)"><i class="fas fa-play"></i> Assistir</a>
-                            <a href="#" class="btn-download" data-item-id="filme_2" data-action-type="baixar" data-title="Baixar: Como Treinar o Seu Dragão 2 (2014)"><i class="fas fa-download"></i> Baixar</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Filme 3 -->
-                <div class="movie-card">
-                    <img src="https://play-lh.googleusercontent.com/W8DR-RL0aRUJjFlvViEkk9pmzaa-iZFlQpmPO1Hm0-10Q0mzLHspjoBH64PD3l0eGwbo" alt="Como Treinar o Seu Dragão 3 (2019)">
-                    <div class="movie-card-content">
-                        <h3>O Mundo Escondido</h3>
-                        <span class="badge">2019</span>
-                        <p>A amizade de Soluço e Banguela é testada quando eles enfrentam um caçador de dragões implacável e descobrem um mundo secreto.</p>
-                        <div class="action-buttons">
-                            <a href="#" class="btn-watch" data-item-id="filme_3" data-action-type="assistir" data-title="Assistir: Como Treinar o Seu Dragão 3 (2019)"><i class="fas fa-play"></i> Assistir</a>
-                            <a href="#" class="btn-download" data-item-id="filme_3" data-action-type="baixar" data-title="Baixar: Como Treinar o Seu Dragão 3 (2019)"><i class="fas fa-download"></i> Baixar</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Live Action -->
-                <div class="movie-card">
-                    <img src="https://images.justwatch.com/poster/331878544/s718/how-to-train-your-dragon-2025.jpg" alt="Live Action de Como Treinar o Seu Dragão">
-                    <div class="movie-card-content">
-                        <h3>Live Action: HTTYD</h3>
-                        <span class="badge">2025</span>
-                        <p>A magia de Berk ganha vida real nesta adaptação live-action que promete reviver a aventura que conquistou o mundo.</p>
-                        <div class="action-buttons">
-                            <a href="#" class="btn-watch" data-item-id="filme_live_action" data-action-type="assistir" data-title="Assistir: Live Action HTTYD (2025)"><i class="fas fa-play"></i> Assistir</a>
-                            <a href="#" class="btn-download" data-item-id="filme_live_action" data-action-type="baixar" data-title="Baixar: Live Action HTTYD (2025)"><i class="fas fa-download"></i> Baixar</a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </section>
-
-        <!-- Seção da Série de TV -->
-        <section id="serie" class="content-section">
-            <h2>Dragões: Corrida até o Limite</h2>
-            <div class="tabs-container">
-                
-                <!-- Botões das Abas (Temporadas) -->
-                <div class="tab-buttons">
-                    <button class="tab-button active" data-season="1">Temporada 1</button>
-                    <button class="tab-button" data-season="2">Temporada 2</button>
-                    <button class="tab-button" data-season="3">Temporada 3</button>
-                    <button class="tab-button" data-season="4">Temporada 4</button>
-                    <button class="tab-button" data-season="5">Temporada 5</button>
-                    <button class="tab-button" data-season="6">Temporada 6</button>
+            
+            <div class="setting-group">
+                <div class="settings-title">Tema de Fundo</div>
+                <div class="bg-thumbs-grid">
+                    <!-- Imagens Locais -->
+                    <div class="bg-thumb active" onclick="changeBg(0)" style="background-image: url('img1.jpg');"></div>
+                    <div class="bg-thumb" onclick="changeBg(1)" style="background-image: url('img2.jpg');"></div>
+                    <div class="bg-thumb" onclick="changeBg(2)" style="background-image: url('img3.jpg');"></div>
+                    <div class="bg-thumb" onclick="changeBg(3)" style="background-image: url('img4.jpg');"></div>
+                    <div class="bg-thumb" onclick="changeBg(4)" style="background-image: url('img5.jpg');"></div>
+                    <div class="bg-thumb" onclick="changeBg(5)" style="background-image: url('img6.jpg');"></div>
+                    <div class="bg-thumb" onclick="changeBg(6)" style="background-image: url('img7.jpg');"></div>
+                    
+                    <!-- Upload Personalizado -->
+                    <label for="customBgInput" class="bg-thumb upload-label" title="Carregar sua imagem">
+                        <i class="fas fa-plus"></i>
+                    </label>
+                    <input type="file" id="customBgInput" accept="image/*">
                 </div>
-
-                <!-- Conteúdo das Abas (Contêineres Vazios) -->
-                <div id="season-1" class="season-content active">
-                    <h3>Temporada 1 - A Partida dos Dragões</h3>
-                    <div class="episode-list"></div>
-                </div>
-
-                <div id="season-2" class="season-content">
-                    <h3>Temporada 2 - Defensores de Berk</h3>
-                    <div class="episode-list"></div>
-                </div>
-
-                <div id="season-3" class="season-content">
-                    <h3>Temporada 3 - Corrida até o Limite</h3>
-                    <div class="episode-list"></div>
-                </div>
-
-                <div id="season-4" class="season-content">
-                    <h3>Temporada 4 - Correndo com os Dragões</h3>
-                    <div class="episode-list"></div>
-                </div>
-
-                <div id="season-5" class="season-content">
-                    <h3>Temporada 5 - Correndo para o Limite</h3>
-                    <div class="episode-list"></div>
-                </div>
-
-                <div id="season-6" class="season-content">
-                    <h3>Temporada 6 - Corrida para as Fronteiras</h3>
-                    <div class="episode-list"></div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Rodapé -->
-    <footer>
-        <p>&copy; 2025 - A Saga de Berk. Um tributo ao universo de Como Treinar o Seu Dragão. Todos os direitos à DreamWorks Animation.</p>
-    </footer>
-
-    <!-- Modal para opções de assistir/baixar -->
-    <div id="optionsModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3 id="modalTitle">Escolha uma opção</h3>
-            <div id="modalOptionsContainer" class="modal-options">
-                <!-- Os botões serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
     </div>
 
+    <!-- Header -->
+    <header>
+        <div>
+            <h1>Reino dos Dragões</h1>
+            <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk.</p>
+        </div>
+    </header>
+
+    <!-- Conteúdo -->
+    <div class="container">
+        
+        <!-- Filmes -->
+        <section id="filmes">
+            <h2 class="section-title">A Saga Cinematográfica</h2>
+            <div class="movies-grid">
+                
+                <!-- Card 1 -->
+                <div class="movie-card">
+                    <img src="https://play-lh.googleusercontent.com/HZMJhVtMGLbPZj1_4ILmj9h68CBEkUnPD6vW8DC4llKb6jwzasAqMFHgtKCfx9bMo44C" alt="HTTYD 1">
+                    <div class="movie-card-body">
+                        <h3 class="movie-card-title">Como Treinar o Seu Dragão</h3>
+                        <p class="movie-card-desc">Um jovem viking desajustado forma uma amizade improvável.</p>
+                        <div class="action-buttons">
+                            <a href="#" class="btn btn-watch" data-item-id="filme_1" data-action-type="assistir" data-title="HTTYD 1"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-download" data-item-id="filme_1" data-action-type="baixar" data-title="HTTYD 1"><i class="fas fa-download"></i> Baixar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="movie-card">
+                    <img src="https://play-lh.googleusercontent.com/1r9pjEP2W5IEBNZ54m5ppGlpj-YE7quFCHMNtHsYJtiPTnU2uSMguEk6Dm59EdsCL7Th=w240-h480-rw" alt="HTTYD 2">
+                    <div class="movie-card-body">
+                        <h3 class="movie-card-title">A Lenda Continua</h3>
+                        <p class="movie-card-desc">Soluço e Banguela descobrem uma caverna de gelo.</p>
+                        <div class="action-buttons">
+                            <a href="#" class="btn btn-watch" data-item-id="filme_2" data-action-type="assistir" data-title="HTTYD 2"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-download" data-item-id="filme_2" data-action-type="baixar" data-title="HTTYD 2"><i class="fas fa-download"></i> Baixar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="movie-card">
+                    <img src="https://play-lh.googleusercontent.com/W8DR-RL0aRUJjFlvViEkk9pmzaa-iZFlQpmPO1Hm0-10Q0mzLHspjoBH64PD3l0eGwbo" alt="HTTYD 3">
+                    <div class="movie-card-body">
+                        <h3 class="movie-card-title">O Mundo Escondido</h3>
+                        <p class="movie-card-desc">A amizade é testada contra um caçador implacável.</p>
+                        <div class="action-buttons">
+                            <a href="#" class="btn btn-watch" data-item-id="filme_3" data-action-type="assistir" data-title="HTTYD 3"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-download" data-item-id="filme_3" data-action-type="baixar" data-title="HTTYD 3"><i class="fas fa-download"></i> Baixar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="movie-card">
+                    <img src="https://images.justwatch.com/poster/331878544/s718/how-to-train-your-dragon-2025.jpg" alt="Live Action">
+                    <div class="movie-card-body">
+                        <h3 class="movie-card-title">Live Action (2025)</h3>
+                        <p class="movie-card-desc">A magia de Berk ganha vida real.</p>
+                        <div class="action-buttons">
+                            <a href="#" class="btn btn-watch" data-item-id="filme_live_action" data-action-type="assistir" data-title="Live Action"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-download" data-item-id="filme_live_action" data-action-type="baixar" data-title="Live Action"><i class="fas fa-download"></i> Baixar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Séries -->
+        <section id="series">
+            <h2 class="section-title">Corrida Até o Limite</h2>
+            <div class="tabs-container">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="1">Temp 1</button>
+                    <button class="tab-btn" data-tab="2">Temp 2</button>
+                    <button class="tab-btn" data-tab="3">Temp 3</button>
+                    <button class="tab-btn" data-tab="4">Temp 4</button>
+                    <button class="tab-btn" data-tab="5">Temp 5</button>
+                    <button class="tab-btn" data-tab="6">Temp 6</button>
+                </div>
+
+                <div id="tab-1" class="tab-content active"><div class="episode-list"></div></div>
+                <div id="tab-2" class="tab-content"><div class="episode-list"></div></div>
+                <div id="tab-3" class="tab-content"><div class="episode-list"></div></div>
+                <div id="tab-4" class="tab-content"><div class="episode-list"></div></div>
+                <div id="tab-5" class="tab-content"><div class="episode-list"></div></div>
+                <div id="tab-6" class="tab-content"><div class="episode-list"></div></div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 class="modal-title" id="modal-title">Opções</h3>
+            <div class="modal-options" id="modal-options"></div>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             
-            // --- Lógica para as Abas das Temporadas ---
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const seasonContents = document.querySelectorAll('.season-content');
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    seasonContents.forEach(content => content.classList.remove('active'));
-
-                    button.classList.add('active');
-                    const seasonId = `season-${button.dataset.season}`;
-                    document.getElementById(seasonId).classList.add('active');
-                });
-            });
-
-            // =======================================================================
-            // == MANUAL: COMO EDITAR SEUS LINKS                           ==
-            // ==                                                                ==
-            // - Para ATIVAR uma opção: Coloque o URL entre aspas.           ==
-            //   Ex: googleDrive: "https://seulink.com"                         ==
-            //                                                                ==
-            // - Para DESATIVAR uma opção: Troque o URL por "null".              ==
-            //   Ex: dsvPlay: null,                                           ==
-            //                                                                ==
-            // - Para REMOVER uma opção: Apague a linha inteira.                  ==
-            //   Ex: Apague a linha "dsvPlay: null,"                           ==
-            // ==                                                                ==
-            // - IDs: Filmes usam "filme_1", "filme_2", etc.                  ==
-            //   Episódios usam "T1_EP1" (Temporada 1, Episódio 1), etc.    ==
-            // =======================================================================
+            // --- DADOS ---
             const mediaLinks = {
-                // FILMES
                 "filme_1": { assistir: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" }, baixar: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" } },
                 "filme_2": { assistir: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" }, baixar: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" } },
                 "filme_3": { assistir: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" }, baixar: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" } },
                 "filme_live_action": { assistir: { googleDrive: "https://drive.google.com/file/d/1V9D1pb47Ej0mb0Alb2Tk9ZeMDqFI4YtY/view?usp=drivesdk", dsvPlay: null }, baixar: { googleDrive: "https://drive.google.com/file/d/1V9D1pb47Ej0mb0Alb2Tk9ZeMDqFI4YtY/view?usp=drivesdk", dsvPlay: "LINK_BAIXAR_DSV_PLAY_LIVE_ACTION" } },
-                // EPISÓDIOS - TEMPORADA 1
                 "T1_EP1": { assistir: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" }, baixar: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" } },
                 "T1_EP2": { assistir: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" }, baixar: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" } },
                 "T1_EP3": { assistir: { googleDrive: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kvdk3mcdk09t" }, baixar: { googleDrive: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kvdk3mcdk09t" } },
@@ -679,12 +658,11 @@
                 "T1_EP11": { assistir: { googleDrive: "https://drive.google.com/file/d/1ID2zqlLsQN3EQf1SKEAflKNk-LHChu3C/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kzcfls0lztlw" }, baixar: { googleDrive: "https://drive.google.com/file/d/1ID2zqlLsQN3EQf1SKEAflKNk-LHChu3C/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/kzcfls0lztlw" } },
                 "T1_EP12": { assistir: { googleDrive: "https://drive.google.com/file/d/1CoWc9QvqbBw-gjCC8pghvSch-AAuvC0l/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/dxph5nrdxxnn" }, baixar: { googleDrive: "https://drive.google.com/file/d/1CoWc9QvqbBw-gjCC8pghvSch-AAuvC0l/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/dxph5nrdxxnn" } },
                 "T1_EP13": { assistir: { googleDrive: "https://drive.google.com/file/d/16sUpRatSfVHdgOIOTy2qpxKSIsSskvwb/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ttt6pd5kwmmp" }, baixar: { googleDrive: "https://drive.google.com/file/d/16sUpRatSfVHdgOIOTy2qpxKSIsSskvwb/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ttt6pd5kwmmp" } },
-                // EPISÓDIOS - TEMPORADA 2
                 "T2_EP1": { assistir: { googleDrive: "https://drive.google.com/file/d/1Zx4UFcskVKoCxKZ_wrJWhvZ2d3Qoi5aC/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/wkxp129itvvc" }, baixar: { googleDrive: "https://drive.google.com/file/d/1Zx4UFcskVKoCxKZ_wrJWhvZ2d3Qoi5aC/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/wkxp129itvvc" } },
                 "T2_EP2": { assistir: { googleDrive: "https://drive.google.com/file/d/1SO4jAEcDLv4hRUYs4l8ZuxcsZHIO863L/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/wmw694gzif5p" }, baixar: { googleDrive: "https://drive.google.com/file/d/1SO4jAEcDLv4hRUYs4l8ZuxcsZHIO863L/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/wmw694gzif5p" } },
                 "T2_EP3": { assistir: { googleDrive: "https://drive.google.com/file/d/1NHUjUMb0GF7VswdkTGUCWBiypKbBecWA/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/jguuefu7kjzy" }, baixar: { googleDrive: "https://drive.google.com/file/d/1NHUjUMb0GF7VswdkTGUCWBiypKbBecWA/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/jguuefu7kjzy" } },
                 "T2_EP4": { assistir: { googleDrive: "https://drive.google.com/file/d/13693wZ8tsC_-DkhMitAzvBCzhwMVq36H/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr5kp7ig7q9q" }, baixar: { googleDrive: "https://drive.google.com/file/d/13693wZ8tsC_-DkhMitAzvBCzhwMVq36H/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr5kp7ig7q9q" } },
-                "T2_EP5": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T2_EP5", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T2_EP5" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T2_EP5", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T2_EP5" } },
+                "T2_EP5": { assistir: { googleDrive: "LINK_T2_EP5", dsvPlay: "LINK_T2_EP5" }, baixar: { googleDrive: "LINK_T2_EP5", dsvPlay: "LINK_T2_EP5" } },
                 "T2_EP6": { assistir: { googleDrive: "https://drive.google.com/file/d/1IKvDQPJtfxG2LJaZ81DuOmRfDDl9Y22S/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/s1guwfl4awc9" }, baixar: { googleDrive: "https://drive.google.com/file/d/1IKvDQPJtfxG2LJaZ81DuOmRfDDl9Y22S/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/s1guwfl4awc9" } },
                 "T2_EP7": { assistir: { googleDrive: "https://drive.google.com/file/d/1s3LY6FP4eo-Xy15IYZs4uwLE9M0dOGkx/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/fgh64jb6l4ba" }, baixar: { googleDrive: "https://drive.google.com/file/d/1s3LY6FP4eo-Xy15IYZs4uwLE9M0dOGkx/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/fgh64jb6l4ba" } },
                 "T2_EP8": { assistir: { googleDrive: "https://drive.google.com/file/d/1WvUDxG_SLBL0P8icGOXeRyO-cmVsHjRi/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/227bauepdxuv" }, baixar: { googleDrive: "https://drive.google.com/file/d/1WvUDxG_SLBL0P8icGOXeRyO-cmVsHjRi/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/227bauepdxuv" } },
@@ -693,69 +671,11 @@
                 "T2_EP11": { assistir: { googleDrive: "https://drive.google.com/file/d/1-FNgoarUGjXLtU-BMLv07l-Fpmqj9hSX/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/bze5h7m6fpu1" }, baixar: { googleDrive: "https://drive.google.com/file/d/1-FNgoarUGjXLtU-BMLv07l-Fpmqj9hSX/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/bze5h7m6fpu1" } },
                 "T2_EP12": { assistir: { googleDrive: "https://drive.google.com/file/d/1kb9g4sOONpB8QDAl929t38Yqctq9VN55/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/839257zbfo1s" }, baixar: { googleDrive: "https://drive.google.com/file/d/1kb9g4sOONpB8QDAl929t38Yqctq9VN55/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/839257zbfo1s" } },
                 "T2_EP13": { assistir: { googleDrive: "https://drive.google.com/file/d/1BR--8Gg9LrALc-5KNVBKcTK-oQ4tt9M9/view?usp=drivesdk", dsvPlay: "https://doodstream.com/d/5v2lnas39ots" }, baixar: { googleDrive: "https://drive.google.com/file/d/1BR--8Gg9LrALc-5KNVBKcTK-oQ4tt9M9/view?usp=drivesdk", dsvPlay: "https://doodstream.com/d/5v2lnas39ots" } },
-                // EPISÓDIOS - TEMPORADA 3
-                "T3_EP1": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP1", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP1" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP1", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP1" } },
-                "T3_EP2": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP2", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP2" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP2", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP2" } },
-                "T3_EP3": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP3", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP3" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP3", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP3" } },
-                "T3_EP4": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP4", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP4" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP4", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP4" } },
-                "T3_EP5": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP5", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP5" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP5", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP5" } },
-                "T3_EP6": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP6", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP6" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP6", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP6" } },
-                "T3_EP7": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP7", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP7" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP7", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP7" } },
-                "T3_EP8": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP8", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP8" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP8", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP8" } },
-                "T3_EP9": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP9", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP9" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP9", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP9" } },
-                "T3_EP10": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP10", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP10" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP10", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP10" } },
-                "T3_EP11": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP11", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP11" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP11", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP11" } },
-                "T3_EP12": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP12", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP12" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP12", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP12" } },
-                "T3_EP13": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T3_EP13", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T3_EP13" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T3_EP13", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T3_EP13" } },
-                // EPISÓDIOS - TEMPORADA 4
-                "T4_EP1": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP1", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP1" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP1", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP1" } },
-                "T4_EP2": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP2", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP2" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP2", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP2" } },
-                "T4_EP3": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP3", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP3" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP3", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP3" } },
-                "T4_EP4": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP4", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP4" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP4", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP4" } },
-                "T4_EP5": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP5", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP5" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP5", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP5" } },
-                "T4_EP6": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP6", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP6" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP6", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP6" } },
-                "T4_EP7": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP7", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP7" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP7", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP7" } },
-                "T4_EP8": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP8", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP8" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP8", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP8" } },
-                "T4_EP9": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP9", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP9" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP9", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP9" } },
-                "T4_EP10": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP10", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP10" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP10", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP10" } },
-                "T4_EP11": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP11", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP11" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP11", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP11" } },
-                "T4_EP12": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP12", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP12" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP12", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP12" } },
-                "T4_EP13": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T4_EP13", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T4_EP13" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T4_EP13", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T4_EP13" } },
-                // EPISÓDIOS - TEMPORADA 5
-                "T5_EP1": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP1", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP1" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP1", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP1" } },
-                "T5_EP2": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP2", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP2" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP2", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP2" } },
-                "T5_EP3": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP3", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP3" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP3", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP3" } },
-                "T5_EP4": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP4", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP4" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP4", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP4" } },
-                "T5_EP5": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP5", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP5" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP5", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP5" } },
-                "T5_EP6": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP6", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP6" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP6", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP6" } },
-                "T5_EP7": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP7", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP7" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP7", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP7" } },
-                "T5_EP8": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP8", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP8" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP8", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP8" } },
-                "T5_EP9": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP9", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP9" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP9", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP9" } },
-                "T5_EP10": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP10", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP10" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP10", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP10" } },
-                "T5_EP11": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP11", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP11" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP11", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP11" } },
-                "T5_EP12": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP12", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP12" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP12", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP12" } },
-                "T5_EP13": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T5_EP13", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T5_EP13" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T5_EP13", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T5_EP13" } },
-                // EPISÓDIOS - TEMPORADA 6
-                "T6_EP1": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP1", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP1" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP1", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP1" } },
-                "T6_EP2": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP2", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP2" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP2", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP2" } },
-                "T6_EP3": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP3", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP3" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP3", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP3" } },
-                "T6_EP4": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP4", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP4" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP4", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP4" } },
-                "T6_EP5": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP5", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP5" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP5", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP5" } },
-                "T6_EP6": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP6", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP6" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP6", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP6" } },
-                "T6_EP7": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP7", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP7" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP7", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP7" } },
-                "T6_EP8": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP8", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP8" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP8", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP8" } },
-                "T6_EP9": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP9", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP9" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP9", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP9" } },
-                "T6_EP10": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP10", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP10" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP10", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP10" } },
-                "T6_EP11": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP11", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP11" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP11", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP11" } },
-                "T6_EP12": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP12", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP12" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP12", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP12" } },
-                "T6_EP13": { assistir: { googleDrive: "LINK_ASSISTIR_GOOGLE_DRIVE_T6_EP13", dsvPlay: "LINK_ASSISTIR_DSV_PLAY_T6_EP13" }, baixar: { googleDrive: "LINK_BAIXAR_GOOGLE_DRIVE_T6_EP13", dsvPlay: "LINK_BAIXAR_DSV_PLAY_T6_EP13" } },
+                // PLACEHOLDERS RESTANTES
+                "T3_EP1": { assistir: { googleDrive: "#" }, baixar: { googleDrive: "#" } },
             };
-            // =======================================================================
-            // ==                     FIM DA ÁREA DE CONFIGURAÇÃO                ==
-            // =======================================================================
 
-            // --- Títulos Oficiais dos Episódios ---
-            const episodeTitles = {
+            const epTitles = {
                 1: ["Como Começar uma Academia de Dragões", "Viking por Aluguel", "A Casa dos Animais", "Em Dragões Nós Confiamos", "Quando os Raios Caem", "O que Voam por Baixo", "O Desafiante", "A Fuga - Parte 1", "A Fuga - Parte 2", "O Relatório de Heather - Parte 1", "O Relatório de Heather - Parte 2", "O Festival do Degelo", "Quando um Dragão é a Vítima"],
                 2: ["Voe e Deixe Voar", "O Gronckle de Ferro", "Retrato de Soluço quando Jovem", "Na Beira do Desastre - Parte 1", "Na Beira do Desastre - Parte 2", "Frenesi de Quatro", "A Coisa Certa", "Os Terríveis Dois", "O Pior da Turma", "Uma Visão de um Skrill", "A História de Dois Dragões", "O Efeito da Enguia", "Fumaça nos Olhos"],
                 3: ["O Olho do Dragão - Parte 1", "O Olho do Dragão - Parte 2", "Harmonia Imperfeita", "Quando as Trevas Caem", "O Grande Homem de Berk", "Adeus, Gustav", "O Reinado das Verme-fogo", "Esmagando", "Abalos, Tremores e Rolos", "Tenho Dragão, Viajo - Parte 1", "Tenho Dragão, Viajo - Parte 2", "A Próxima Grande Ferroada", "Um Pesadelo Total"],
@@ -763,105 +683,171 @@
                 5: ["O Rei dos Dragões - Parte 1", "O Rei dos Dragões - Parte 2", "Súditos Não Tão Leais", "Nenhum Dragão Ficará para Trás", "Algo Podre na Ilha dos Berserkers", "Uma Questão de Perspectiva", "Vingança Vigilante", "Águas Perigosas", "O Retorno do Rei", "Dragão Terrível", "Os Anjos de Cabeça-Quente", "Uma Questão de Confiança", "Sem Visão"],
                 6: ["Vivendo no Limite", "Saindo da Fritura", "Siga o Líder", "Gême-intuição", "Hora do Skrill", "Entre a Rocha e o Lugar Difícil", "O Inimigo do Meu Inimigo", "Um Ótimo Dia para Corrida de Dragões", "A Alvorada da Destruição", "Que Confusão", "Algo Podre", "A Noite Mais Escura", "Asas de Fogo, Parte 1"]
             };
-            
-            // --- Função para gerar episódios dinamicamente ---
-            function generateEpisodes() {
-                for (let season = 1; season <= 6; season++) {
-                    const listContainer = document.querySelector(`#season-${season} .episode-list`);
-                    const titles = episodeTitles[season] || [];
 
-                    for (let i = 1; i <= 13; i++) {
-                        const title = titles[i - 1] || `Episódio ${i}`;
-                        const itemId = `T${season}_EP${i}`;
-                        const episodeItem = document.createElement('div');
-                        episodeItem.className = 'episode-item';
-                        episodeItem.innerHTML = `
-                            <span class="episode-number">${i}</span>
-                            <h4 class="episode-title">${title}</h4>
-                            <div class="action-buttons">
-                                <a href="#" class="btn-watch" data-item-id="${itemId}" data-action-type="assistir" data-title="Assistir: ${title}"><i class="fas fa-play"></i> Assistir</a>
-                                <a href="#" class="btn-download" data-item-id="${itemId}" data-action-type="baixar" data-title="Baixar: ${title}"><i class="fas fa-download"></i> Baixar</a>
-                            </div>
-                        `;
-                        listContainer.appendChild(episodeItem);
-                    }
+            // --- LÓGICA ---
+
+            // 1. Painel de Configurações
+            const settingsToggle = document.getElementById('settingsToggle');
+            const settingsPanel = document.getElementById('settingsPanel');
+            settingsToggle.addEventListener('click', () => {
+                settingsPanel.classList.toggle('active');
+            });
+
+            // 2. Troca de Fundo
+            const userBg = document.getElementById('userBg');
+            const thumbs = document.querySelectorAll('.bg-thumb:not(.upload-label)');
+            
+            // Mapeando imagens locais
+            const backgrounds = [
+                'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 
+                'img5.jpg', 'img6.jpg', 'img7.jpg'
+            ];
+
+            window.changeBg = (index) => {
+                // Remove active de todos (incluindo o botão de upload se tiver classe ativa manual)
+                document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
+                
+                // Adiciona active no clicado
+                thumbs[index].classList.add('active');
+                
+                // Aplica o fundo
+                userBg.style.backgroundImage = `url('${backgrounds[index]}')`;
+                userBg.classList.add('active');
+            };
+
+            // 3. Upload de Imagem Personalizada
+            const customInput = document.getElementById('customBgInput');
+            const uploadLabel = document.querySelector('.upload-label');
+
+            customInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        // Remove active de todos
+                        document.querySelectorAll('.bg-thumb').forEach(t => t.classList.remove('active'));
+                        
+                        // Marca o botão de upload como ativo visualmente (opcional)
+                        uploadLabel.classList.add('active');
+                        
+                        // Aplica a imagem carregada
+                        userBg.style.backgroundImage = `url('${evt.target.result}')`;
+                        userBg.classList.add('active');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 4. Música
+            const bgMusic = document.getElementById('bgMusic');
+            const playStateBtn = document.getElementById('playStateBtn');
+            const musicControl = document.getElementById('musicControl');
+            let isPlaying = false;
+
+            const toggleMusic = () => {
+                if (isPlaying) {
+                    bgMusic.pause();
+                    playStateBtn.classList.remove('playing');
+                    playStateBtn.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    bgMusic.play().catch(e => console.log("Autoplay bloqueado"));
+                    playStateBtn.classList.add('playing');
+                    playStateBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                isPlaying = !isPlaying;
+            };
+
+            musicControl.addEventListener('click', toggleMusic);
+
+            // 5. Gerar Episódios
+            for (let s = 1; s <= 6; s++) {
+                const container = document.querySelector(`#tab-${s} .episode-list`);
+                const titles = epTitles[s] || [];
+                
+                for (let i = 1; i <= 13; i++) {
+                    const title = titles[i-1] || `Episódio ${i}`;
+                    const id = `T${s}_EP${i}`;
+                    
+                    const item = document.createElement('div');
+                    item.className = 'episode-item';
+                    item.innerHTML = `
+                        <span class="ep-number">${i}</span>
+                        <span class="ep-title">${title}</span>
+                        <div class="ep-actions">
+                            <a href="#" class="btn btn-watch ep-btn" data-item-id="${id}" data-action-type="assistir" data-title="${title}"><i class="fas fa-play"></i> Assistir</a>
+                            <a href="#" class="btn btn-download ep-btn" data-item-id="${id}" data-action-type="baixar" data-title="${title}"><i class="fas fa-download"></i> Baixar</a>
+                        </div>
+                    `;
+                    container.appendChild(item);
                 }
             }
-            
-            generateEpisodes();
 
-            // --- Lógica para o Modal ---
-            const modal = document.getElementById("optionsModal");
-            const modalTitle = document.getElementById("modalTitle");
-            const modalOptionsContainer = document.getElementById("modalOptionsContainer");
-            const btnsAction = document.querySelectorAll(".action-buttons a");
-            const span = document.getElementsByClassName("close")[0];
+            // 6. Abas
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
 
-            btnsAction.forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
                     
-                    const itemId = this.getAttribute('data-item-id');
-                    const actionType = this.getAttribute('data-action-type');
-                    const title = this.getAttribute('data-title');
-
-                    const links = mediaLinks[itemId]?.[actionType];
-
-                    // --- SISTEMA DE DEPURAÇÃO ---
-                    if (!links) {
-                        console.error(`ERRO: Links não encontrados para o item ID "${itemId}" e ação "${actionType}". Verifique se o ID está correto no objeto 'mediaLinks'.`);
-                        modalTitle.textContent = "Erro de Configuração";
-                        modalOptionsContainer.innerHTML = '<p>Opção não configurada. Verifique o console do navegador (F12) para mais detalhes.</p>';
-                        modal.style.display = "block";
-                        return;
-                    }
-                    // --- FIM DO SISTEMA DE DEPURAÇÃO ---
-
-                    modalTitle.textContent = title;
-                    modalOptionsContainer.innerHTML = '';
-
-                    if (links.googleDrive) {
-                        const driveLink = document.createElement('a');
-                        driveLink.href = links.googleDrive;
-                        driveLink.target = '_blank';
-                        driveLink.innerHTML = '<i class="fab fa-google-drive"></i> Google Drive';
-                        modalOptionsContainer.appendChild(driveLink);
-                    }
-                    if (links.dsvPlay) {
-                        const dsvLink = document.createElement('a');
-                        dsvLink.href = links.dsvPlay;
-                        dsvLink.target = '_blank';
-                        dsvLink.innerHTML = '<i class="fas fa-play"></i> DSV Play';
-                        modalOptionsContainer.appendChild(dsvLink);
-                    }
-                    if (links.streamHG) {
-                        const streamLink = document.createElement('a');
-                        streamLink.href = links.streamHG;
-                        streamLink.target = '_blank';
-                        streamLink.innerHTML = '<i class="fas fa-play"></i> StreamHG';
-                        modalOptionsContainer.appendChild(streamLink);
-                    }
-                    
-                    if (modalOptionsContainer.children.length === 0) {
-                        modalOptionsContainer.innerHTML = '<p>Nenhuma opção disponível para esta ação.</p>';
-                    }
-
-                    modal.style.display = "block";
+                    btn.classList.add('active');
+                    document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
                 });
             });
 
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
+            // 7. Modal
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalOptions = document.getElementById('modal-options');
+            const closeBtn = document.querySelector('.close-btn');
 
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+            document.body.addEventListener('click', function(e) {
+                const target = e.target.closest('[data-item-id]');
+                if (target) {
+                    e.preventDefault();
+                    const id = target.dataset.itemId;
+                    const action = target.dataset.actionType;
+                    const title = target.dataset.title;
+                    
+                    const links = mediaLinks[id]?.[action];
+
+                    if (!links || (links.googleDrive && (links.googleDrive.startsWith("LINK_") || links.googleDrive === "#"))) {
+                        modalTitle.textContent = "Configuração Pendente";
+                        modalOptions.innerHTML = '<p style="color:white; text-align:center; padding: 20px;">Este item ainda não possui links configurados.</p>';
+                        modal.style.display = 'flex';
+                        return;
+                    }
+
+                    modalTitle.textContent = title;
+                    modalOptions.innerHTML = '';
+
+                    const createLink = (url, name, icon) => {
+                        if(!url || url === "#" || url.startsWith("LINK_")) return;
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.target = '_blank';
+                        a.className = 'modal-link';
+                        a.innerHTML = `<i class="${icon}"></i> ${name}`;
+                        modalOptions.appendChild(a);
+                    };
+
+                    createLink(links.googleDrive, 'Google Drive', 'fab fa-google-drive');
+                    createLink(links.dsvPlay, 'DSV Play', 'fas fa-play-circle');
+                    createLink(links.streamHG, 'StreamHG', 'fas fa-film');
+
+                    if (modalOptions.children.length === 0) {
+                        modalOptions.innerHTML = '<p style="color:white; text-align:center">Nenhum link disponível.</p>';
+                    }
+
+                    modal.style.display = 'flex';
                 }
-            }
+            });
+
+            closeBtn.onclick = () => modal.style.display = 'none';
+            window.onclick = e => { if (e.target == modal) modal.style.display = 'none'; }
+
         });
     </script>
-
 </body>
 </html>
-
