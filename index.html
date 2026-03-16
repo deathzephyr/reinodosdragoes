@@ -24,7 +24,6 @@
             --color-2: #f7931e;
             --btn-bg: #2c2c2c;
             --btn-text: #cccccc;
-            /* Nova cor para trailer */
             --color-trailer: #6c5ce7;
         }
 
@@ -49,7 +48,7 @@
             user-select: none;
         }
 
-        /* --- TELA DE BOAS-VINDAS (ONBOARDING) --- */
+        /* --- TELA DE BOAS-VINDAS --- */
         .welcome-screen {
             position: fixed;
             top: 0; left: 0;
@@ -419,27 +418,20 @@
             text-decoration: none;
             font-family: 'Cinzel', serif;
             font-weight: 700;
-            font-size: 0.85rem; /* Tamanho ajustado para caber 3 botões */
-            
-            /* Transição Suave e Otimizada para Mobile */
+            font-size: 0.85rem;
             transition: all 0.15s ease-out;
-            
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
             white-space: nowrap;
-            
             background-color: var(--btn-bg);
             color: var(--btn-text);
             border: none;
-            
-            /* Melhora a resposta ao toque no mobile */
             touch-action: manipulation;
         }
 
-        /* Efeito de Clique Suave */
         .btn:active {
             transform: scale(0.95);
             filter: brightness(0.9);
@@ -604,20 +596,18 @@
             .movie-card img { height: auto; min-height: 250px; }
             .movie-card-body { padding: 12px; }
 
-            /* Ajustes Botões Mobile */
             .action-buttons { gap: 6px; }
             .btn { 
                 padding: 8px 5px; 
-                font-size: 0.75rem; /* Menor para caber 3 */
+                font-size: 0.75rem;
             }
-            .btn i { font-size: 0.9rem; } /* Ícones um pouco maiores que o texto */
+            .btn i { font-size: 0.9rem; }
 
             .episode-item { flex-wrap: wrap; }
             .ep-title { order: 2; width: 100%; margin-top: 5px; text-align: left; }
             .ep-actions { order: 3; width: 100%; margin-top: 8px; justify-content: space-between; }
             .ep-btn { width: 48%; font-size: 0.85rem; }
 
-            /* Ajustes Welcome Mobile */
             .welcome-title { font-size: 1.8rem; }
             .welcome-subtitle { font-size: 1rem; }
             .welcome-grid { grid-template-columns: 1fr 1fr; }
@@ -631,10 +621,7 @@
         <h1 class="welcome-title">Bem-vindo a Berk</h1>
         <p class="welcome-subtitle">Escolha um cenário para personalizar sua experiência.</p>
         
-        <div class="welcome-grid" id="welcomeGrid">
-            <!-- Opções geradas via JS -->
-        </div>
-
+        <div class="welcome-grid" id="welcomeGrid"></div>
         <button id="startBtn" class="btn-start" disabled>Iniciar Jornada</button>
     </div>
 
@@ -652,16 +639,12 @@
 
     <!-- PAINEL DE CONFIGURAÇÕES -->
     <div class="settings-wrapper">
-        <button class="settings-toggle" id="settingsToggle">
-            <i class="fas fa-cog"></i>
-        </button>
+        <button class="settings-toggle" id="settingsToggle"><i class="fas fa-cog"></i></button>
         <div class="settings-panel" id="settingsPanel">
             <div class="setting-group">
                 <div class="settings-title">Música Ambiente</div>
                 <div class="music-control" id="musicControl">
-                    <button class="play-state-btn" id="playStateBtn">
-                        <i class="fas fa-play"></i>
-                    </button>
+                    <button class="play-state-btn" id="playStateBtn"><i class="fas fa-play"></i></button>
                     <span class="music-label">Tocar Trilha</span>
                 </div>
             </div>
@@ -676,10 +659,7 @@
                     <div class="bg-thumb" onclick="changeBg(4)" style="background-image: url('img5.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(5)" style="background-image: url('img6.jpg');"></div>
                     <div class="bg-thumb" onclick="changeBg(6)" style="background-image: url('img7.jpg');"></div>
-                    
-                    <label for="customBgInput" class="bg-thumb upload-label" title="Carregar sua imagem">
-                        <i class="fas fa-plus"></i>
-                    </label>
+                    <label for="customBgInput" class="bg-thumb upload-label" title="Carregar sua imagem"><i class="fas fa-plus"></i></label>
                     <input type="file" id="customBgInput" accept="image/*">
                 </div>
             </div>
@@ -798,22 +778,22 @@
                 "filme_1": { 
                     assistir: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" }, 
                     baixar: { googleDrive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5nv2kpgfbrte#download_now" },
-                    trailer: { youtube: "https://www.youtube.com/watch?v=2Aoy-6j5dKg" }
+                    trailer: { youtube: "https://youtu.be/RA0nWjiY4_0?feature=shared" }
                 },
                 "filme_2": { 
                     assistir: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" }, 
                     baixar: { googleDrive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" },
-                    trailer: { youtube: "https://www.youtube.com/watch?v=5VTWYDP-ngs" }
+                    trailer: { youtube: "https://youtu.be/mxyOFw8SeSM?feature=shared" }
                 },
                 "filme_3": { 
                     assistir: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" }, 
                     baixar: { googleDrive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/5w5al4npft6b" },
-                    trailer: { youtube: "https://www.youtube.com/watch?v=SkcucKDrbOI" }
+                    trailer: { youtube: "https://youtu.be/lNbJy1R7EWQ?si=e1Z5G2XC8KuQBW6k" }
                 },
                 "filme_live_action": { 
                     assistir: { googleDrive: "https://drive.google.com/file/d/13xy61gCh0R6TWwsHmvESwaDDm1wWwM12/view?usp=drivesdk" }, 
                     baixar: { googleDrive: "https://drive.google.com/file/d/1V9D1pb47Ej0mb0Alb2Tk9ZeMDqFI4YtY/view?usp=drivesdk" }, 
-                    trailer: { youtube: "https://www.youtube.com/watch?v=oXyF5rDQDQM" } 
+                    trailer: { youtube: "https://youtu.be/UEA1AMi1QSg?si=FfjXoDTZcggZf5BS" } 
                 },
                 "T1_EP1": { assistir: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" }, baixar: { googleDrive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/ko9v5c4jxmc8" } },
                 "T1_EP2": { assistir: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" }, baixar: { googleDrive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", dsvPlay: "https://dsvplay.com/d/cr65la5u8yt3" } },
@@ -865,7 +845,6 @@
             const hasVisited = localStorage.getItem('berk_visited');
 
             if (!hasVisited) {
-                // Montar grid de boas vindas
                 images.forEach((img, index) => {
                     const card = document.createElement('div');
                     card.className = 'welcome-card';
@@ -874,7 +853,6 @@
                     welcomeGrid.appendChild(card);
                 });
 
-                // Adicionar opção de upload
                 const uploadCard = document.createElement('div');
                 uploadCard.className = 'welcome-card upload-card';
                 uploadCard.innerHTML = '<i class="fas fa-plus"></i> Adicionar';
@@ -901,7 +879,6 @@
 
             } else {
                 welcomeScreen.classList.add('hidden');
-                // Carregar fundo salvo (opcional)
                 const savedBg = localStorage.getItem('berk_bg');
                 if(savedBg) {
                     userBg.style.backgroundImage = savedBg;
@@ -910,16 +887,12 @@
             }
 
             function selectWelcomeBg(index, url) {
-                // Remover seleção anterior
                 document.querySelectorAll('.welcome-card').forEach(c => c.classList.remove('selected'));
-                
-                // Se for upload, seleciona o último card (upload)
                 if (index === -1) {
                     document.querySelector('.upload-card').classList.add('selected');
                 } else {
                     welcomeGrid.children[index].classList.add('selected');
                 }
-
                 selectedBg = url;
                 startBtn.disabled = false;
                 startBtn.classList.add('active');
@@ -937,14 +910,12 @@
 
             // --- LÓGICA PRINCIPAL ---
 
-            // 1. Painel de Configurações
             const settingsToggle = document.getElementById('settingsToggle');
             const settingsPanel = document.getElementById('settingsPanel');
             settingsToggle.addEventListener('click', () => {
                 settingsPanel.classList.toggle('active');
             });
 
-            // 2. Troca de Fundo (Painel normal)
             const thumbs = document.querySelectorAll('.settings-wrapper .bg-thumb:not(.upload-label)');
             
             window.changeBg = (index) => {
@@ -955,7 +926,6 @@
                 localStorage.setItem('berk_bg', `url('${images[index]}')`);
             };
 
-            // 3. Upload (Painel normal)
             const customInput = document.getElementById('customBgInput');
             const uploadLabel = document.querySelector('.settings-wrapper .upload-label');
             customInput.addEventListener('change', function(e) {
@@ -973,7 +943,6 @@
                 }
             });
 
-            // 4. Música
             const bgMusic = document.getElementById('bgMusic');
             const playStateBtn = document.getElementById('playStateBtn');
             const musicControl = document.getElementById('musicControl');
@@ -993,7 +962,6 @@
             };
             musicControl.addEventListener('click', toggleMusic);
 
-            // 5. Gerar Episódios
             for (let s = 1; s <= 6; s++) {
                 const container = document.querySelector(`#tab-${s} .episode-list`);
                 const titles = epTitles[s] || [];
@@ -1014,7 +982,6 @@
                 }
             }
 
-            // 6. Abas
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
             tabBtns.forEach(btn => {
@@ -1026,7 +993,6 @@
                 });
             });
 
-            // 7. Modal
             const modal = document.getElementById('modal');
             const modalTitle = document.getElementById('modal-title');
             const modalOptions = document.getElementById('modal-options');
@@ -1061,11 +1027,10 @@
                         modalOptions.appendChild(a);
                     };
                     
-                    // Ordem de exibição no modal
                     createLink(links.googleDrive, 'Google Drive', 'fab fa-google-drive');
                     createLink(links.dsvPlay, 'DSV Play', 'fas fa-play-circle');
                     createLink(links.streamHG, 'StreamHG', 'fas fa-film');
-                    createLink(links.youtube, 'YouTube', 'fab fa-youtube'); // Adicionado suporte ao YouTube
+                    createLink(links.youtube, 'YouTube', 'fab fa-youtube');
                     
                     if (modalOptions.children.length === 0) modalOptions.innerHTML = '<p style="color:white; text-align:center">Nenhum link disponível.</p>';
                     modal.style.display = 'flex';
