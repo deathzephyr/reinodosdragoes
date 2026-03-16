@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- Favicon (Ícone da aba do navegador) -->
+    <!-- Ícone da Aba do Navegador (Favicon) -->
     <link rel="icon" href="logo.png" type="image/png">
-    <title>A Saga de Berk | Como Treinar o Seu Dragão</title>
+    <title>Reino dos Dragões | Como Treinar o Seu Dragão</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -181,6 +181,7 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--color-1); }
 
+        /* Logo fixa no canto superior esquerdo */
         .brand-logo {
             position: fixed;
             top: 15px;
@@ -324,33 +325,12 @@
             padding: 0 20px;
         }
 
-        /* Container do Título com Logo */
-        .header-title-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .main-logo {
-            width: 120px;
-            height: auto;
-            filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.5));
-            animation: dragonFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes dragonFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
         header h1 {
             font-family: 'Cinzel', serif;
             font-size: 3.5rem;
             color: white;
             text-shadow: 0 0 20px rgba(0,0,0,0.8);
-            margin: 0;
+            margin-bottom: 15px;
         }
 
         header p {
@@ -469,76 +449,103 @@
         .btn-trailer:hover { background: linear-gradient(45deg, #5f27cd, var(--color-trailer)); }
         .btn-download:hover { background: linear-gradient(45deg, #d3273b, var(--color-1)); }
 
-        /* --- Abas da Série --- */
+        /* --- ABAS DA SÉRIE (MELHORADAS) --- */
         .tabs-container {
             background: var(--glass-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 15px;
+            padding: 20px;
             backdrop-filter: blur(10px);
         }
 
         .tabs-nav {
             display: flex;
             justify-content: center;
-            gap: 5px;
-            margin-bottom: 15px;
+            gap: 12px; /* Aumentado o espaço entre botões */
+            margin-bottom: 25px;
             flex-wrap: wrap;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50px; /* Estilo pílula no container */
         }
 
         .tab-btn {
             background: transparent;
-            border: none;
+            border: 1px solid transparent;
             color: var(--text-dim);
             font-family: 'Cinzel', serif;
-            padding: 6px 12px;
+            padding: 10px 24px; /* Muito maior */
             cursor: pointer;
-            border-radius: 20px;
+            border-radius: 30px; /* Bem arredondado */
             transition: 0.3s;
-            font-size: 0.9rem;
+            font-size: 1.1rem; /* Fonte maior */
+            font-weight: 700;
         }
         .tab-btn.active { 
-            background: rgba(255,255,255,0.1);
+            background: linear-gradient(45deg, var(--color-1), var(--color-2)); /* Gradiente vibrante */
+            border-color: transparent;
             color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
         }
-        .tab-btn:hover { color: white; }
+        .tab-btn:hover { 
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.5s; }
 
-        /* --- Lista de Episódios --- */
-        .episode-list { display: grid; gap: 8px; }
+        /* --- LISTA DE EPISÓDIOS (MELHORADA) --- */
+        .episode-list { 
+            display: grid; 
+            gap: 12px; /* Mais espaço entre itens */
+        }
 
         .episode-item {
             display: flex;
             align-items: center;
             background: rgba(255,255,255,0.03);
-            padding: 10px 12px;
-            border-radius: 8px;
-            gap: 8px;
+            padding: 15px 20px; /* Mais espaço interno */
+            border-radius: 12px; /* Mais arredondado */
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
         }
-        .episode-item:hover { background: rgba(255,255,255,0.08); }
+        .episode-item:hover { 
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255, 107, 53, 0.3);
+            transform: translateX(5px);
+        }
 
         .ep-number {
             font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            color: rgba(255,255,255,0.2);
-            min-width: 25px;
+            font-size: 1.5rem; /* Número grande */
+            color: rgba(255, 255, 255, 0.15);
+            min-width: 40px;
             text-align: center;
+            font-weight: 900;
+            transition: color 0.3s;
+        }
+        .episode-item:hover .ep-number {
+            color: var(--color-1);
         }
 
         .ep-title { 
             flex-grow: 1; 
-            font-size: 0.9rem; 
-            padding-right: 5px;
+            font-size: 1.1rem; /* Título maior */
+            color: var(--text-light);
+            padding-right: 10px;
         }
 
         .ep-actions { 
             display: flex; 
-            gap: 6px; 
+            gap: 10px; 
             flex-shrink: 0;
         }
-        .ep-btn { padding: 6px 10px; font-size: 0.8rem; }
+        .ep-btn { 
+            padding: 10px 18px; /* Botões maiores */
+            font-size: 0.95rem; 
+        }
 
         /* --- Modal --- */
         .modal {
@@ -599,7 +606,6 @@
             .settings-toggle { width: 40px; height: 40px; top: 10px; right: 10px; }
             .settings-panel { width: 260px; padding: 10px; }
 
-            .main-logo { width: 80px; }
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; padding: 10px; }
 
@@ -616,10 +622,42 @@
             }
             .btn i { font-size: 0.9rem; }
 
-            .episode-item { flex-wrap: wrap; }
-            .ep-title { order: 2; width: 100%; margin-top: 5px; text-align: left; }
-            .ep-actions { order: 3; width: 100%; margin-top: 8px; justify-content: space-between; }
-            .ep-btn { width: 48%; font-size: 0.85rem; }
+            /* Ajustes Séries Mobile */
+            .tabs-nav {
+                gap: 8px;
+                padding: 5px;
+                border-radius: 15px;
+            }
+            .tab-btn {
+                padding: 8px 16px;
+                font-size: 1rem;
+                flex-grow: 1; /* Ocupa espaço igual */
+                text-align: center;
+            }
+
+            .episode-item { 
+                flex-wrap: wrap; 
+                padding: 12px;
+            }
+            .ep-number { font-size: 1.2rem; min-width: 30px; }
+            .ep-title { 
+                order: 2; 
+                width: 100%; 
+                margin-top: 5px; 
+                text-align: left; 
+                font-size: 1rem;
+            }
+            .ep-actions { 
+                order: 3; 
+                width: 100%; 
+                margin-top: 10px; 
+                justify-content: space-between; 
+            }
+            .ep-btn { 
+                width: 48%; 
+                font-size: 0.9rem; 
+                padding: 10px 0;
+            }
 
             .welcome-title { font-size: 1.8rem; }
             .welcome-subtitle { font-size: 1rem; }
@@ -627,7 +665,6 @@
         }
     </style>
 </head>
-<!-- O HACK: ontouchstart="" força o CSS :active a funcionar instantaneamente em iOS/Android -->
 <body ontouchstart="">
 
     <!-- TELA DE BOAS VINDAS -->
@@ -648,7 +685,7 @@
         <source src="Test Drive.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Logo Flutuante (Canto Superior Esquerdo) -->
+    <!-- Logo Fixa no Canto Superior Esquerdo -->
     <img src="logo.png" class="brand-logo" alt="Logo">
 
     <!-- PAINEL DE CONFIGURAÇÕES -->
@@ -682,13 +719,9 @@
 
     <!-- Header Principal -->
     <header>
-        <div class="header-title-box">
-            <!-- Logo Centralizado no Título -->
-            <img src="logo.png" class="main-logo" alt="Logo Berk">
-            <div>
-                <h1>A Saga de Berk</h1>
-                <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk.</p>
-            </div>
+        <div>
+            <h1>Reino dos Dragões</h1>
+            <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk.</p>
         </div>
     </header>
 
