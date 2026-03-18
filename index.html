@@ -301,7 +301,6 @@
                 width: 100%;
                 text-align: center;
             }
-            /* Ajuste de cores na borda inferior para mobile */
             #filmes .section-title { border-color: var(--color-movies); }
             #series .section-title { border-color: var(--color-series); }
             #especiais .section-title { border-color: var(--color-specials); }
@@ -340,23 +339,114 @@
         }
         .scroll-top-btn.visible { opacity: 1; visibility: visible; }
 
-        /* --- MODAL --- */
-        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: #141414; border: 1px solid #333; border-radius: 12px; width: 100%; max-width: 500px; padding: 20px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; }
+        /* --- MODAL MELHORADO --- */
+        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
         
-        .modal-title { font-family: 'Cinzel', serif; font-size: 1.2rem; margin-bottom: 15px; color: white; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 20px; color: #555; cursor: pointer; transition: 0.3s; }
-        .close-btn:hover { color: white; }
+        .modal-content { 
+            background: linear-gradient(160deg, #1a1a1a, #0d0d0d); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 16px; 
+            width: 100%; 
+            max-width: 550px; 
+            padding: 25px; 
+            text-align: center; 
+            position: relative; 
+            max-height: 85vh; 
+            overflow-y: hidden; /* Scroll será na lista */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        
+        .modal-title { 
+            font-family: 'Cinzel', serif; 
+            font-size: 1.5rem; 
+            margin-bottom: 25px; 
+            color: white; 
+            text-shadow: 0 0 10px rgba(79, 172, 254, 0.3);
+        }
 
-        .series-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .series-tab-btn { background: #333; border: none; color: white; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-family: 'Kalam', cursive; }
-        .series-tab-btn.active { background: var(--color-series); }
+        /* BOTÃO FECHAR MELHORADO */
+        .close-btn { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            width: 40px; 
+            height: 40px; 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px; 
+            color: #888; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            z-index: 10;
+        }
+        .close-btn:hover { 
+            background: #ff4d4d; 
+            border-color: #ff4d4d;
+            color: white; 
+            transform: rotate(90deg);
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.4);
+        }
+
+        .series-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .series-tab-btn { 
+            background: transparent; 
+            border: 1px solid #444; 
+            color: #aaa; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .series-tab-btn:hover { border-color: #777; color: #fff; }
+        .series-tab-btn.active { 
+            background: var(--color-series); 
+            border-color: transparent; 
+            color: white; 
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.4);
+        }
         
-        .episode-list-modal { display: grid; gap: 10px; text-align: left; max-height: 300px; overflow-y: auto; padding-right: 5px; }
-        .episode-item { background: #222; padding: 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
-        .episode-item:hover { background: #333; }
-        .episode-item span { font-size: 0.9rem; color: #ddd; }
-        .episode-item i { color: var(--color-series); }
+        .episode-list-modal { 
+            display: grid; 
+            gap: 10px; 
+            text-align: left; 
+            max-height: 45vh; 
+            overflow-y: auto; 
+            padding-right: 10px; 
+        }
+
+        /* Estilo dos episódios no modal */
+        .episode-item { 
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 12px 15px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border: 1px solid transparent;
+        }
+        .episode-item:hover { 
+            background: rgba(79, 172, 254, 0.15); 
+            border-color: var(--color-series);
+            transform: translateX(5px);
+        }
+        .episode-item span { font-size: 0.95rem; color: #ddd; }
+        .episode-item i { color: var(--color-series); font-size: 1.1rem; transition: 0.2s; }
+        .episode-item:hover i { transform: scale(1.2); }
+
+        /* Scrollbar do Modal */
+        .episode-list-modal::-webkit-scrollbar { width: 6px; }
+        .episode-list-modal::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 10px; }
+        .episode-list-modal::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+        .episode-list-modal::-webkit-scrollbar-thumb:hover { background: #666; }
 
     </style>
 </head>
@@ -477,7 +567,7 @@
 
             const moviesData = [
                 { id: "filme_1", title: "Como Treinar o Seu Dragão", img: "https://play-lh.googleusercontent.com/HZMJhVtMGLbPZj1_4ILmj9h68CBEkUnPD6vW8DC4llKb6jwzasAqMFHgtKCfx9bMo44C" },
-                { id: "filme_2", title: "Como Treinar o Seu Dragão 2", img: "https://play-lh.googleusercontent.com/1r9pjEP2W5IEBNZ54m5ppGlpj-YE7quFCHMNtHsYJtiPTnU2uSMguEk6Dm59EdsCL7Th=w240-h480-rw" },
+                { id: "filme_2", title: "Como Treinar o Seu Dragão 2", img: "segundo.jpeg" },
                 { id: "filme_3", title: "Como Treinar o Seu Dragão 3", img: "https://play-lh.googleusercontent.com/W8DR-RL0aRUJjFlvViEkk9pmzaa-iZFlQpmPO1Hm0-10Q0mzLHspjoBH64PD3l0eGwbo" },
                 { id: "filme_live_action", title: "Como Treinar o Seu Dragão: Live Action (2025)", img: "https://images.justwatch.com/poster/331878544/s718/how-to-train-your-dragon-2025.jpg" }
             ];
@@ -492,20 +582,19 @@
                 { id: "esp_1", title: "O Presente do Furia da Noite", img: "presente.webp" },
                 { id: "esp_2", title: "O Livro dos Dragões", img: "https://m.media-amazon.com/images/M/MV5BMTE0MjYzNDMtZDJmMS00ODg2LWI0NTMtNjk0OTQxNTJiYWEzXkEyXkFqcGc@._V1_.jpg" },
                 { id: "esp_3", title: "A Aurora dos Corredores", img: "https://i.redd.it/ppzr217h3izd1.jpeg" },
-                { id: "esp_4", title: "Lenda do Dragão Ósseo", img: "https://image.tmdb.org/t/p/w500/74OqO31AaubZGgreiHIomFyOXUx.jpg" }
+                { id: "esp_4", title: "Lenda do Dragão Ósseo", img: "https://image.tmdb.org/t/p/w500/74OqO31AaubZGgreiHIomFyOXUx.jpg" },
+                { id: "esp_5", title: "Volta ao Lar", img: "https://m.media-amazon.com/images/M/MV5BMTQ4NjRjNjEtMWRlMS00NTA3LTk5NzUtNDE0NjVkOTFlYmM2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
             ];
 
             const comixData = [
                 { id: "comic_1", title: "Dragon Down", img: "dd.jpg" },
                 { id: "comic_2", title: "Dangers of the Deep", img: "dod.jpg" },
-                { id: "comic_3", title: "The Ice Castle", img: "tic.jpg" },
-                { id: "comic_4", title: "Snowmageddon", img: "sno.jpg" },
                 { id: "comic_5", title: "The Serpent Heir", img: "tsh.jpg" },
                 { id: "comic_6", title: "Burning Midnight", img: "mna.jpg" }
             ];
 
             // ==========================================
-            // LINKS DE ACESSO (COLOQUE SEUS LINKS AQUI)
+            // LINKS DE ACESSO
             // ==========================================
             const mediaLinks = {
                 // --- FILMES ---
@@ -519,12 +608,11 @@
                 "esp_2": { assistir: "#" },
                 "esp_3": { assistir: "#" },
                 "esp_4": { assistir: "#" },
+                "esp_5": { assistir: "https://drive.google.com/file/d/1Wpgz3cbFPt5JjRll6tDcTiNWEiUMit2r/view?usp=drivesdk" }, 
 
                 // --- COMIX ---
                 "comic_1": { ler: "https://drive.google.com/file/d/1le69wyVpbHsDpp-EwamedHBebvM_iC0N/view?usp=drivesdk" },
                 "comic_2": { ler: "https://drive.google.com/file/d/11mMglXh0ylzwbJU6w5KNbHfTJCfK_gHF/view?usp=drivesdk" },
-                "comic_3": { ler: "#" },
-                "comic_4": { ler: "#" },
                 "comic_5": { ler: "https://drive.google.com/file/d/1dh8_eXz-et10TqEa4XSaZ8YKqvnalfei/view?usp=drivesdk" },
                 "comic_6": { ler: "https://drive.google.com/file/d/1Kdn0iVLPovmrrFs3e2GKNcwBb8BhX1uT/view?usp=drivesdk" },
 
@@ -561,7 +649,7 @@
                 "T2_EP12": { assistir: "https://drive.google.com/file/d/1kb9g4sOONpB8QDAl929t38Yqctq9VN55/view?usp=drivesdk" },
                 "T2_EP13": { assistir: "https://drive.google.com/file/d/1BR--8Gg9LrALc-5KNVBKcTK-oQ4tt9M9/view?usp=drivesdk" },
                 
-                // Temporada 3 (Adicione os links aqui)
+                // Temporada 3
                 "T3_EP1": { assistir: "https://drive.google.com/file/d/1G7T_VnfGIWogMY0RAQp7rh1ri5h10aJ9/view?usp=drivesdk" },
                 "T3_EP2": { assistir: "https://drive.google.com/file/d/1gziJ9VmyhZV5wv8IK4oXTg_jnVmJsAWm/view?usp=drivesdk" },
                 "T3_EP3": { assistir: "https://drive.google.com/file/d/1X4q4fmM0pFRrqhsi7eW7nxfrOYS8I5jX/view?usp=drivesdk" },
@@ -576,7 +664,7 @@
                 "T3_EP12": { assistir: "https://drive.google.com/file/d/1KxpbSEVTVNqFQEE15dgiCaD7z7PTva9F/view?usp=drivesdk" },
                 "T3_EP13": { assistir: "https://drive.google.com/file/d/19vjiUDQbYgzuD9-0ummDgYEoaDYXRIjv/view?usp=drivesdk" },
 
-                // Temporada 4 (Adicione os links aqui)
+                // Temporada 4
                 "T4_EP1": { assistir: "https://drive.google.com/file/d/1L99eMhzlCmfSJeB8W9j1b7aAyT3pr_w-/view?usp=drivesdk" },
                 "T4_EP2": { assistir: "https://drive.google.com/file/d/1lYn-gEb4VI7BFjWoAi8PHufZT8vOAB0O/view?usp=drivesdk" },
                 "T4_EP3": { assistir: "https://drive.google.com/file/d/1mh9baCCaL-o1CNNdA_8bYX6ORF3CqZpF/view?usp=drivesdk" },
@@ -591,7 +679,7 @@
                 "T4_EP12": { assistir: "https://drive.google.com/file/d/1zth1s8HuY9Vjm9yWmLP1xh9gBV4C58gC/view?usp=drivesdk" },
                 "T4_EP13": { assistir: "https://drive.google.com/file/d/1nkZVB1tOOCha2BA8-ItxeAcLycJdAuS-/view?usp=drivesdk" },
 
-                // Temporada 5 (Adicione os links aqui)
+                // Temporada 5
                 "T5_EP1": { assistir: "" },
                 "T5_EP2": { assistir: "" },
                 "T5_EP3": { assistir: "" },
@@ -606,7 +694,7 @@
                 "T5_EP12": { assistir: "" },
                 "T5_EP13": { assistir: "" },
 
-                // Temporada 6 (Adicione os links aqui)
+                // Temporada 6
                 "T6_EP1": { assistir: "#" },
                 "T6_EP2": { assistir: "#" },
                 "T6_EP3": { assistir: "#" },
@@ -703,12 +791,12 @@
             };
 
             // ==========================================================
-            // LÓGICA DO SISTEMA (NÃO PRECISA ALTERAR ABAIXO)
+            // LÓGICA DO SISTEMA
             // ==========================================================
 
             window.openLink = (url) => {
-                if(url && url !== "#") window.open(url, '_blank');
-                else alert("Link indisponível.");
+                if(url && url !== "#" && url !== "") window.open(url, '_blank');
+                else alert("Link indisponível ou não configurado.");
             };
 
             function createCard(item, categoryType) {
@@ -752,32 +840,47 @@
                 modalTitle.textContent = title;
                 modalContent.innerHTML = '';
                 const seriesEps = episodesDB[seriesId];
+                
                 if (!seriesEps) {
-                    modalContent.innerHTML = '<p style="color:white">Nenhum episódio.</p>';
+                    modalContent.innerHTML = '<p style="color:white; padding: 20px;">Nenhum episódio cadastrado.</p>';
                     modal.style.display = 'flex';
                     return;
                 }
-                let tabsHtml = '<div class="series-tabs">';
-                Object.keys(seriesEps).forEach((season, idx) => {
-                    tabsHtml += `<button class="series-tab-btn ${idx === 0 ? 'active' : ''}" onclick="showSeasonList('${seriesId}', ${season})">Temp ${season}</button>`;
-                });
-                tabsHtml += '</div><div id="episodeListContainer"></div>';
+
+                const seasonKeys = Object.keys(seriesEps);
+                let tabsHtml = '';
+                
+                // Só exibe abas se tiver mais de 1 temporada
+                if (seasonKeys.length > 1) {
+                    tabsHtml = '<div class="series-tabs">';
+                    seasonKeys.forEach((season, idx) => {
+                        tabsHtml += `<button class="series-tab-btn ${idx === 0 ? 'active' : ''}" onclick="showSeasonList('${seriesId}', ${season})">Temp ${season}</button>`;
+                    });
+                    tabsHtml += '</div>';
+                }
+
+                tabsHtml += '<div id="episodeListContainer"></div>';
                 modalContent.innerHTML = tabsHtml;
-                showSeasonList(seriesId, Object.keys(seriesEps)[0]);
+                
+                // Carrega a primeira temporada (ou a única)
+                showSeasonList(seriesId, seasonKeys[0]);
                 modal.style.display = 'flex';
             };
 
             window.showSeasonList = (seriesId, seasonNum) => {
+                // Remove active de todos os botões (se existirem)
                 document.querySelectorAll('.series-tab-btn').forEach(btn => {
                     btn.classList.remove('active');
-                    if(btn.innerText.includes(seasonNum)) btn.classList.add('active');
+                    // Verifica se o texto do botão corresponde à temporada selecionada
+                    if(btn.innerText === `Temp ${seasonNum}`) btn.classList.add('active');
                 });
+
                 const container = document.getElementById('episodeListContainer');
                 const episodes = episodesDB[seriesId][seasonNum];
                 let html = '<div class="episode-list-modal">';
+                
                 episodes.forEach((epTitle, index) => {
                     const epNum = index + 1;
-                    // Define o ID do link baseado na série
                     let epId;
                     if (seriesId === 'race') {
                         epId = `T${seasonNum}_EP${epNum}`;
