@@ -18,12 +18,15 @@
             --text-light: #f0f0f0;
             --text-dim: #aaaaaa;
             --border-color: rgba(255, 255, 255, 0.1);
-            --color-1: #ff6b35;
-            --color-2: #f7931e;
             --btn-bg: #2c2c2c;
             --btn-text: #cccccc;
-            --color-trailer: #6c5ce7;
-            --card-width: 180px; 
+            --card-width: 180px;
+
+            /* Cores das Categorias */
+            --color-movies: #ff6b35;    /* Laranja */
+            --color-series: #4facfe;    /* Azul */
+            --color-specials: #a55eea;  /* Roxo */
+            --color-comix: #26de81;     /* Verde */
         }
 
         /* RESET E CONFIGURAÇÃO GLOBAL */
@@ -58,7 +61,7 @@
         }
         .welcome-screen.hidden { opacity: 0; pointer-events: none; z-index: -1; }
 
-        .welcome-title { font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 10px; color: white; text-shadow: 0 0 20px var(--color-1); }
+        .welcome-title { font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 10px; color: white; text-shadow: 0 0 20px var(--color-movies); }
         .welcome-subtitle { font-size: 1.2rem; color: #ccc; margin-bottom: 30px; max-width: 500px; }
 
         .welcome-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; width: 100%; max-width: 800px; margin-bottom: 30px; }
@@ -68,14 +71,14 @@
             cursor: pointer; border: 3px solid transparent; transition: all 0.3s; position: relative; overflow: hidden; background-color: #222;
         }
         .welcome-card:hover { transform: scale(1.03); border-color: rgba(255,255,255,0.5); }
-        .welcome-card.selected { border-color: var(--color-1); box-shadow: 0 0 20px var(--color-1); }
+        .welcome-card.selected { border-color: var(--color-movies); box-shadow: 0 0 20px var(--color-movies); }
         
         .welcome-card.upload-card { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed #555; color: #777; font-size: 0.9rem; }
-        .welcome-card.upload-card:hover { border-color: var(--color-1); color: var(--color-1); }
+        .welcome-card.upload-card:hover { border-color: var(--color-movies); color: var(--color-movies); }
         .welcome-card.upload-card i { font-size: 2rem; margin-bottom: 5px; }
 
         .btn-start { padding: 15px 60px; font-size: 1.2rem; font-family: 'Cinzel', serif; background: transparent; border: 2px solid #555; color: #555; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
-        .btn-start.active { background: linear-gradient(45deg, var(--color-1), var(--color-2)); border-color: transparent; color: white; box-shadow: 0 0 25px rgba(255, 107, 53, 0.4); }
+        .btn-start.active { background: linear-gradient(45deg, var(--color-movies), #f7931e); border-color: transparent; color: white; box-shadow: 0 0 25px rgba(255, 107, 53, 0.4); }
 
         /* --- Fundo e Interface Principal --- */
         .animated-bg {
@@ -105,7 +108,7 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #111; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--color-1); }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
 
         .brand-logo { position: fixed; top: 15px; left: 15px; width: 60px; z-index: 1000; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); transition: 0.3s; }
         .brand-logo:hover { transform: scale(1.1); }
@@ -123,16 +126,16 @@
 
         .music-control { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 5px; }
         .play-state-btn { width: 36px; height: 36px; border-radius: 50%; background: #333; color: white; border: none; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: 0.3s; flex-shrink: 0; }
-        .play-state-btn.playing { background: var(--color-1); box-shadow: 0 0 10px var(--color-1); }
+        .play-state-btn.playing { background: var(--color-movies); box-shadow: 0 0 10px var(--color-movies); }
         .music-label { font-size: 0.9rem; color: #ddd; }
 
         .bg-thumbs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
         .bg-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 4px; background-size: cover; background-position: center; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; background-color: #222; }
         .bg-thumb:hover { opacity: 1; }
-        .bg-thumb.active { border-color: var(--color-1); opacity: 1; }
+        .bg-thumb.active { border-color: var(--color-movies); opacity: 1; }
 
         .upload-label { display: flex; align-items: center; justify-content: center; border: 2px dashed #444; color: #666; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        .upload-label:hover { border-color: var(--color-1); color: var(--color-1); opacity: 1; }
+        .upload-label:hover { border-color: var(--color-movies); color: var(--color-movies); opacity: 1; }
         #customBgInput, #welcomeCustomInput { display: none; }
 
         /* --- Header --- */
@@ -150,9 +153,16 @@
             margin-bottom: 15px; 
             color: white; 
             padding-left: 10px;
-            border-left: 4px solid var(--color-1);
+            border-left: 4px solid var(--color-movies);
             display: inline-block;
+            transition: border-color 0.3s;
         }
+
+        /* Cores dos Títulos por Seção */
+        #filmes .section-title { border-color: var(--color-movies); }
+        #series .section-title { border-color: var(--color-series); }
+        #especiais .section-title { border-color: var(--color-specials); }
+        #comix .section-title { border-color: var(--color-comix); }
 
         /* --- ESTILO NETFLIX UNIFICADO --- */
         .netflix-row {
@@ -186,7 +196,6 @@
             .content-card:hover {
                 transform: scale(1.08);
                 z-index: 10;
-                border-color: var(--color-1);
                 box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             }
             .content-card:hover .card-overlay {
@@ -259,14 +268,23 @@
         .btn:hover { background: rgba(255,255,255,0.3); }
         .btn i { font-size: 0.75rem; }
         
-        .btn-watch { background: var(--color-1); color: white; border-color: transparent; }
-        .btn-watch:hover { background: #ff8c5a; }
-        
-        .btn-trailer { background: rgba(109, 92, 231, 0.7); border-color: transparent; }
-        .btn-trailer:hover { background: var(--color-trailer); }
-        
-        .btn-read { background: #00b894; border-color: transparent; }
+        /* Cores dos Botões por Categoria */
+        .cat-movie:hover { border-color: var(--color-movies); }
+        .cat-movie .btn-watch { background: var(--color-movies); border-color: transparent; }
+        .cat-movie .btn-watch:hover { background: #ff8c5a; }
 
+        .cat-series:hover { border-color: var(--color-series); }
+        .cat-series .btn-watch { background: var(--color-series); border-color: transparent; }
+        .cat-series .btn-watch:hover { background: #6fc3ff; }
+
+        .cat-special:hover { border-color: var(--color-specials); }
+        .cat-special .btn-watch { background: var(--color-specials); border-color: transparent; }
+        .cat-special .btn-watch:hover { background: #be7ff0; }
+
+        .cat-comix:hover { border-color: var(--color-comix); }
+        .cat-comix .btn-read { background: var(--color-comix); border-color: transparent; }
+        .cat-comix .btn-read:hover { background: #4ae89d; }
+        
         /* --- AJUSTE MOBILE --- */
         @media (max-width: 768px) {
             :root { --card-width: 125px; }
@@ -276,13 +294,19 @@
             .section-title {
                 font-size: 1.2rem;
                 border-left: none;
-                border-bottom: 2px solid var(--color-1);
+                border-bottom: 2px solid var(--color-movies);
                 padding-left: 0;
                 padding-bottom: 5px;
                 margin-bottom: 15px;
                 width: 100%;
                 text-align: center;
             }
+            /* Ajuste de cores na borda inferior para mobile */
+            #filmes .section-title { border-color: var(--color-movies); }
+            #series .section-title { border-color: var(--color-series); }
+            #especiais .section-title { border-color: var(--color-specials); }
+            #comix .section-title { border-color: var(--color-comix); }
+
             .card-overlay {
                 opacity: 1; 
                 position: absolute; 
@@ -309,7 +333,7 @@
         /* --- BOTÃO VOLTAR AO TOPO --- */
         .scroll-top-btn {
             position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
-            background: linear-gradient(45deg, var(--color-1), var(--color-2));
+            background: linear-gradient(45deg, var(--color-movies), #f7931e);
             border: none; border-radius: 50%; color: white; font-size: 20px;
             cursor: pointer; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
@@ -326,13 +350,13 @@
 
         .series-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .series-tab-btn { background: #333; border: none; color: white; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-family: 'Kalam', cursive; }
-        .series-tab-btn.active { background: var(--color-1); }
+        .series-tab-btn.active { background: var(--color-series); }
         
         .episode-list-modal { display: grid; gap: 10px; text-align: left; max-height: 300px; overflow-y: auto; padding-right: 5px; }
         .episode-item { background: #222; padding: 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
         .episode-item:hover { background: #333; }
         .episode-item span { font-size: 0.9rem; color: #ddd; }
-        .episode-item i { color: var(--color-1); }
+        .episode-item i { color: var(--color-series); }
 
     </style>
 </head>
@@ -454,9 +478,9 @@
 
             const moviesData = [
                 { id: "filme_1", title: "Como Treinar o Seu Dragão", img: "https://play-lh.googleusercontent.com/HZMJhVtMGLbPZj1_4ILmj9h68CBEkUnPD6vW8DC4llKb6jwzasAqMFHgtKCfx9bMo44C" },
-                { id: "filme_2", title: "A Lenda Continua", img: "https://play-lh.googleusercontent.com/1r9pjEP2W5IEBNZ54m5ppGlpj-YE7quFCHMNtHsYJtiPTnU2uSMguEk6Dm59EdsCL7Th=w240-h480-rw" },
-                { id: "filme_3", title: "O Mundo Escondido", img: "https://play-lh.googleusercontent.com/W8DR-RL0aRUJjFlvViEkk9pmzaa-iZFlQpmPO1Hm0-10Q0mzLHspjoBH64PD3l0eGwbo" },
-                { id: "filme_live_action", title: "Live Action (2025)", img: "https://images.justwatch.com/poster/331878544/s718/how-to-train-your-dragon-2025.jpg" }
+                { id: "filme_2", title: "Como Treinar o Seu Dragão 2", img: "https://play-lh.googleusercontent.com/1r9pjEP2W5IEBNZ54m5ppGlpj-YE7quFCHMNtHsYJtiPTnU2uSMguEk6Dm59EdsCL7Th=w240-h480-rw" },
+                { id: "filme_3", title: "Como Treinar o Seu Dragão 3", img: "https://play-lh.googleusercontent.com/W8DR-RL0aRUJjFlvViEkk9pmzaa-iZFlQpmPO1Hm0-10Q0mzLHspjoBH64PD3l0eGwbo" },
+                { id: "filme_live_action", title: "Como Treinar o Seu Dragão: Live Action (2025)", img: "https://images.justwatch.com/poster/331878544/s718/how-to-train-your-dragon-2025.jpg" }
             ];
 
             const seriesData = [
@@ -477,18 +501,18 @@
                 { id: "comic_1", title: "Dragon Down", img: "dd.jpg" },
                 { id: "comic_2", title: "Dangers of the Deep", img: "dod.jpg" },
                 { id: "comic_3", title: "The Ice Castle", img: "tic.jpg" },
-                { id: "comic_4", title: "The Stowaway", img: "ten.jpg" },
-                { id: "comic_5", title: "The Serpent Heir", img: "tsh.jpg" }, // Substituído
-                { id: "comic_6", title: "Burning Midnight", img: "mna.jpg" } // Adicionado
+                { id: "comic_4", title: "Snowmageddon", img: "sno.jpg" },
+                { id: "comic_5", title: "The Serpent Heir", img: "tsh.jpg" },
+                { id: "comic_6", title: "Burning Midnight", img: "mna.jpg" }
             ];
 
             // Links de Acesso
             const mediaLinks = {
                 // Filmes
-                "filme_1": { assistir: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", trailer: "https://youtu.be/RA0nWjiY4_0?feature=shared" },
-                "filme_2": { assistir: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk", trailer: "https://youtu.be/mxyOFw8SeSM?feature=shared" },
-                "filme_3": { assistir: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", trailer: "https://youtu.be/lNbJy1R7EWQ?si=e1Z5G2XC8KuQBW6k" },
-                "filme_live_action": { assistir: "https://drive.google.com/file/d/13xy61gCh0R6TWwsHmvESwaDDm1wWwM12/view?usp=drivesdk", trailer: "https://youtu.be/UEA1AMi1QSg?si=FfjXoDTZcggZf5BS" },
+                "filme_1": { assistir: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk" },
+                "filme_2": { assistir: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" },
+                "filme_3": { assistir: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk" },
+                "filme_live_action": { assistir: "https://drive.google.com/file/d/18IueeEx5pTfcMhPhqYAqH5iuRJWQBYgz/view?usp=drivesdk" },
                 
                 // Episódios Race
                 "T1_EP1": { assistir: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk" },
@@ -525,13 +549,13 @@
                 "esp_3": { assistir: "#" },
                 "esp_4": { assistir: "#" },
 
-                // Comix (IDs atualizados/novos)
+                // Comix
                 "comic_1": { ler: "#" },
                 "comic_2": { ler: "#" },
                 "comic_3": { ler: "#" },
                 "comic_4": { ler: "#" },
-                "comic_5": { ler: "#" }, // The Serpent Heir
-                "comic_6": { ler: "#" }  // Burning Midnight
+                "comic_5": { ler: "#" },
+                "comic_6": { ler: "#" }
             };
 
             // Dados dos episódios
@@ -562,10 +586,8 @@
 
                 if (categoryType === 'movie') {
                     const watchLink = mediaLinks[item.id]?.assistir || '#';
-                    const trailerLink = mediaLinks[item.id]?.trailer || '#';
                     buttonsHtml = `
                         <a href="${watchLink}" target="_blank" class="btn btn-watch"><i class="fas fa-play"></i> Assistir</a>
-                        <a href="${trailerLink}" target="_blank" class="btn btn-trailer"><i class="fab fa-youtube"></i> Trailer</a>
                     `;
                 } else if (categoryType === 'special') {
                     const watchLink = mediaLinks[item.id]?.assistir || '#';
@@ -578,7 +600,7 @@
                 }
 
                 return `
-                    <div class="content-card">
+                    <div class="content-card cat-${categoryType}">
                         <img src="${item.img}" alt="${item.title}" loading="lazy">
                         <div class="card-overlay">
                             <div class="card-title">${item.title}</div>
