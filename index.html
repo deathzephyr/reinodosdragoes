@@ -23,11 +23,20 @@
             --btn-bg: #2c2c2c;
             --btn-text: #cccccc;
             --color-trailer: #6c5ce7;
-            --card-width: 180px;
+            --card-width: 180px; 
         }
 
+        /* RESET E CONFIGURAÇÃO GLOBAL */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
+        
+        /* DESABILITAR SELEÇÃO DE TEXTO */
+        html { 
+            scroll-behavior: smooth; 
+            -webkit-user-select: none;        
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
+        }
 
         body {
             font-family: 'Kalam', cursive;
@@ -149,11 +158,13 @@
         .netflix-row {
             display: flex;
             overflow-x: auto;
-            gap: 15px;
+            gap: 12px;
             padding-bottom: 15px;
+            padding-left: 5px;
             scroll-behavior: smooth;
             -ms-overflow-style: none;  
-            scrollbar-width: none;  
+            scrollbar-width: none;
+            scroll-snap-type: x mandatory; 
         }
         .netflix-row::-webkit-scrollbar { display: none; }
 
@@ -167,20 +178,28 @@
             border: 2px solid transparent;
             cursor: pointer;
             position: relative;
+            will-change: transform;
+            scroll-snap-align: start; 
         }
-        .content-card:hover {
-            transform: scale(1.08);
-            z-index: 10;
-            border-color: var(--color-1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        
+        @media (hover: hover) and (pointer: fine) {
+            .content-card:hover {
+                transform: scale(1.08);
+                z-index: 10;
+                border-color: var(--color-1);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            }
+            .content-card:hover .card-overlay {
+                opacity: 1;
+            }
         }
 
         .content-card img {
             width: 100%;
-            height: 270px;
+            height: calc(var(--card-width) * 1.5); 
             object-fit: cover;
             display: block;
-            background-color: #222; /* Fundo caso a imagem não carregue */
+            background-color: #222;
         }
 
         .card-overlay {
@@ -188,17 +207,12 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.6), transparent);
-            padding: 40px 10px 10px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7), transparent);
+            padding: 40px 8px 8px;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: auto;
             justify-content: flex-end;
-        }
-        .content-card:hover .card-overlay {
-            opacity: 1;
         }
 
         .card-title {
@@ -208,46 +222,76 @@
             margin-bottom: 8px;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .card-actions {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 5px;
+            width: 100%;
         }
 
-        /* --- BOTÕES --- */
+        /* --- BOTÕES (ESTILO COMPACTO) --- */
         .btn { 
-            padding: 8px 12px; 
+            flex: 1;
+            padding: 6px 4px; 
             border-radius: 4px; 
             text-decoration: none; 
             font-family: 'Cinzel', serif; 
             font-weight: 700; 
-            font-size: 0.75rem; 
+            font-size: 0.65rem; 
             transition: 0.2s; 
             cursor: pointer; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 5px; 
-            background-color: var(--btn-bg); 
-            color: var(--btn-text); 
-            border: none; 
+            gap: 4px; 
+            background-color: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            color: #fff; 
+            border: 1px solid rgba(255,255,255,0.2); 
             text-transform: uppercase; 
+            letter-spacing: 0.5px;
         }
-        .btn:hover { color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .btn-watch, .btn-read { background: white; color: black; }
-        .btn-watch:hover, .btn-read:hover { background: var(--color-1); color: white; }
-        .btn-trailer { background: rgba(109, 92, 231, 0.4); border: 1px solid var(--color-trailer); color: white; }
+        .btn:hover { background: rgba(255,255,255,0.3); }
+        .btn i { font-size: 0.75rem; }
+        
+        .btn-watch { background: var(--color-1); color: white; border-color: transparent; }
+        .btn-watch:hover { background: #ff8c5a; }
+        
+        .btn-trailer { background: rgba(109, 92, 231, 0.7); border-color: transparent; }
         .btn-trailer:hover { background: var(--color-trailer); }
+        
+        .btn-read { background: #00b894; border-color: transparent; }
 
-        /* Ajuste Mobile */
+        /* --- AJUSTE MOBILE --- */
         @media (max-width: 768px) {
-            :root { --card-width: 140px; }
-            .content-card img { height: 210px; }
-            .card-overlay { opacity: 1; position: relative; background: rgba(0,0,0,0.85); padding: 10px; height: auto; }
-            .card-actions { flex-direction: row; }
-            .btn { padding: 6px 0; width: 100%; font-size: 0.7rem; }
+            :root { --card-width: 125px; }
+            header { height: 50vh; min-height: 300px; padding-top: 60px; }
+            header h1 { font-size: 2rem; }
+            header p { font-size: 1rem; padding: 10px; }
+            .section-title {
+                font-size: 1.2rem;
+                border-left: none;
+                border-bottom: 2px solid var(--color-1);
+                padding-left: 0;
+                padding-bottom: 5px;
+                margin-bottom: 15px;
+                width: 100%;
+                text-align: center;
+            }
+            .card-overlay {
+                opacity: 1; 
+                position: absolute; 
+                background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent);
+                padding-top: 30px;
+            }
+            .card-title { font-size: 0.75rem; margin-bottom: 5px; }
+            .btn { padding: 5px 2px; font-size: 0.6rem; border-radius: 3px; }
+            .settings-panel { width: 260px; }
         }
 
         /* --- RODAPÉ --- */
@@ -280,7 +324,6 @@
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 20px; color: #555; cursor: pointer; transition: 0.3s; }
         .close-btn:hover { color: white; }
 
-        /* Modal Interno de Séries (Episódios) */
         .series-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .series-tab-btn { background: #333; border: none; color: white; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-family: 'Kalam', cursive; }
         .series-tab-btn.active { background: var(--color-1); }
@@ -407,10 +450,7 @@
             
             // ==========================================================
             // ÁREA DE CONFIGURAÇÃO DAS IMAGENS E LINKS
-            // Coloque o URL da imagem entre as aspas dentro de img: "..."
             // ==========================================================
-
-            const imagePlaceholders = "https://via.placeholder.com/180x270/222/fff?text=Imagem";
 
             const moviesData = [
                 { id: "filme_1", title: "Como Treinar o Seu Dragão", img: "https://play-lh.googleusercontent.com/HZMJhVtMGLbPZj1_4ILmj9h68CBEkUnPD6vW8DC4llKb6jwzasAqMFHgtKCfx9bMo44C" },
@@ -432,12 +472,14 @@
                 { id: "esp_4", title: "Lenda do Dragão Ósseo", img: "https://image.tmdb.org/t/p/w500/74OqO31AaubZGgreiHIomFyOXUx.jpg" }
             ];
 
+            // --- ALTERAÇÃO REALIZADA AQUI ---
             const comixData = [
                 { id: "comic_1", title: "Dragon Down", img: "dd.jpg" },
                 { id: "comic_2", title: "Dangers of the Deep", img: "dod.jpg" },
                 { id: "comic_3", title: "The Ice Castle", img: "tic.jpg" },
                 { id: "comic_4", title: "The Stowaway", img: "ten.jpg" },
-                { id: "comic_5", title: "The Legend of Raven Point", img: "https://m.media-amazon.com/images/I/816O5hH-rXL.jpg" }
+                { id: "comic_5", title: "The Serpent Heir", img: "https://m.media-amazon.com/images/I/81OVPmHmYLL.jpg" }, // Substituído
+                { id: "comic_6", title: "Burning Midnight", img: "https://via.placeholder.com/180x270/222/fff?text=Burning+Midnight" } // Adicionado
             ];
 
             // Links de Acesso
@@ -448,7 +490,7 @@
                 "filme_3": { assistir: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", trailer: "https://youtu.be/lNbJy1R7EWQ?si=e1Z5G2XC8KuQBW6k" },
                 "filme_live_action": { assistir: "https://drive.google.com/file/d/13xy61gCh0R6TWwsHmvESwaDDm1wWwM12/view?usp=drivesdk", trailer: "https://youtu.be/UEA1AMi1QSg?si=FfjXoDTZcggZf5BS" },
                 
-                // Episódios Race (Formato ID: T[Temp]_EP[Ep])
+                // Episódios Race
                 "T1_EP1": { assistir: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk" },
                 "T1_EP2": { assistir: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk" },
                 "T1_EP3": { assistir: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk" },
@@ -466,7 +508,7 @@
                 "T2_EP2": { assistir: "https://drive.google.com/file/d/1SO4jAEcDLv4hRUYs4l8ZuxcsZHIO863L/view?usp=drivesdk" },
                 "T2_EP3": { assistir: "https://drive.google.com/file/d/1NHUjUMb0GF7VswdkTGUCWBiypKbBecWA/view?usp=drivesdk" },
                 "T2_EP4": { assistir: "https://drive.google.com/file/d/13693wZ8tsC_-DkhMitAzvBCzhwMVq36H/view?usp=drivesdk" },
-                "T2_EP5": { assistir: "#" }, // Link pendente
+                "T2_EP5": { assistir: "#" },
                 "T2_EP6": { assistir: "https://drive.google.com/file/d/1IKvDQPJtfxG2LJaZ81DuOmRfDDl9Y22S/view?usp=drivesdk" },
                 "T2_EP7": { assistir: "https://drive.google.com/file/d/1s3LY6FP4eo-Xy15IYZs4uwLE9M0dOGkx/view?usp=drivesdk" },
                 "T2_EP8": { assistir: "https://drive.google.com/file/d/1WvUDxG_SLBL0P8icGOXeRyO-cmVsHjRi/view?usp=drivesdk" },
@@ -483,15 +525,16 @@
                 "esp_3": { assistir: "#" },
                 "esp_4": { assistir: "#" },
 
-                // Comix (Opção Ler)
+                // Comix (IDs atualizados/novos)
                 "comic_1": { ler: "#" },
                 "comic_2": { ler: "#" },
                 "comic_3": { ler: "#" },
                 "comic_4": { ler: "#" },
-                "comic_5": { ler: "#" }
+                "comic_5": { ler: "#" }, // The Serpent Heir
+                "comic_6": { ler: "#" }  // Burning Midnight
             };
 
-            // Dados dos episódios das séries
+            // Dados dos episódios
             const episodesDB = {
                 race: {
                     1: ["Como Começar uma Academia de Dragões", "Viking por Aluguel", "A Casa dos Animais", "Em Dragões Nós Confiamos", "Quando os Raios Caem", "O que Voam por Baixo", "O Desafiante", "A Fuga - Parte 1", "A Fuga - Parte 2", "O Relatório de Heather - Parte 1", "O Relatório de Heather - Parte 2", "O Festival do Degelo", "Quando um Dragão é a Vítima"],
@@ -501,33 +544,23 @@
                     5: ["O Rei dos Dragões - Parte 1", "O Rei dos Dragões - Parte 2", "Súditos Não Tão Leais", "Nenhum Dragão Ficará para Trás", "Algo Podre na Ilha dos Berserkers", "Uma Questão de Perspectiva", "Vingança Vigilante", "Águas Perigosas", "O Retorno do Rei", "Dragão Terrível", "Os Anjos de Cabeça-Quente", "Uma Questão de Confiança", "Sem Visão"],
                     6: ["Vivendo no Limite", "Saindo da Fritura", "Siga o Líder", "Gême-intuição", "Hora do Skrill", "Entre a Rocha e o Lugar Difícil", "O Inimigo do Meu Inimigo", "Um Ótimo Dia para Corrida de Dragões", "A Alvorada da Destruição", "Que Confusão", "Algo Podre", "A Noite Mais Escura", "Asas de Fogo, Parte 1"]
                 },
-                riders: {
-                    1: ["Alvorada da Patrulha Aérea", "O Peso do Passado"] 
-                },
-                defenders: {
-                    1: ["Ao Vivo e em Cores", "A Ilha de Fazendeiro"] 
-                }
+                riders: { 1: ["Alvorada da Patrulha Aérea", "O Peso do Passado"] },
+                defenders: { 1: ["Ao Vivo e em Cores", "A Ilha de Fazendeiro"] }
             };
 
             // ==========================================================
-            // LÓGICA DO SISTEMA (NÃO PRECISA EDITAR ABAIXO)
+            // LÓGICA DO SISTEMA
             // ==========================================================
 
-            // Função para abrir link direto
             window.openLink = (url) => {
-                if(url && url !== "#") {
-                    window.open(url, '_blank');
-                } else {
-                    alert("Link indisponível no momento.");
-                }
+                if(url && url !== "#") window.open(url, '_blank');
+                else alert("Link indisponível.");
             };
 
-            // Função para criar o Card HTML
             function createCard(item, categoryType) {
                 let buttonsHtml = '';
 
                 if (categoryType === 'movie') {
-                    // Filmes: Assistir (direto) + Trailer (direto)
                     const watchLink = mediaLinks[item.id]?.assistir || '#';
                     const trailerLink = mediaLinks[item.id]?.trailer || '#';
                     buttonsHtml = `
@@ -535,90 +568,67 @@
                         <a href="${trailerLink}" target="_blank" class="btn btn-trailer"><i class="fab fa-youtube"></i> Trailer</a>
                     `;
                 } else if (categoryType === 'special') {
-                    // Especiais: Apenas Assistir (direto)
                     const watchLink = mediaLinks[item.id]?.assistir || '#';
                     buttonsHtml = `<a href="${watchLink}" target="_blank" class="btn btn-watch"><i class="fas fa-play"></i> Assistir</a>`;
-                
                 } else if (categoryType === 'comix') {
-                    // Comix: Apenas Ler (direto)
                     const readLink = mediaLinks[item.id]?.ler || '#';
                     buttonsHtml = `<a href="${readLink}" target="_blank" class="btn btn-read"><i class="fas fa-book-open"></i> Ler</a>`;
-                
                 } else if (categoryType === 'series') {
-                    // Séries: Abrir Modal de Episódios
                     buttonsHtml = `<a href="#" class="btn btn-watch" onclick="event.preventDefault(); openSeriesModal('${item.id}', '${item.title}')"><i class="fas fa-list"></i> Episódios</a>`;
                 }
 
                 return `
                     <div class="content-card">
-                        <img src="${item.img}" alt="${item.title}">
+                        <img src="${item.img}" alt="${item.title}" loading="lazy">
                         <div class="card-overlay">
                             <div class="card-title">${item.title}</div>
-                            <div class="card-actions">
-                                ${buttonsHtml}
-                            </div>
+                            <div class="card-actions">${buttonsHtml}</div>
                         </div>
                     </div>
                 `;
             }
 
-            // Renderizar Seções
+            // Renderizar
             document.getElementById('moviesRow').innerHTML = moviesData.map(item => createCard(item, 'movie')).join('');
             document.getElementById('seriesRow').innerHTML = seriesData.map(item => createCard(item, 'series')).join('');
             document.getElementById('specialsRow').innerHTML = specialsData.map(item => createCard(item, 'special')).join('');
             document.getElementById('comixRow').innerHTML = comixData.map(item => createCard(item, 'comix')).join('');
 
-            // --- LÓGICA DO MODAL DE SÉRIES ---
-            
+            // Modal
             window.openSeriesModal = (seriesId, title) => {
                 const modal = document.getElementById('modal');
                 const modalTitle = document.getElementById('modal-title');
                 const modalContent = document.getElementById('modal-dynamic-content');
-                
                 modalTitle.textContent = title;
-                modalContent.innerHTML = ''; 
-
+                modalContent.innerHTML = '';
                 const seriesEps = episodesDB[seriesId];
                 if (!seriesEps) {
-                    modalContent.innerHTML = '<p style="color:white">Nenhum episódio cadastrado.</p>';
+                    modalContent.innerHTML = '<p style="color:white">Nenhum episódio.</p>';
                     modal.style.display = 'flex';
                     return;
                 }
-
-                // Criar Tabs de Temporada
                 let tabsHtml = '<div class="series-tabs">';
                 Object.keys(seriesEps).forEach((season, idx) => {
                     tabsHtml += `<button class="series-tab-btn ${idx === 0 ? 'active' : ''}" onclick="showSeasonList('${seriesId}', ${season})">Temp ${season}</button>`;
                 });
-                tabsHtml += '</div>';
-                
-                // Container da lista
-                tabsHtml += '<div id="episodeListContainer"></div>';
-                
+                tabsHtml += '</div><div id="episodeListContainer"></div>';
                 modalContent.innerHTML = tabsHtml;
-                // Renderizar primeira temporada
                 showSeasonList(seriesId, Object.keys(seriesEps)[0]);
-                
                 modal.style.display = 'flex';
             };
 
             window.showSeasonList = (seriesId, seasonNum) => {
-                // Atualizar botões ativos
                 document.querySelectorAll('.series-tab-btn').forEach(btn => {
                     btn.classList.remove('active');
                     if(btn.innerText.includes(seasonNum)) btn.classList.add('active');
                 });
-
                 const container = document.getElementById('episodeListContainer');
                 const episodes = episodesDB[seriesId][seasonNum];
-                
                 let html = '<div class="episode-list-modal">';
                 episodes.forEach((epTitle, index) => {
                     const epNum = index + 1;
-                    // Lógica de ID para buscar o link
-                    const epId = seriesId === 'race' ? `T${seasonNum}_EP${epNum}` : `${seriesId}_EP${epNum}`; 
+                    const epId = seriesId === 'race' ? `T${seasonNum}_EP${epNum}` : `${seriesId}_EP${epNum}`;
                     const link = mediaLinks[epId]?.assistir || '#';
-                    
                     html += `
                         <div class="episode-item" onclick="openLink('${link}')">
                             <span>${epNum}. ${epTitle}</span>
@@ -630,12 +640,10 @@
                 container.innerHTML = html;
             };
 
-            // Fechar Modal
             document.querySelector('.close-btn').onclick = () => document.getElementById('modal').style.display = 'none';
-            window.onclick = e => { if (e.target == document.getElementById('modal')) document.getElementById('modal').style.display = 'none'; }
+            window.onclick = e => { if (e.target == document.getElementById('modal')) document.getElementById('modal').style.display = 'none'; };
 
-
-            // --- LÓGICA GERAL (Bg, Music) ---
+            // Geral
             const images = [ 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg' ];
             const userBg = document.getElementById('userBg');
             const welcomeScreen = document.getElementById('welcomeScreen');
@@ -645,7 +653,6 @@
             const scrollTopBtn = document.getElementById('scrollTopBtn');
             let selectedBg = null;
 
-            // Partículas
             for(let i = 0; i < 20; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
@@ -655,11 +662,9 @@
                 particlesContainer.appendChild(p);
             }
 
-            // Scroll Top
             window.addEventListener('scroll', () => scrollTopBtn.classList.toggle('visible', window.scrollY > 400));
             scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-            // Welcome
             const hasVisited = localStorage.getItem('berk_visited');
             if (!hasVisited) {
                 images.forEach((img, index) => {
@@ -699,6 +704,7 @@
                 startBtn.disabled = false;
                 startBtn.classList.add('active');
             }
+
             startBtn.addEventListener('click', () => {
                 if (selectedBg) {
                     userBg.style.backgroundImage = selectedBg;
@@ -709,9 +715,9 @@
                 }
             });
 
-            // Settings
             document.getElementById('settingsToggle').addEventListener('click', () => document.getElementById('settingsPanel').classList.toggle('active'));
             const thumbs = document.querySelectorAll('.settings-wrapper .bg-thumb:not(.upload-label)');
+            
             window.changeBg = (index) => {
                 document.querySelectorAll('.settings-wrapper .bg-thumb').forEach(t => t.classList.remove('active'));
                 thumbs[index].classList.add('active');
@@ -719,6 +725,7 @@
                 userBg.classList.add('active');
                 localStorage.setItem('berk_bg', `url('${images[index]}')`);
             };
+
             document.getElementById('customBgInput').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
@@ -734,7 +741,6 @@
                 }
             });
 
-            // Music
             const bgMusic = document.getElementById('bgMusic');
             const playStateBtn = document.getElementById('playStateBtn');
             let isPlaying = false;
