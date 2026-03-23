@@ -27,12 +27,14 @@
             --color-series: #4facfe;    /* Azul */
             --color-specials: #a55eea;  /* Roxo */
             --color-comix: #26de81;     /* Verde */
+            
+            /* Cor do Botão Ativo */
+            --color-active-mode: #ff4d4d; /* Vermelho */
         }
 
         /* RESET E CONFIGURAÇÃO GLOBAL */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* DESABILITAR SELEÇÃO DE TEXTO */
         html { 
             scroll-behavior: smooth; 
             -webkit-user-select: none;        
@@ -139,9 +141,45 @@
         #customBgInput, #welcomeCustomInput { display: none; }
 
         /* --- Header --- */
-        header { height: 60vh; min-height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 1; padding: 0 20px; }
+        header { height: auto; min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 1; padding: 80px 20px 40px; }
         header h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; color: white; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 15px; }
-        header p { max-width: 600px; margin: 0 auto; font-size: 1.2rem; color: #ddd; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; }
+        header p { max-width: 600px; margin: 0 auto; font-size: 1.2rem; color: #ddd; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; margin-bottom: 30px; }
+
+        /* --- SELETOR DE MODO (VERMELHO) --- */
+        .view-mode-selector {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 10px;
+        }
+        .mode-btn {
+            background: transparent;
+            border: 2px solid #444;
+            color: #888;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mode-btn:hover { border-color: #777; color: #fff; }
+        .mode-btn.active { 
+            background: linear-gradient(45deg, #ff4d4d, #c0392b); /* Vermelho */
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.4);
+            font-weight: bold;
+        }
+        .mode-btn i { font-size: 1rem; }
 
         /* --- Container --- */
         .container { max-width: 100%; margin: 0 auto; padding: 0; position: relative; z-index: 2; }
@@ -155,10 +193,8 @@
             padding-left: 10px;
             border-left: 4px solid var(--color-movies);
             display: inline-block;
-            transition: border-color 0.3s;
         }
 
-        /* Cores dos Títulos por Seção */
         #filmes .section-title { border-color: var(--color-movies); }
         #series .section-title { border-color: var(--color-series); }
         #especiais .section-title { border-color: var(--color-specials); }
@@ -188,7 +224,6 @@
             border: 2px solid transparent;
             cursor: pointer;
             position: relative;
-            will-change: transform;
             scroll-snap-align: start; 
         }
         
@@ -198,9 +233,7 @@
                 z-index: 10;
                 box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             }
-            .content-card:hover .card-overlay {
-                opacity: 1;
-            }
+            .content-card:hover .card-overlay { opacity: 1; }
         }
 
         .content-card img {
@@ -213,118 +246,71 @@
 
         .card-overlay {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            bottom: 0; left: 0; width: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7), transparent);
             padding: 40px 8px 8px;
-            display: flex;
-            flex-direction: column;
-            height: auto;
-            justify-content: flex-end;
+            display: flex; flex-direction: column; height: auto; justify-content: flex-end;
         }
 
         .card-title {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #fff;
-            margin-bottom: 8px;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,1);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-family: 'Cinzel', serif; font-size: 0.9rem; color: #fff; margin-bottom: 8px;
+            text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,1);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        .card-actions {
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-            width: 100%;
-        }
+        .card-actions { display: flex; flex-direction: row; gap: 5px; width: 100%; }
 
-        /* --- BOTÕES (ESTILO COMPACTO) --- */
+        /* --- BOTÕES --- */
         .btn { 
-            flex: 1;
-            padding: 6px 4px; 
-            border-radius: 4px; 
-            text-decoration: none; 
-            font-family: 'Cinzel', serif; 
-            font-weight: 700; 
-            font-size: 0.65rem; 
-            transition: 0.2s; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 4px; 
-            background-color: rgba(255,255,255,0.15);
-            backdrop-filter: blur(4px);
-            color: #fff; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
+            flex: 1; padding: 6px 4px; border-radius: 4px; text-decoration: none;
+            font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.65rem; transition: 0.2s;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;
+            background-color: rgba(255,255,255,0.15); backdrop-filter: blur(4px); color: #fff;
+            border: 1px solid rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.5px;
         }
         .btn:hover { background: rgba(255,255,255,0.3); }
         .btn i { font-size: 0.75rem; }
         
-        /* Cores dos Botões por Categoria */
         .cat-movie:hover { border-color: var(--color-movies); }
         .cat-movie .btn-watch { background: var(--color-movies); border-color: transparent; }
-        .cat-movie .btn-watch:hover { background: #ff8c5a; }
-
+        
         .cat-series:hover { border-color: var(--color-series); }
         .cat-series .btn-watch { background: var(--color-series); border-color: transparent; }
-        .cat-series .btn-watch:hover { background: #6fc3ff; }
-
+        
         .cat-special:hover { border-color: var(--color-specials); }
         .cat-special .btn-watch { background: var(--color-specials); border-color: transparent; }
-        .cat-special .btn-watch:hover { background: #be7ff0; }
 
         .cat-comix:hover { border-color: var(--color-comix); }
         .cat-comix .btn-read { background: var(--color-comix); border-color: transparent; }
-        .cat-comix .btn-read:hover { background: #4ae89d; }
         
         /* --- AJUSTE MOBILE --- */
         @media (max-width: 768px) {
             :root { --card-width: 125px; }
-            header { height: 50vh; min-height: 300px; padding-top: 60px; }
+            header { min-height: 300px; padding-top: 70px; }
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; padding: 10px; }
+            .view-mode-selector { padding: 10px; border-radius: 20px; }
+            .mode-btn { padding: 8px 15px; font-size: 0.8rem; }
+
             .section-title {
-                font-size: 1.2rem;
-                border-left: none;
+                font-size: 1.2rem; border-left: none;
                 border-bottom: 2px solid var(--color-movies);
-                padding-left: 0;
-                padding-bottom: 5px;
-                margin-bottom: 15px;
-                width: 100%;
-                text-align: center;
+                padding-left: 0; padding-bottom: 5px; margin-bottom: 15px;
+                width: 100%; text-align: center;
             }
             #filmes .section-title { border-color: var(--color-movies); }
             #series .section-title { border-color: var(--color-series); }
             #especiais .section-title { border-color: var(--color-specials); }
             #comix .section-title { border-color: var(--color-comix); }
 
-            .card-overlay {
-                opacity: 1; 
-                position: absolute; 
-                background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent);
-                padding-top: 30px;
-            }
+            .card-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent); padding-top: 30px; }
             .card-title { font-size: 0.75rem; margin-bottom: 5px; }
             .btn { padding: 5px 2px; font-size: 0.6rem; border-radius: 3px; }
             .settings-panel { width: 260px; }
         }
 
         /* --- RODAPÉ --- */
-        footer {
-            background: rgba(10, 10, 10, 0.95);
-            border-top: 1px solid var(--border-color);
-            padding: 40px 20px;
-            text-align: center;
-            margin-top: 60px;
-        }
+        footer { background: rgba(10, 10, 10, 0.95); border-top: 1px solid var(--border-color); padding: 40px 20px; text-align: center; margin-top: 60px; }
         .footer-content { max-width: 800px; margin: 0 auto; }
         .footer-logo { width: 80px; margin-bottom: 20px; opacity: 0.6; filter: grayscale(100%); }
         .footer-text { color: #666; font-size: 0.9rem; margin-bottom: 15px; }
@@ -339,114 +325,56 @@
         }
         .scroll-top-btn.visible { opacity: 1; visibility: visible; }
 
-        /* --- MODAL MELHORADO --- */
+        /* --- MODAL --- */
         .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
         
         .modal-content { 
             background: linear-gradient(160deg, #1a1a1a, #0d0d0d); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 16px; 
-            width: 100%; 
-            max-width: 550px; 
-            padding: 25px; 
-            text-align: center; 
-            position: relative; 
-            max-height: 85vh; 
-            overflow-y: hidden; /* Scroll será na lista */
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; 
+            width: 100%; max-width: 550px; padding: 25px; text-align: center; 
+            position: relative; max-height: 90vh; overflow-y: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
         
-        .modal-title { 
-            font-family: 'Cinzel', serif; 
-            font-size: 1.5rem; 
-            margin-bottom: 25px; 
-            color: white; 
-            text-shadow: 0 0 10px rgba(79, 172, 254, 0.3);
-        }
+        .modal-title { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 25px; color: white; text-shadow: 0 0 10px rgba(79, 172, 254, 0.3); }
 
-        /* BOTÃO FECHAR MELHORADO */
         .close-btn { 
-            position: absolute; 
-            top: 15px; 
-            right: 15px; 
-            width: 40px; 
-            height: 40px; 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50%; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px; 
-            color: #888; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            z-index: 10;
+            position: absolute; top: 15px; right: 15px; width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: #888; cursor: pointer; transition: 0.3s; z-index: 10;
         }
-        .close-btn:hover { 
-            background: #ff4d4d; 
-            border-color: #ff4d4d;
-            color: white; 
-            transform: rotate(90deg);
-            box-shadow: 0 0 15px rgba(255, 77, 77, 0.4);
-        }
+        .close-btn:hover { background: #ff4d4d; border-color: #ff4d4d; color: white; transform: rotate(90deg); }
 
         .series-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
         .series-tab-btn { 
-            background: transparent; 
-            border: 1px solid #444; 
-            color: #aaa; 
-            padding: 8px 20px; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            transition: all 0.3s;
+            background: transparent; border: 1px solid #444; color: #aaa;
+            padding: 8px 20px; border-radius: 20px; cursor: pointer;
+            font-family: 'Cinzel', serif; font-size: 0.9rem; transition: all 0.3s;
         }
         .series-tab-btn:hover { border-color: #777; color: #fff; }
-        .series-tab-btn.active { 
-            background: var(--color-series); 
-            border-color: transparent; 
-            color: white; 
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(79, 172, 254, 0.4);
-        }
+        .series-tab-btn.active { background: var(--color-series); border-color: transparent; color: white; font-weight: bold; }
         
-        .episode-list-modal { 
-            display: grid; 
-            gap: 10px; 
-            text-align: left; 
-            max-height: 45vh; 
-            overflow-y: auto; 
-            padding-right: 10px; 
-        }
+        .episode-list-modal { display: grid; gap: 10px; text-align: left; max-height: 50vh; overflow-y: auto; padding-right: 10px; }
 
-        /* Estilo dos episódios no modal */
         .episode-item { 
-            background: rgba(255, 255, 255, 0.03); 
-            padding: 12px 15px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.03); padding: 12px 15px; border-radius: 8px;
+            cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent;
         }
-        .episode-item:hover { 
-            background: rgba(79, 172, 254, 0.15); 
-            border-color: var(--color-series);
-            transform: translateX(5px);
-        }
+        .episode-item:hover { background: rgba(79, 172, 254, 0.15); border-color: var(--color-series); transform: translateX(5px); }
         .episode-item span { font-size: 0.95rem; color: #ddd; }
-        .episode-item i { color: var(--color-series); font-size: 1.1rem; transition: 0.2s; }
-        .episode-item:hover i { transform: scale(1.2); }
+        .episode-item i { color: var(--color-series); font-size: 1.1rem; }
 
-        /* Scrollbar do Modal */
-        .episode-list-modal::-webkit-scrollbar { width: 6px; }
-        .episode-list-modal::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 10px; }
-        .episode-list-modal::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
-        .episode-list-modal::-webkit-scrollbar-thumb:hover { background: #666; }
+        /* --- PLAYER DE VÍDEO --- */
+        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 8px; margin-bottom: 20px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        .btn-back-list {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 20px;
+            color: #ccc; font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s; border: 1px solid #444;
+        }
+        .btn-back-list:hover { background: rgba(255,255,255,0.2); color: #fff; border-color: #666; }
 
     </style>
 </head>
@@ -504,6 +432,16 @@
         <div>
             <h1>Reino dos Dragões</h1>
             <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk.</p>
+            
+            <!-- SELETOR DE MODO -->
+            <div class="view-mode-selector">
+                <button id="btnModeDrive" class="mode-btn active" onclick="setWatchMode('drive')">
+                    <i class="fab fa-google-drive"></i> Google Drive
+                </button>
+                <button id="btnModeEmbed" class="mode-btn" onclick="setWatchMode('embed')">
+                    <i class="fas fa-play-circle"></i> Player do Site
+                </button>
+            </div>
         </div>
     </header>
 
@@ -549,7 +487,7 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Modal Principal (Episódios) -->
+    <!-- Modal Principal -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -562,7 +500,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             
             // ==========================================================
-            // ÁREA DE CONFIGURAÇÃO DAS IMAGENS E LINKS
+            // CONFIGURAÇÃO GLOBAL
+            // ==========================================================
+            window.watchMode = 'drive'; // Padrão: 'drive' ou 'embed'
+
+            window.setWatchMode = (mode) => {
+                window.watchMode = mode;
+                document.getElementById('btnModeDrive').classList.toggle('active', mode === 'drive');
+                document.getElementById('btnModeEmbed').classList.toggle('active', mode === 'embed');
+            };
+
+            // ==========================================================
+            // ÁREA DE CONFIGURAÇÃO DAS IMAGENS
             // ==========================================================
 
             const moviesData = [
@@ -578,11 +527,9 @@
                 { id: "defenders", title: "Defensores de Berk", img: "defensores.webp" }
             ];
 
+            // Especiais sem link foram removidos conforme solicitado
             const specialsData = [
                 { id: "esp_1", title: "O Presente do Furia da Noite", img: "presente.webp" },
-                { id: "esp_2", title: "O Livro dos Dragões", img: "https://m.media-amazon.com/images/M/MV5BMTE0MjYzNDMtZDJmMS00ODg2LWI0NTMtNjk0OTQxNTJiYWEzXkEyXkFqcGc@._V1_.jpg" },
-                { id: "esp_3", title: "A Aurora dos Corredores", img: "https://i.redd.it/ppzr217h3izd1.jpeg" },
-                { id: "esp_4", title: "Lenda do Dragão Ósseo", img: "https://image.tmdb.org/t/p/w500/74OqO31AaubZGgreiHIomFyOXUx.jpg" },
                 { id: "esp_5", title: "Volta ao Lar", img: "https://m.media-amazon.com/images/M/MV5BMTQ4NjRjNjEtMWRlMS00NTA3LTk5NzUtNDE0NjVkOTFlYmM2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
             ];
 
@@ -594,245 +541,186 @@
             ];
 
             // ==========================================
-            // LINKS DE ACESSO
+            // LINKS DE ACESSO (EDITE AQUI)
             // ==========================================
+            // drive: Link do Google Drive (abre em nova aba)
+            // embed: Link do Player (Fembed, etc) para assistir no site
+            
             const mediaLinks = {
                 // --- FILMES ---
-                "filme_1": { assistir: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk" },
-                "filme_2": { assistir: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk" },
-                "filme_3": { assistir: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk" },
-                "filme_live_action": { assistir: "https://drive.google.com/file/d/18IueeEx5pTfcMhPhqYAqH5iuRJWQBYgz/view?usp=drivesdk" },
+                "filme_1": { drive: "https://drive.google.com/file/d/1kQWrpwCrmTOAnYbq6q20l4CFxCuXdKbu/view?usp=drivesdk", embed: "" },
+                "filme_2": { drive: "https://drive.google.com/file/d/182H7kTeLmLgOzQWP_oZsNR3JCFE6op99/view?usp=drivesdk", embed: "" },
+                "filme_3": { drive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", embed: "" },
+                "filme_live_action": { drive: "https://drive.google.com/file/d/18IueeEx5pTfcMhPhqYAqH5iuRJWQBYgz/view?usp=drivesdk", embed: "" },
                 
-                // --- ESPECIAIS ---
-                "esp_1": { assistir: "https://drive.google.com/file/d/1TyIWCjlQcbpWyRhslpwYr0YCKKmXDEFL/view?usp=drivesdk" },
-                "esp_2": { assistir: "#" },
-                "esp_3": { assistir: "#" },
-                "esp_4": { assistir: "#" },
-                "esp_5": { assistir: "https://drive.google.com/file/d/1Wpgz3cbFPt5JjRll6tDcTiNWEiUMit2r/view?usp=drivesdk" }, 
+                // --- ESPECIAIS (Restantes) ---
+                "esp_1": { drive: "https://drive.google.com/file/d/1TyIWCjlQcbpWyRhslpwYr0YCKKmXDEFL/view?usp=drivesdk", embed: "" },
+                "esp_5": { drive: "https://drive.google.com/file/d/1Wpgz3cbFPt5JjRll6tDcTiNWEiUMit2r/view?usp=drivesdk", embed: "" }, 
 
-                // --- COMIX ---
-                "comic_1": { ler: "https://drive.google.com/file/d/1le69wyVpbHsDpp-EwamedHBebvM_iC0N/view?usp=drivesdk" },
-                "comic_2": { ler: "https://drive.google.com/file/d/11mMglXh0ylzwbJU6w5KNbHfTJCfK_gHF/view?usp=drivesdk" },
-                "comic_5": { ler: "https://drive.google.com/file/d/1dh8_eXz-et10TqEa4XSaZ8YKqvnalfei/view?usp=drivesdk" },
-                "comic_6": { ler: "https://drive.google.com/file/d/1Kdn0iVLPovmrrFs3e2GKNcwBb8BhX1uT/view?usp=drivesdk" },
+                // --- COMIX (Apenas Leitura/Drive) ---
+                "comic_1": { drive: "https://drive.google.com/file/d/1le69wyVpbHsDpp-EwamedHBebvM_iC0N/view?usp=drivesdk" },
+                "comic_2": { drive: "https://drive.google.com/file/d/11mMglXh0ylzwbJU6w5KNbHfTJCfK_gHF/view?usp=drivesdk" },
+                "comic_5": { drive: "https://drive.google.com/file/d/1dh8_eXz-et10TqEa4XSaZ8YKqvnalfei/view?usp=drivesdk" },
+                "comic_6": { drive: "https://drive.google.com/file/d/1Kdn0iVLPovmrrFs3e2GKNcwBb8BhX1uT/view?usp=drivesdk" },
 
                 // ==========================================
-                // CORRIDA ATÉ O LIMITE (RACE TO THE EDGE)
+                // --- LINKS DO PLAYER INTERNO (EMBED) ---
+                // COLE AQUI OS LINKS DO FEMBED/PLAYER
                 // ==========================================
+
+                // CORRIDA ATÉ O LIMITE
                 // Temporada 1
-                "T1_EP1": { assistir: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk" },
-                "T1_EP2": { assistir: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk" },
-                "T1_EP3": { assistir: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk" },
-                "T1_EP4": { assistir: "https://drive.google.com/file/d/18HknyA_0cncwQ4q708CADy5gnbKNq7rk/view?usp=drivesdk" },
-                "T1_EP5": { assistir: "https://drive.google.com/file/d/1uKngefJb1uHofnzQk9iffcKlud6ab90b/view?usp=drivesdk" },
-                "T1_EP6": { assistir: "https://drive.google.com/file/d/1NVW6hAOzMF6cOCXuHkCG0ylJO9qmU_iG/view?usp=drivesdk" },
-                "T1_EP7": { assistir: "https://drive.google.com/file/d/1yRhEsKHElOPlR4XEwoF3NR6T1eoA8YB1/view?usp=drivesdk" },
-                "T1_EP8": { assistir: "https://drive.google.com/file/d/1mg2nRmgGDAEusUsmnXVR76X5FfJOoFlq/view?usp=drivesdk" },
-                "T1_EP9": { assistir: "https://drive.google.com/file/d/1drl2h8tFCiT6CfULDjWQgF9286JgD6vU/view?usp=drivesdk" },
-                "T1_EP10": { assistir: "https://drive.google.com/file/d/13jnUxJ8Kygw0E8Qj2fSx8zXmGEtr9gZ-/view?usp=drivesdk" },
-                "T1_EP11": { assistir: "https://drive.google.com/file/d/1ID2zqlLsQN3EQf1SKEAflKNk-LHChu3C/view?usp=drivesdk" },
-                "T1_EP12": { assistir: "https://drive.google.com/file/d/1CoWc9QvqbBw-gjCC8pghvSch-AAuvC0l/view?usp=drivesdk" },
-                "T1_EP13": { assistir: "https://drive.google.com/file/d/16sUpRatSfVHdgOIOTy2qpxKSIsSskvwb/view?usp=drivesdk" },
+                "T1_EP1": { drive: "https://drive.google.com/file/d/19msL3rKVXfJn1PYGoP8AlQBYIdH8ybRN/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-1" },
+                "T1_EP2": { drive: "https://drive.google.com/file/d/1986_LpWFOjVQ4-jmAczStC6mlrDHeVBO/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-2" },
+                "T1_EP3": { drive: "https://drive.google.com/file/d/1GXrfeyYKq9gqSBwa6zCFhNubrnKlhdbg/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-3" },
+                "T1_EP4": { drive: "https://drive.google.com/file/d/18HknyA_0cncwQ4q708CADy5gnbKNq7rk/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-4" },
+                "T1_EP5": { drive: "https://drive.google.com/file/d/1uKngefJb1uHofnzQk9iffcKlud6ab90b/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-5" },
+                "T1_EP6": { drive: "https://drive.google.com/file/d/1NVW6hAOzMF6cOCXuHkCG0ylJO9qmU_iG/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-6" },
+                "T1_EP7": { drive: "https://drive.google.com/file/d/1yRhEsKHElOPlR4XEwoF3NR6T1eoA8YB1/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-7" },
+                "T1_EP8": { drive: "https://drive.google.com/file/d/1mg2nRmgGDAEusUsmnXVR76X5FfJOoFlq/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-8" },
+                "T1_EP9": { drive: "https://drive.google.com/file/d/1drl2h8tFCiT6CfULDjWQgF9286JgD6vU/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-9" },
+                "T1_EP10": { drive: "https://drive.google.com/file/d/13jnUxJ8Kygw0E8Qj2fSx8zXmGEtr9gZ-/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-10" },
+                "T1_EP11": { drive: "https://drive.google.com/file/d/1ID2zqlLsQN3EQf1SKEAflKNk-LHChu3C/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-11" },
+                "T1_EP12": { drive: "https://drive.google.com/file/d/1CoWc9QvqbBw-gjCC8pghvSch-AAuvC0l/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-12" },
+                "T1_EP13": { drive: "https://drive.google.com/file/d/16sUpRatSfVHdgOIOTy2qpxKSIsSskvwb/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/1-13" },
                 
                 // Temporada 2
-                "T2_EP1": { assistir: "https://drive.google.com/file/d/1Zx4UFcskVKoCxKZ_wrJWhvZ2d3Qoi5aC/view?usp=drivesdk" },
-                "T2_EP2": { assistir: "https://drive.google.com/file/d/1SO4jAEcDLv4hRUYs4l8ZuxcsZHIO863L/view?usp=drivesdk" },
-                "T2_EP3": { assistir: "https://drive.google.com/file/d/1NHUjUMb0GF7VswdkTGUCWBiypKbBecWA/view?usp=drivesdk" },
-                "T2_EP4": { assistir: "https://drive.google.com/file/d/13693wZ8tsC_-DkhMitAzvBCzhwMVq36H/view?usp=drivesdk" },
-                "T2_EP5": { assistir: "https://drive.google.com/file/d/1Y65JLQKmjcC2PJSLG-47hmAiFSy2b3la/view?usp=drivesdk" },
-                "T2_EP6": { assistir: "https://drive.google.com/file/d/1IKvDQPJtfxG2LJaZ81DuOmRfDDl9Y22S/view?usp=drivesdk" },
-                "T2_EP7": { assistir: "https://drive.google.com/file/d/1s3LY6FP4eo-Xy15IYZs4uwLE9M0dOGkx/view?usp=drivesdk" },
-                "T2_EP8": { assistir: "https://drive.google.com/file/d/1WvUDxG_SLBL0P8icGOXeRyO-cmVsHjRi/view?usp=drivesdk" },
-                "T2_EP9": { assistir: "https://drive.google.com/file/d/1l-RE8rhPbxZl1gHm3V-iXWR3lZ5tOxzv/view?usp=drivesdk" },
-                "T2_EP10": { assistir: "https://drive.google.com/file/d/1Pwh_vbsFezUo02V8g10uX3HIwrMUsnFC/view?usp=drivesdk" },
-                "T2_EP11": { assistir: "https://drive.google.com/file/d/1-FNgoarUGjXLtU-BMLv07l-Fpmqj9hSX/view?usp=drivesdk" },
-                "T2_EP12": { assistir: "https://drive.google.com/file/d/1kb9g4sOONpB8QDAl929t38Yqctq9VN55/view?usp=drivesdk" },
-                "T2_EP13": { assistir: "https://drive.google.com/file/d/1BR--8Gg9LrALc-5KNVBKcTK-oQ4tt9M9/view?usp=drivesdk" },
+                "T2_EP1": { drive: "https://drive.google.com/file/d/1Zx4UFcskVKoCxKZ_wrJWhvZ2d3Qoi5aC/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-1" },
+                "T2_EP2": { drive: "https://drive.google.com/file/d/1SO4jAEcDLv4hRUYs4l8ZuxcsZHIO863L/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-2" },
+                "T2_EP3": { drive: "https://drive.google.com/file/d/1NHUjUMb0GF7VswdkTGUCWBiypKbBecWA/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-3" },
+                "T2_EP4": { drive: "https://drive.google.com/file/d/13693wZ8tsC_-DkhMitAzvBCzhwMVq36H/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-4" },
+                "T2_EP5": { drive: "https://drive.google.com/file/d/1Y65JLQKmjcC2PJSLG-47hmAiFSy2b3la/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-5" },
+                "T2_EP6": { drive: "https://drive.google.com/file/d/1IKvDQPJtfxG2LJaZ81DuOmRfDDl9Y22S/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-6" },
+                "T2_EP7": { drive: "https://drive.google.com/file/d/1s3LY6FP4eo-Xy15IYZs4uwLE9M0dOGkx/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-7" },
+                "T2_EP8": { drive: "https://drive.google.com/file/d/1WvUDxG_SLBL0P8icGOXeRyO-cmVsHjRi/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-8" },
+                "T2_EP9": { drive: "https://drive.google.com/file/d/1l-RE8rhPbxZl1gHm3V-iXWR3lZ5tOxzv/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-9" },
+                "T2_EP10": { drive: "https://drive.google.com/file/d/1Pwh_vbsFezUo02V8g10uX3HIwrMUsnFC/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-10" },
+                "T2_EP11": { drive: "https://drive.google.com/file/d/1-FNgoarUGjXLtU-BMLv07l-Fpmqj9hSX/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-11" },
+                "T2_EP12": { drive: "https://drive.google.com/file/d/1kb9g4sOONpB8QDAl929t38Yqctq9VN55/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-12" },
+                "T2_EP13": { drive: "https://drive.google.com/file/d/1BR--8Gg9LrALc-5KNVBKcTK-oQ4tt9M9/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/2-13" },
                 
                 // Temporada 3
-                "T3_EP1": { assistir: "https://drive.google.com/file/d/1G7T_VnfGIWogMY0RAQp7rh1ri5h10aJ9/view?usp=drivesdk" },
-                "T3_EP2": { assistir: "https://drive.google.com/file/d/1gziJ9VmyhZV5wv8IK4oXTg_jnVmJsAWm/view?usp=drivesdk" },
-                "T3_EP3": { assistir: "https://drive.google.com/file/d/1X4q4fmM0pFRrqhsi7eW7nxfrOYS8I5jX/view?usp=drivesdk" },
-                "T3_EP4": { assistir: "https://drive.google.com/file/d/18IzIOKeVEx63VrHMaisaUNec0Uk-zdq3/view?usp=drivesdk" },
-                "T3_EP5": { assistir: "https://drive.google.com/file/d/19taHhNE4gy_l5HbcC2M7u12HzEbQjKIX/view?usp=drivesdk" },
-                "T3_EP6": { assistir: "https://drive.google.com/file/d/1MpiYAHFREfCYNvLFUk7SRW1GgZHfUKld/view?usp=drivesdk" },
-                "T3_EP7": { assistir: "https://drive.google.com/file/d/1TolOwq0CN5QFG3ab_tve1gjBBcaNnawO/view?usp=drivesdk" },
-                "T3_EP8": { assistir: "https://drive.google.com/file/d/17OxrcowNeMnHCxoJyF6ggzbm0_NIOGuY/view?usp=drivesdk" },
-                "T3_EP9": { assistir: "https://drive.google.com/file/d/1Uuiuo2emeYps13kjMxtLcRSZr2epKqgh/view?usp=drivesdk" },
-                "T3_EP10": { assistir: "https://drive.google.com/file/d/1Jaf2Sip0Up0a_niCDBM-pnmmhGUIP0he/view?usp=drivesdk" },
-                "T3_EP11": { assistir: "https://drive.google.com/file/d/1N8L7jrUzM3TZKOe3RgG07O_u6SKnwwoD/view?usp=drivesdk" },
-                "T3_EP12": { assistir: "https://drive.google.com/file/d/1KxpbSEVTVNqFQEE15dgiCaD7z7PTva9F/view?usp=drivesdk" },
-                "T3_EP13": { assistir: "https://drive.google.com/file/d/19vjiUDQbYgzuD9-0ummDgYEoaDYXRIjv/view?usp=drivesdk" },
+                "T3_EP1": { drive: "https://drive.google.com/file/d/1G7T_VnfGIWogMY0RAQp7rh1ri5h10aJ9/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-1" },
+                "T3_EP2": { drive: "https://drive.google.com/file/d/1gziJ9VmyhZV5wv8IK4oXTg_jnVmJsAWm/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-2" },
+                "T3_EP3": { drive: "https://drive.google.com/file/d/1X4q4fmM0pFRrqhsi7eW7nxfrOYS8I5jX/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-3" },
+                "T3_EP4": { drive: "https://drive.google.com/file/d/18IzIOKeVEx63VrHMaisaUNec0Uk-zdq3/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-4" },
+                "T3_EP5": { drive: "https://drive.google.com/file/d/19taHhNE4gy_l5HbcC2M7u12HzEbQjKIX/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-5" },
+                "T3_EP6": { drive: "https://drive.google.com/file/d/1MpiYAHFREfCYNvLFUk7SRW1GgZHfUKld/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-6" },
+                "T3_EP7": { drive: "https://drive.google.com/file/d/1TolOwq0CN5QFG3ab_tve1gjBBcaNnawO/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-7" },
+                "T3_EP8": { drive: "https://drive.google.com/file/d/17OxrcowNeMnHCxoJyF6ggzbm0_NIOGuY/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-8" },
+                "T3_EP9": { drive: "https://drive.google.com/file/d/1Uuiuo2emeYps13kjMxtLcRSZr2epKqgh/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-9" },
+                "T3_EP10": { drive: "https://drive.google.com/file/d/1Jaf2Sip0Up0a_niCDBM-pnmmhGUIP0he/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-10" },
+                "T3_EP11": { drive: "https://drive.google.com/file/d/1N8L7jrUzM3TZKOe3RgG07O_u6SKnwwoD/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-11" },
+                "T3_EP12": { drive: "https://drive.google.com/file/d/1KxpbSEVTVNqFQEE15dgiCaD7z7PTva9F/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-12" },
+                "T3_EP13": { drive: "https://drive.google.com/file/d/19vjiUDQbYgzuD9-0ummDgYEoaDYXRIjv/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/3-13" },
 
                 // Temporada 4
-                "T4_EP1": { assistir: "https://drive.google.com/file/d/1L99eMhzlCmfSJeB8W9j1b7aAyT3pr_w-/view?usp=drivesdk" },
-                "T4_EP2": { assistir: "https://drive.google.com/file/d/1lYn-gEb4VI7BFjWoAi8PHufZT8vOAB0O/view?usp=drivesdk" },
-                "T4_EP3": { assistir: "https://drive.google.com/file/d/1mh9baCCaL-o1CNNdA_8bYX6ORF3CqZpF/view?usp=drivesdk" },
-                "T4_EP4": { assistir: "https://drive.google.com/file/d/1KQFS6RMX-vka3AwjDU_DnxWWwtzP0h9T/view?usp=drivesdk" },
-                "T4_EP5": { assistir: "https://drive.google.com/file/d/1nlSjUjahzg6Z0UK3RB0NMDtvmgq7mKrl/view?usp=drivesdk" },
-                "T4_EP6": { assistir: "https://drive.google.com/file/d/1X68FzIUocR4K0PxCh3r9e7cQTvgwMIZV/view?usp=drivesdk" },
-                "T4_EP7": { assistir: "https://drive.google.com/file/d/1LM9VFKtsum4MfvBSIthqR7mQLtN414ql/view?usp=drivesdk" },
-                "T4_EP8": { assistir: "https://drive.google.com/file/d/1PlBphUgdpL2m-d0XrWa43DBW877undRF/view?usp=drivesdk" },
-                "T4_EP9": { assistir: "https://drive.google.com/file/d/165COEjh49LqOsptkYBtMN2k-pKY2rPzF/view?usp=drivesdk" },
-                "T4_EP10": { assistir: "https://drive.google.com/file/d/1J2E_QXJgo5Z6zaKF4z2W60hs23LNYm8D/view?usp=drivesdk" },
-                "T4_EP11": { assistir: "https://drive.google.com/file/d/1V42YDPzCnyu7N6lnA_ySKTOkHsauAsX3/view?usp=drivesdk" },
-                "T4_EP12": { assistir: "https://drive.google.com/file/d/1zth1s8HuY9Vjm9yWmLP1xh9gBV4C58gC/view?usp=drivesdk" },
-                "T4_EP13": { assistir: "https://drive.google.com/file/d/1nkZVB1tOOCha2BA8-ItxeAcLycJdAuS-/view?usp=drivesdk" },
+                "T4_EP1": { drive: "https://drive.google.com/file/d/1L99eMhzlCmfSJeB8W9j1b7aAyT3pr_w-/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-1" },
+                "T4_EP2": { drive: "https://drive.google.com/file/d/1lYn-gEb4VI7BFjWoAi8PHufZT8vOAB0O/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-2" },
+                "T4_EP3": { drive: "https://drive.google.com/file/d/1mh9baCCaL-o1CNNdA_8bYX6ORF3CqZpF/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-3" },
+                "T4_EP4": { drive: "https://drive.google.com/file/d/1KQFS6RMX-vka3AwjDU_DnxWWwtzP0h9T/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-4" },
+                "T4_EP5": { drive: "https://drive.google.com/file/d/1nlSjUjahzg6Z0UK3RB0NMDtvmgq7mKrl/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-5" },
+                "T4_EP6": { drive: "https://drive.google.com/file/d/1X68FzIUocR4K0PxCh3r9e7cQTvgwMIZV/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-6" },
+                "T4_EP7": { drive: "https://drive.google.com/file/d/1LM9VFKtsum4MfvBSIthqR7mQLtN414ql/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-7" },
+                "T4_EP8": { drive: "https://drive.google.com/file/d/1PlBphUgdpL2m-d0XrWa43DBW877undRF/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-8" },
+                "T4_EP9": { drive: "https://drive.google.com/file/d/165COEjh49LqOsptkYBtMN2k-pKY2rPzF/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-9" },
+                "T4_EP10": { drive: "https://drive.google.com/file/d/1J2E_QXJgo5Z6zaKF4z2W60hs23LNYm8D/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-10" },
+                "T4_EP11": { drive: "https://drive.google.com/file/d/1V42YDPzCnyu7N6lnA_ySKTOkHsauAsX3/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-11" },
+                "T4_EP12": { drive: "https://drive.google.com/file/d/1zth1s8HuY9Vjm9yWmLP1xh9gBV4C58gC/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-12" },
+                "T4_EP13": { drive: "https://drive.google.com/file/d/1nkZVB1tOOCha2BA8-ItxeAcLycJdAuS-/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/4-13" },
 
                 // Temporada 5
-                "T5_EP1": { assistir: "https://drive.google.com/file/d/1AtTUYntno-7E6T8e9xNWWJjaKMGhiYaA/view?usp=drivesdk" },
-                "T5_EP2": { assistir: "https://drive.google.com/file/d/1ley8vtuKnMvVekFk931-dCxOujXV4kvh/view?usp=drivesdk" },
-                "T5_EP3": { assistir: "https://drive.google.com/file/d/1uDjnzbBw0g0Igl8SFiwI-OzJWYnIlRVy/view?usp=drivesdk" },
-                "T5_EP4": { assistir: "https://drive.google.com/file/d/1JLhOwaXJ0WDASODV-cCr2C_-jWAs8Ksv/view?usp=drivesdk" },
-                "T5_EP5": { assistir: "https://drive.google.com/file/d/1lgOWkx60W_gktOaJlqOFfCPQ7QE9Y-A-/view?usp=drivesdk" },
-                "T5_EP6": { assistir: "https://drive.google.com/file/d/1o7_LIotgz37__Rgzw9QmSiUCXvpbwYGW/view?usp=drivesdk" },
-                "T5_EP7": { assistir: "https://drive.google.com/file/d/1MN5YhtUkJeat6pHyJXPe2-vUi3PY2pLp/view?usp=drivesdk" },
-                "T5_EP8": { assistir: "https://drive.google.com/file/d/1YFb2He0d1aA2gXAoPvyjm6pgBK6EJkQn/view?usp=drivesdk" },
-                "T5_EP9": { assistir: "https://drive.google.com/file/d/1m8AkE9hA8jL5OFq6o9KcArsujN9endlU/view?usp=drivesdk" },
-                "T5_EP10": { assistir: "https://drive.google.com/file/d/1WL2jwfEc-DCGu7m-9mIi1oH8RTany_GE/view?usp=drivesdk" },
-                "T5_EP11": { assistir: "https://drive.google.com/file/d/1LH04rSETWxYWzsIuMF5UnngYGcdtermu/view?usp=drivesdk" },
-                "T5_EP12": { assistir: "https://drive.google.com/file/d/1_Xk3UjbhUBGtFmDno5QJhE2fovrIhJzv/view?usp=drivesdk" },
-                "T5_EP13": { assistir: "https://drive.google.com/file/d/1E4Iu4QwGfZkwxN5MtcxWt6nrZ98PPXYe/view?usp=drivesdk" },
+                "T5_EP1": { drive: "https://drive.google.com/file/d/1AtTUYntno-7E6T8e9xNWWJjaKMGhiYaA/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-1" },
+                "T5_EP2": { drive: "https://drive.google.com/file/d/1ley8vtuKnMvVekFk931-dCxOujXV4kvh/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-2" },
+                "T5_EP3": { drive: "https://drive.google.com/file/d/1uDjnzbBw0g0Igl8SFiwI-OzJWYnIlRVy/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-3" },
+                "T5_EP4": { drive: "https://drive.google.com/file/d/1JLhOwaXJ0WDASODV-cCr2C_-jWAs8Ksv/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-4" },
+                "T5_EP5": { drive: "https://drive.google.com/file/d/1lgOWkx60W_gktOaJlqOFfCPQ7QE9Y-A-/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-5" },
+                "T5_EP6": { drive: "https://drive.google.com/file/d/1o7_LIotgz37__Rgzw9QmSiUCXvpbwYGW/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-6" },
+                "T5_EP7": { drive: "https://drive.google.com/file/d/1MN5YhtUkJeat6pHyJXPe2-vUi3PY2pLp/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-7" },
+                "T5_EP8": { drive: "https://drive.google.com/file/d/1YFb2He0d1aA2gXAoPvyjm6pgBK6EJkQn/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-8" },
+                "T5_EP9": { drive: "https://drive.google.com/file/d/1m8AkE9hA8jL5OFq6o9KcArsujN9endlU/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-9" },
+                "T5_EP10": { drive: "https://drive.google.com/file/d/1WL2jwfEc-DCGu7m-9mIi1oH8RTany_GE/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-10" },
+                "T5_EP11": { drive: "https://drive.google.com/file/d/1LH04rSETWxYWzsIuMF5UnngYGcdtermu/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-11" },
+                "T5_EP12": { drive: "https://drive.google.com/file/d/1_Xk3UjbhUBGtFmDno5QJhE2fovrIhJzv/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-12" },
+                "T5_EP13": { drive: "https://drive.google.com/file/d/1E4Iu4QwGfZkwxN5MtcxWt6nrZ98PPXYe/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/5-13" },
 
                 // Temporada 6
-                "T6_EP1": { assistir: "https://drive.google.com/file/d/1x7tepEYPG0n2alwjz-Tw76mOq4tdrHjG/view?usp=drivesdk" },
-                "T6_EP2": { assistir: "https://drive.google.com/file/d/1nC5WNjhmOph282JUbkBmnS9Xv4q5PSOe/view?usp=drivesdk" },
-                "T6_EP3": { assistir: "https://drive.google.com/file/d/1BLMHfiYdq-MxwCrJC9uIa7ncY6l7-9re/view?usp=drivesdk" },
-                "T6_EP4": { assistir: "https://drive.google.com/file/d/1dCWsTNlNpocmFBGA360ua9_S47FDQ4_q/view?usp=drivesdk" },
-                "T6_EP5": { assistir: "https://drive.google.com/file/d/1UPddnMruNx7-YRbzRpFcQv5pOi89TvBv/view?usp=drivesdk" },
-                "T6_EP6": { assistir: "https://drive.google.com/file/d/17ZGdVDlHeZc0Ig4tjaLK929fjbfgRb-S/view?usp=drivesdk" },
-                "T6_EP7": { assistir: "https://drive.google.com/file/d/1E3kb5rBs2VR1ay8GTFBSsIEZHhIn5lPm/view?usp=drivesdk" },
-                "T6_EP8": { assistir: "https://drive.google.com/file/d/15WqrS3jS0Ivdj8-9PDKMG9sR7w3zMw6s/view?usp=drivesdk" },
-                "T6_EP9": { assistir: "https://drive.google.com/file/d/1f6T6FEriSgwE1_GzT9EWZVvB74-mpKzx/view?usp=drivesdk" },
-                "T6_EP10": { assistir: "https://drive.google.com/file/d/12HIauRJb2l1FKiPnBnWKonj8zYucTfxB/view?usp=drivesdk" },
-                "T6_EP11": { assistir: "https://drive.google.com/file/d/1oxnVJI9NaJzQohlSpuWouktwbrEjYMWw/view?usp=drivesdk" },
-                "T6_EP12": { assistir: "https://drive.google.com/file/d/1eojtu2W4EOl-J9abO_alECxrN8hjDyqf/view?usp=drivesdk" },
-                "T6_EP13": { assistir: "https://drive.google.com/file/d/1dywF6JAHruOl192227bJTqtIVcKRp6HS/view?usp=drivesdk" },
+                "T6_EP1": { drive: "https://drive.google.com/file/d/1x7tepEYPG0n2alwjz-Tw76mOq4tdrHjG/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-1" },
+                "T6_EP2": { drive: "https://drive.google.com/file/d/1nC5WNjhmOph282JUbkBmnS9Xv4q5PSOe/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-2" },
+                "T6_EP3": { drive: "https://drive.google.com/file/d/1BLMHfiYdq-MxwCrJC9uIa7ncY6l7-9re/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-3" },
+                "T6_EP4": { drive: "https://drive.google.com/file/d/1dCWsTNlNpocmFBGA360ua9_S47FDQ4_q/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-4" },
+                "T6_EP5": { drive: "https://drive.google.com/file/d/1UPddnMruNx7-YRbzRpFcQv5pOi89TvBv/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-5" },
+                "T6_EP6": { drive: "https://drive.google.com/file/d/17ZGdVDlHeZc0Ig4tjaLK929fjbfgRb-S/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-6" },
+                "T6_EP7": { drive: "https://drive.google.com/file/d/1E3kb5rBs2VR1ay8GTFBSsIEZHhIn5lPm/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-7" },
+                "T6_EP8": { drive: "https://drive.google.com/file/d/15WqrS3jS0Ivdj8-9PDKMG9sR7w3zMw6s/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-8" },
+                "T6_EP9": { drive: "https://drive.google.com/file/d/1f6T6FEriSgwE1_GzT9EWZVvB74-mpKzx/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-9" },
+                "T6_EP10": { drive: "https://drive.google.com/file/d/12HIauRJb2l1FKiPnBnWKonj8zYucTfxB/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-10" },
+                "T6_EP11": { drive: "https://drive.google.com/file/d/1oxnVJI9NaJzQohlSpuWouktwbrEjYMWw/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-11" },
+                "T6_EP12": { drive: "https://drive.google.com/file/d/1eojtu2W4EOl-J9abO_alECxrN8hjDyqf/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-12" },
+                "T6_EP13": { drive: "https://drive.google.com/file/d/1dywF6JAHruOl192227bJTqtIVcKRp6HS/view?usp=drivesdk", embed: "https://fembed.sx/e/78173/6-13" },
 
-                // ==========================================
-                // PILOTOS DE BERK (RIDERS OF BERK)
-                // ==========================================
-                "riders_EP1": { assistir: "https://drive.google.com/file/d/1QEoLsoWwL5QNw459Xfg6hMWN9OV-_TMB/view?usp=drivesdk" },
-                "riders_EP2": { assistir: "https://drive.google.com/file/d/1cJLKNSL2_tZM9cTIaauZOhjE35IZiagv/view?usp=drivesdk" },
-                "riders_EP3": { assistir: "https://drive.google.com/file/d/1NpDuNkkxhRmumw1QuXe7hCRMBg_oTI47/view?usp=drivesdk" },
-                "riders_EP4": { assistir: "https://drive.google.com/file/d/113m_Tu0Jc8ZIQrrX60D7VqMemekMW1Wk/view?usp=drivesdk" },
-                "riders_EP5": { assistir: "https://drive.google.com/file/d/1xGq6rk2EWxKefS7rfGsfL5VXlYPXwUpA/view?usp=drivesdk" },
-                "riders_EP6": { assistir: "https://drive.google.com/file/d/10Pjj9I9st1yZV0rPh3WSw0XTHKUgl5MP/view?usp=drivesdk" },
-                "riders_EP7": { assistir: "https://drive.google.com/file/d/1Q48ATbHDn-VJvnODg5mxpv11B9Gh5qmz/view?usp=drivesdk" },
-                "riders_EP8": { assistir: "https://drive.google.com/file/d/1tfaaiNSI_7HccAjKBu1cXKri01pEUuNL/view?usp=drivesdk" },
-                "riders_EP9": { assistir: "https://drive.google.com/file/d/1JkNyJmhQRSvfnJeD_7RISrRTxqafvVCO/view?usp=drivesdk" },
-                "riders_EP10": { assistir: "https://drive.google.com/file/d/159ij0W40vdZb6NxODzRGP5YaV3p8nbvI/view?usp=drivesdk" },
-                "riders_EP11": { assistir: "https://drive.google.com/file/d/11nSkvGQTC0zxBPbjjIoG8Ou6nSjkF-nZ/view?usp=drivesdk" },
-                "riders_EP12": { assistir: "https://drive.google.com/file/d/1ClgWFFeutpj1Q_cfqWQSHxdBl56oyJfv/view?usp=drivesdk" },
-                "riders_EP13": { assistir: "https://drive.google.com/file/d/1v7MUkHxXuQlmXsAREKBQNaiuQowgG_Cu/view?usp=drivesdk" },
-                "riders_EP14": { assistir: "https://drive.google.com/file/d/1RQ6HcWTiVJyeqwJ7Sj5xs3GfrXPwGuGA/view?usp=drivesdk" },
-                "riders_EP15": { assistir: "https://drive.google.com/file/d/1tUVLhb5weKeVKI1vW_wgVhKSWQoPn-Jr/view?usp=drivesdk" },
-                "riders_EP16": { assistir: "https://drive.google.com/file/d/1ezy815dC0uj7RTA6Na6W3n3aRkQ-pe5r/view?usp=drivesdk" },
-                "riders_EP17": { assistir: "https://drive.google.com/file/d/1rR3rrqjvcS4cl5qkI74xjCESlkwXwGHC/view?usp=drivesdk" },
-                "riders_EP18": { assistir: "https://drive.google.com/file/d/1530BY2mWbLS_AT2dylyTumQPsxbJ3pe7/view?usp=drivesdk" },
-                "riders_EP19": { assistir: "https://drive.google.com/file/d/1mCxQhAGdS_Taej6nM_65R7PE_pFZkLD-/view?usp=drivesdk" },
-                "riders_EP20": { assistir: "https://drive.google.com/file/d/19OLYxGr6wshKvF0o6_DN9-d1XrgYT8AI/view?usp=drivesdk" },
+                // PILOTOS DE BERK
+                "riders_EP1": { drive: "https://drive.google.com/file/d/1QEoLsoWwL5QNw459Xfg6hMWN9OV-_TMB/view?usp=drivesdk", embed: "" },
+                "riders_EP2": { drive: "https://drive.google.com/file/d/1cJLKNSL2_tZM9cTIaauZOhjE35IZiagv/view?usp=drivesdk", embed: "" },
+                "riders_EP3": { drive: "https://drive.google.com/file/d/1NpDuNkkxhRmumw1QuXe7hCRMBg_oTI47/view?usp=drivesdk", embed: "" },
+                "riders_EP4": { drive: "https://drive.google.com/file/d/113m_Tu0Jc8ZIQrrX60D7VqMemekMW1Wk/view?usp=drivesdk", embed: "" },
+                "riders_EP5": { drive: "https://drive.google.com/file/d/1xGq6rk2EWxKefS7rfGsfL5VXlYPXwUpA/view?usp=drivesdk", embed: "" },
+                "riders_EP6": { drive: "https://drive.google.com/file/d/10Pjj9I9st1yZV0rPh3WSw0XTHKUgl5MP/view?usp=drivesdk", embed: "" },
+                "riders_EP7": { drive: "https://drive.google.com/file/d/1Q48ATbHDn-VJvnODg5mxpv11B9Gh5qmz/view?usp=drivesdk", embed: "" },
+                "riders_EP8": { drive: "https://drive.google.com/file/d/1tfaaiNSI_7HccAjKBu1cXKri01pEUuNL/view?usp=drivesdk", embed: "" },
+                "riders_EP9": { drive: "https://drive.google.com/file/d/1JkNyJmhQRSvfnJeD_7RISrRTxqafvVCO/view?usp=drivesdk", embed: "" },
+                "riders_EP10": { drive: "https://drive.google.com/file/d/159ij0W40vdZb6NxODzRGP5YaV3p8nbvI/view?usp=drivesdk", embed: "" },
+                "riders_EP11": { drive: "https://drive.google.com/file/d/11nSkvGQTC0zxBPbjjIoG8Ou6nSjkF-nZ/view?usp=drivesdk", embed: "" },
+                "riders_EP12": { drive: "https://drive.google.com/file/d/1ClgWFFeutpj1Q_cfqWQSHxdBl56oyJfv/view?usp=drivesdk", embed: "" },
+                "riders_EP13": { drive: "https://drive.google.com/file/d/1v7MUkHxXuQlmXsAREKBQNaiuQowgG_Cu/view?usp=drivesdk", embed: "" },
+                "riders_EP14": { drive: "https://drive.google.com/file/d/1RQ6HcWTiVJyeqwJ7Sj5xs3GfrXPwGuGA/view?usp=drivesdk", embed: "" },
+                "riders_EP15": { drive: "https://drive.google.com/file/d/1tUVLhb5weKeVKI1vW_wgVhKSWQoPn-Jr/view?usp=drivesdk", embed: "" },
+                "riders_EP16": { drive: "https://drive.google.com/file/d/1ezy815dC0uj7RTA6Na6W3n3aRkQ-pe5r/view?usp=drivesdk", embed: "" },
+                "riders_EP17": { drive: "https://drive.google.com/file/d/1rR3rrqjvcS4cl5qkI74xjCESlkwXwGHC/view?usp=drivesdk", embed: "" },
+                "riders_EP18": { drive: "https://drive.google.com/file/d/1530BY2mWbLS_AT2dylyTumQPsxbJ3pe7/view?usp=drivesdk", embed: "" },
+                "riders_EP19": { drive: "https://drive.google.com/file/d/1mCxQhAGdS_Taej6nM_65R7PE_pFZkLD-/view?usp=drivesdk", embed: "" },
+                "riders_EP20": { drive: "https://drive.google.com/file/d/19OLYxGr6wshKvF0o6_DN9-d1XrgYT8AI/view?usp=drivesdk", embed: "" },
 
-                // ==========================================
-                // DEFENSORES DE BERK (DEFENDERS OF BERK)
-                // ==========================================
-                "defenders_EP1": { assistir: "https://drive.google.com/file/d/1vHAPaNl3RAa0GhPocjg7jRiu7J9xXYpV/view?usp=drivesdk" },
-                "defenders_EP2": { assistir: "https://drive.google.com/file/d/17x8NV4sFa9fiY2tn2FNbD2wU_MpK6LfA/view?usp=drivesdk" },
-                "defenders_EP3": { assistir: "https://drive.google.com/file/d/1Er-ksCD7sHR7qHsPNGo2C9u26NTbEyA6/view?usp=drivesdk" },
-                "defenders_EP4": { assistir: "https://drive.google.com/file/d/1nOjkq4IXhC_8-M7XxYs8HnrEUY1EYTYi/view?usp=drivesdk" },
-                "defenders_EP5": { assistir: "https://drive.google.com/file/d/1uWN7thGKzPj4rAiv_Yx3CqR0SuuMmS0g/view?usp=drivesdk" },
-                "defenders_EP6": { assistir: "https://drive.google.com/file/d/1s3w7LmiJOcgKUMTRjGLQB97skWvVTf3g/view?usp=drivesdk" },
-                "defenders_EP7": { assistir: "https://drive.google.com/file/d/1K1BsNninDp5Dpm5DQl5msMlfipEYzJQS/view?usp=drivesdk" },
-                "defenders_EP8": { assistir: "https://drive.google.com/file/d/14T_Xba5uLGqmY_ynECh4uf8xYYdSdgxQ/view?usp=drivesdk" },
-                "defenders_EP9": { assistir: "https://drive.google.com/file/d/1QG0EV56BBBk5uDtXSC-ml3eollCFuKCO/view?usp=drivesdk" },
-                "defenders_EP10": { assistir: "https://drive.google.com/file/d/10pS4jeNWAsjJoLP2izyLx71MSz2p0tYY/view?usp=drivesdk" },
-                "defenders_EP11": { assistir: "https://drive.google.com/file/d/16rYRdArAkOv3MfFbB0xQb3wFheAWeI_L/view?usp=drivesdk" },
-                "defenders_EP12": { assistir: "https://drive.google.com/file/d/1jOqAnzeHc_Zo2gCENtqhWJozzdtPC_VN/view?usp=drivesdk" },
-                "defenders_EP13": { assistir: "https://drive.google.com/file/d/1vATrAw_HaZRR8eLcSG383Hj0dAat5u-h/view?usp=drivesdk" },
-                "defenders_EP14": { assistir: "https://drive.google.com/file/d/1jZSnnOH6Ztq-nZN4HDCUhSViXqRhOcSe/view?usp=drivesdk" },
-                "defenders_EP15": { assistir: "https://drive.google.com/file/d/1HDNYXKBNnpgC1D0sLG92FT4KJreskAsf/view?usp=drivesdk" },
-                "defenders_EP16": { assistir: "https://drive.google.com/file/d/1FwnsBOdBCSEla9_e-6KHMHq6lilBmpWl/view?usp=drivesdk" },
-                "defenders_EP17": { assistir: "https://drive.google.com/file/d/1-Jpbum5obpHDST1UknZS33LlXz-TBSBO/view?usp=drivesdk" },
-                "defenders_EP18": { assistir: "https://drive.google.com/file/d/1OzDcUUqu9x9DJ7BrU0muhrvCQTd_Oc20/view?usp=drivesdk" },
-                "defenders_EP19": { assistir: "https://drive.google.com/file/d/1ivFJPImihIHvBNwzD5Kk5DY8QwILtk89/view?usp=drivesdk" },
-                "defenders_EP20": { assistir: "https://drive.google.com/file/d/1V48lsxcdvXrvyV17cXT-Nd-L8wPLbfe1/view?usp=drivesdk" }
+                // DEFENSORES DE BERK
+                "defenders_EP1": { drive: "https://drive.google.com/file/d/1vHAPaNl3RAa0GhPocjg7jRiu7J9xXYpV/view?usp=drivesdk", embed: "" },
+                "defenders_EP2": { drive: "https://drive.google.com/file/d/17x8NV4sFa9fiY2tn2FNbD2wU_MpK6LfA/view?usp=drivesdk", embed: "" },
+                "defenders_EP3": { drive: "https://drive.google.com/file/d/1Er-ksCD7sHR7qHsPNGo2C9u26NTbEyA6/view?usp=drivesdk", embed: "" },
+                "defenders_EP4": { drive: "https://drive.google.com/file/d/1nOjkq4IXhC_8-M7XxYs8HnrEUY1EYTYi/view?usp=drivesdk", embed: "" },
+                "defenders_EP5": { drive: "https://drive.google.com/file/d/1uWN7thGKzPj4rAiv_Yx3CqR0SuuMmS0g/view?usp=drivesdk", embed: "" },
+                "defenders_EP6": { drive: "https://drive.google.com/file/d/1s3w7LmiJOcgKUMTRjGLQB97skWvVTf3g/view?usp=drivesdk", embed: "" },
+                "defenders_EP7": { drive: "https://drive.google.com/file/d/1K1BsNninDp5Dpm5DQl5msMlfipEYzJQS/view?usp=drivesdk", embed: "" },
+                "defenders_EP8": { drive: "https://drive.google.com/file/d/14T_Xba5uLGqmY_ynECh4uf8xYYdSdgxQ/view?usp=drivesdk", embed: "" },
+                "defenders_EP9": { drive: "https://drive.google.com/file/d/1QG0EV56BBBk5uDtXSC-ml3eollCFuKCO/view?usp=drivesdk", embed: "" },
+                "defenders_EP10": { drive: "https://drive.google.com/file/d/10pS4jeNWAsjJoLP2izyLx71MSz2p0tYY/view?usp=drivesdk", embed: "" },
+                "defenders_EP11": { drive: "https://drive.google.com/file/d/16rYRdArAkOv3MfFbB0xQb3wFheAWeI_L/view?usp=drivesdk", embed: "" },
+                "defenders_EP12": { drive: "https://drive.google.com/file/d/1jOqAnzeHc_Zo2gCENtqhWJozzdtPC_VN/view?usp=drivesdk", embed: "" },
+                "defenders_EP13": { drive: "https://drive.google.com/file/d/1vATrAw_HaZRR8eLcSG383Hj0dAat5u-h/view?usp=drivesdk", embed: "" },
+                "defenders_EP14": { drive: "https://drive.google.com/file/d/1jZSnnOH6Ztq-nZN4HDCUhSViXqRhOcSe/view?usp=drivesdk", embed: "" },
+                "defenders_EP15": { drive: "https://drive.google.com/file/d/1HDNYXKBNnpgC1D0sLG92FT4KJreskAsf/view?usp=drivesdk", embed: "" },
+                "defenders_EP16": { drive: "https://drive.google.com/file/d/1FwnsBOdBCSEla9_e-6KHMHq6lilBmpWl/view?usp=drivesdk", embed: "" },
+                "defenders_EP17": { drive: "https://drive.google.com/file/d/1-Jpbum5obpHDST1UknZS33LlXz-TBSBO/view?usp=drivesdk", embed: "" },
+                "defenders_EP18": { drive: "https://drive.google.com/file/d/1OzDcUUqu9x9DJ7BrU0muhrvCQTd_Oc20/view?usp=drivesdk", embed: "" },
+                "defenders_EP19": { drive: "https://drive.google.com/file/d/1ivFJPImihIHvBNwzD5Kk5DY8QwILtk89/view?usp=drivesdk", embed: "" },
+                "defenders_EP20": { drive: "https://drive.google.com/file/d/1V48lsxcdvXrvyV17cXT-Nd-L8wPLbfe1/view?usp=drivesdk", embed: "" }
             };
 
             // ==========================================
-            // TÍTULOS DOS EPISÓDIOS (ATUALIZADO)
+            // TÍTULOS DOS EPISÓDIOS
             // ==========================================
             const episodesDB = {
-                // CORRIDA ATÉ O LIMITE (RACE TO THE EDGE)
                 race: {
-                    1: [
-                        "O Olho do Dragão (Parte 1)", "O Olho do Dragão (Parte 2)", "Harmonia Imperfeita", 
-                        "Quando a Escuridão Cai", "O Grande Homem de Berk", "Adeus, Gustav", 
-                        "O Reinado das Vermes de Fogo", "Esmagando", "Abalo, Chacoalhada e Roda", 
-                        "Tenho Dragão, Faço Viagens (Parte 1)", "Tenho Dragão, Faço Viagens (Parte 2)", 
-                        "A Próxima Grande Ferroada", "Um Pesadelo Total"
-                    ],
-                    2: [
-                        "O Último Atirador de Arpões", "Má Vida", "A Noite dos Caçadores (Parte 1)", 
-                        "A Noite dos Caçadores (Parte 2)", "O Duplo Desafio", "Saída pela Neve", 
-                        "No Limite do Desastre (Parte 1)", "No Limite do Desastre (Parte 2)", 
-                        "Choque e Respeito", "Uma Retirada Sombria", "Heather ou Não Heather", 
-                        "Pernapancada Recebe o Machado", "O Dia Mais Longo"
-                    ],
-                    3: [
-                        "Inimigo do Meu Inimigo", "Curso de Colisão", "Siga o Líder", 
-                        "Volta e Queima", "Soldado Buffalord", "Uma Retirada Sombria", 
-                        "Heather ou Não Heather", "Pernapancada Recebe o Machado", 
-                        "Algo Podre na Ilha dos Berserkers", "Pecados do Passado", 
-                        "À Vista de Todos", "Entre a Rocha e um Lugar Difícil", "Família no Limite"
-                    ],
-                    4: [
-                        "Direito de Passagem", "O Dente de Piscote", "Corrida do Ouro", 
-                        "Fora da Frigideira", "Gême-intuição", "Surpreendido", 
-                        "Estreitos Perigosos", "O Buraco na Primeira Lei", 
-                        "A Maior Caçada", "Sem Escalas", "A Equipe de Confiança", 
-                        "O Ataque das Conchas (Parte 1)", "O Ataque das Conchas (Parte 2)"
-                    ],
-                    5: [
-                        "Vivendo no Limite", "Areia Movediça", "Algo Podre na Ilha dos Berserkers", 
-                        "Uma Questão de Perspectiva", "O Retorno de Thor Pernapancada", 
-                        "Asas de Guerra (Parte 1)", "Asas de Guerra (Parte 2)", 
-                        "Nenhum Dragão Deixado para Trás", "O Manto do Aterror", 
-                        "Procurando Oswald", "Snaugmorte", "Uma Batalha das Mais Divertidas", 
-                        "O Rei dos Dragões (Parte 1)"
-                    ],
-                    6: [
-                        "O Rei dos Dragões (Parte 2)", "Os Leais Herdeiros", "A Última Auction", 
-                        "Através do Espelho", "Família no Limite", "Miopia", 
-                        "Ragna-rock", "Fim de Jogo (Parte 1)", "Fim de Jogo (Parte 2)", 
-                        "O Peso do Passado", "O Papel da Profecia", "O Cerco de Berk", 
-                        "A Batalha Final (Parte 1)" // Nota: Netflix agrupa de forma diferente às vezes, ajustei para o padrão de 13 eps.
-                    ]
+                    1: ["O Olho do Dragão (Parte 1)", "O Olho do Dragão (Parte 2)", "Harmonia Imperfeita", "Quando a Escuridão Cai", "O Grande Homem de Berk", "Adeus, Gustav", "O Reinado das Vermes de Fogo", "Esmagando", "Abalo, Chacoalhada e Roda", "Tenho Dragão, Faço Viagens (Parte 1)", "Tenho Dragão, Faço Viagens (Parte 2)", "A Próxima Grande Ferroada", "Um Pesadelo Total"],
+                    2: ["O Último Atirador de Arpões", "Má Vida", "A Noite dos Caçadores (Parte 1)", "A Noite dos Caçadores (Parte 2)", "O Duplo Desafio", "Saída pela Neve", "No Limite do Desastre (Parte 1)", "No Limite do Desastre (Parte 2)", "Choque e Respeito", "Uma Retirada Sombria", "Heather ou Não Heather", "Pernapancada Recebe o Machado", "O Dia Mais Longo"],
+                    3: ["Inimigo do Meu Inimigo", "Curso de Colisão", "Siga o Líder", "Volta e Queima", "Soldado Buffalord", "Uma Retirada Sombria", "Heather ou Não Heather", "Pernapancada Recebe o Machado", "Algo Podre na Ilha dos Berserkers", "Pecados do Passado", "À Vista de Todos", "Entre a Rocha e um Lugar Difícil", "Família no Limite"],
+                    4: ["Direito de Passagem", "O Dente de Piscote", "Corrida do Ouro", "Fora da Frigideira", "Gême-intuição", "Surpreendido", "Estreitos Perigosos", "O Buraco na Primeira Lei", "A Maior Caçada", "Sem Escalos", "A Equipe de Confiança", "O Ataque das Conchas (Parte 1)", "O Ataque das Conchas (Parte 2)"],
+                    5: ["Vivendo no Limite", "Areia Movediça", "Algo Podre na Ilha dos Berserkers", "Uma Questão de Perspectiva", "O Retorno de Thor Pernapancada", "Asas de Guerra (Parte 1)", "Asas de Guerra (Parte 2)", "Nenhum Dragão Deixado para Trás", "O Manto do Aterror", "Procurando Oswald", "Snaugmorte", "Uma Batalha das Mais Divertidas", "O Rei dos Dragões (Parte 1)"],
+                    6: ["O Rei dos Dragões (Parte 2)", "Os Leais Herdeiros", "A Última Auction", "Através do Espelho", "Família no Limite", "Miopia", "Ragna-rock", "Fim de Jogo (Parte 1)", "Fim de Jogo (Parte 2)", "O Peso do Passado", "O Papel da Profecia", "O Cerco de Berk", "A Batalha Final (Parte 1)"]
                 },
-                
-                // PILOTOS DE BERK (RIDERS OF BERK)
                 riders: {
-                    1: [
-                        "Alvorada da Patrulha Aérea (Parte 1)", "Alvorada da Patrulha Aérea (Parte 2)", 
-                        "Viking de Aluguel", "A Casa dos Animais", "Em Dragões Nós Confiamos", 
-                        "Alvin e os Exilados", "Como Escolher Seu Dragão", "A Gema de Outra Cor", 
-                        "O que Voa por Baixo", "Medo Azul", "O Pulo do Gronckle", "Más Notícias", 
-                        "O Retrato de Soluço Quando Jovem", "O Dia do Castigo", "A Gangue de Gustav", 
-                        "Frenesi de Quatro", "A Coisa Certa", "Os Terríveis Dois", "O Pior da Turma", 
-                        "Vive e Deixe Voar"
-                    ]
+                    1: ["Alvorada da Patrulha Aérea (Parte 1)", "Alvorada da Patrulha Aérea (Parte 2)", "Viking de Aluguel", "A Casa dos Animais", "Em Dragões Nós Confiamos", "Alvin e os Exilados", "Como Escolher Seu Dragão", "A Gema de Outra Cor", "O que Voa por Baixo", "Medo Azul", "O Pulo do Gronckle", "Más Notícias", "O Retrato de Soluço Quando Jovem", "O Dia do Castigo", "A Gangue de Gustav", "Frenesi de Quatro", "A Coisa Certa", "Os Terríveis Dois", "O Pior da Turma", "Vive e Deixe Voar"]
                 },
-                
-                // DEFENSORES DE BERK (DEFENDERS OF BERK)
                 defenders: {
-                    1: [
-                        "Viva e Deixe Voar (Parte 1)", "Viva e Deixe Voar (Parte 2)", "A Ilha dos Caçadores", 
-                        "O Gronckle de Ferro", "A Noite e a Fúria", "Visão em Túnel", 
-                        "O Duplo Desafio", "A Escolha de Astrid", "O Pequeno Problema", 
-                        "Festival do Degelo", "O Segredo de Stoico", "A Coisa Certa", 
-                        "Banguela Apaixonado", "O Vigia Aéreo", "Frenesi de Quatro", 
-                        "O Regresso de Dagur", "Os Bots da Morte", "O Jogo das Sombras", 
-                        "A Traição de Stoico", "O Castigo"
-                    ]
+                    1: ["Viva e Deixe Voar (Parte 1)", "Viva e Deixe Voar (Parte 2)", "A Ilha dos Caçadores", "O Gronckle de Ferro", "A Noite e a Fúria", "Visão em Túnel", "O Duplo Desafio", "A Escolha de Astrid", "O Pequeno Problema", "Festival do Degelo", "O Segredo de Stoico", "A Coisa Certa", "Banguela Apaixonado", "O Vigia Aéreo", "Frenesi de Quatro", "O Regresso de Dagur", "Os Bots da Morte", "O Jogo das Sombras", "A Traição de Stoico", "O Castigo"]
                 }
             };
 
@@ -840,23 +728,55 @@
             // LÓGICA DO SISTEMA
             // ==========================================================
 
-            window.openLink = (url) => {
-                if(url && url !== "#" && url !== "") window.open(url, '_blank');
-                else alert("Link indisponível ou não configurado.");
+            window.handlePlayClick = (id, title, seriesId, seasonNum) => {
+                const links = mediaLinks[id];
+                if (!links) { alert("Mídia não configurada."); return; }
+
+                if (window.watchMode === 'drive') {
+                    if (links.drive && links.drive !== "#") window.open(links.drive, '_blank');
+                    else alert("Link do Google Drive não disponível.");
+                } else {
+                    if (links.embed && links.embed !== "") playVideo(links.embed, title, seriesId, seasonNum);
+                    else alert("Player não disponível para este episódio ainda. Tente pelo Google Drive.");
+                }
+            };
+
+            window.playVideo = (url, title, seriesId, seasonNum) => {
+                const modal = document.getElementById('modal');
+                const modalTitle = document.getElementById('modal-title');
+                const modalContent = document.getElementById('modal-dynamic-content');
+
+                modalTitle.innerText = title;
+                
+                let playerHtml = `
+                    <div class="video-container">
+                        <iframe src="${url}" allowfullscreen></iframe>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn-back-list" onclick="backToList('${seriesId}', '${seasonNum}')">
+                            <i class="fas fa-arrow-left"></i> Voltar para a Lista
+                        </button>
+                    </div>
+                `;
+
+                modalContent.innerHTML = playerHtml;
+                modal.style.display = 'flex';
+            };
+
+            window.backToList = (seriesId, seasonNum) => {
+                const seriesNames = { race: "Corrida Até o Limite", riders: "Pilotos de Berk", defenders: "Defensores de Berk" };
+                openSeriesModal(seriesId, seriesNames[seriesId] || "Série");
+                setTimeout(() => showSeasonList(seriesId, seasonNum), 50);
             };
 
             function createCard(item, categoryType) {
                 let buttonsHtml = '';
+                const links = mediaLinks[item.id] || {};
 
-                if (categoryType === 'movie') {
-                    const watchLink = mediaLinks[item.id]?.assistir || '#';
-                    buttonsHtml = `<a href="${watchLink}" target="_blank" class="btn btn-watch"><i class="fas fa-play"></i> Assistir</a>`;
-                } else if (categoryType === 'special') {
-                    const watchLink = mediaLinks[item.id]?.assistir || '#';
-                    buttonsHtml = `<a href="${watchLink}" target="_blank" class="btn btn-watch"><i class="fas fa-play"></i> Assistir</a>`;
+                if (categoryType === 'movie' || categoryType === 'special') {
+                    buttonsHtml = `<a href="#" class="btn btn-watch" onclick="event.preventDefault(); handlePlayClick('${item.id}', '${item.title}', null, null)"><i class="fas fa-play"></i> Assistir</a>`;
                 } else if (categoryType === 'comix') {
-                    const readLink = mediaLinks[item.id]?.ler || '#';
-                    buttonsHtml = `<a href="${readLink}" target="_blank" class="btn btn-read"><i class="fas fa-book-open"></i> Ler</a>`;
+                     buttonsHtml = `<a href="${links.drive || '#'}" target="_blank" class="btn btn-read"><i class="fas fa-book-open"></i> Ler</a>`;
                 } else if (categoryType === 'series') {
                     buttonsHtml = `<a href="#" class="btn btn-watch" onclick="event.preventDefault(); openSeriesModal('${item.id}', '${item.title}')"><i class="fas fa-list"></i> Episódios</a>`;
                 }
@@ -872,13 +792,13 @@
                 `;
             }
 
-            // Renderizar
+            // Renderizar Cards
             document.getElementById('moviesRow').innerHTML = moviesData.map(item => createCard(item, 'movie')).join('');
             document.getElementById('seriesRow').innerHTML = seriesData.map(item => createCard(item, 'series')).join('');
             document.getElementById('specialsRow').innerHTML = specialsData.map(item => createCard(item, 'special')).join('');
             document.getElementById('comixRow').innerHTML = comixData.map(item => createCard(item, 'comix')).join('');
 
-            // Modal
+            // Modal de Séries
             window.openSeriesModal = (seriesId, title) => {
                 const modal = document.getElementById('modal');
                 const modalTitle = document.getElementById('modal-title');
@@ -887,37 +807,26 @@
                 modalContent.innerHTML = '';
                 const seriesEps = episodesDB[seriesId];
                 
-                if (!seriesEps) {
-                    modalContent.innerHTML = '<p style="color:white; padding: 20px;">Nenhum episódio cadastrado.</p>';
-                    modal.style.display = 'flex';
-                    return;
-                }
+                if (!seriesEps) { modalContent.innerHTML = '<p style="color:white; padding: 20px;">Nenhum episódio cadastrado.</p>'; modal.style.display = 'flex'; return; }
 
                 const seasonKeys = Object.keys(seriesEps);
                 let tabsHtml = '';
                 
-                // Só exibe abas se tiver mais de 1 temporada
                 if (seasonKeys.length > 1) {
                     tabsHtml = '<div class="series-tabs">';
-                    seasonKeys.forEach((season, idx) => {
-                        tabsHtml += `<button class="series-tab-btn ${idx === 0 ? 'active' : ''}" onclick="showSeasonList('${seriesId}', ${season})">Temp ${season}</button>`;
-                    });
+                    seasonKeys.forEach((season, idx) => { tabsHtml += `<button class="series-tab-btn ${idx === 0 ? 'active' : ''}" onclick="showSeasonList('${seriesId}', ${season})">Temp ${season}</button>`; });
                     tabsHtml += '</div>';
                 }
 
                 tabsHtml += '<div id="episodeListContainer"></div>';
                 modalContent.innerHTML = tabsHtml;
-                
-                // Carrega a primeira temporada (ou a única)
                 showSeasonList(seriesId, seasonKeys[0]);
                 modal.style.display = 'flex';
             };
 
             window.showSeasonList = (seriesId, seasonNum) => {
-                // Remove active de todos os botões (se existirem)
                 document.querySelectorAll('.series-tab-btn').forEach(btn => {
                     btn.classList.remove('active');
-                    // Verifica se o texto do botão corresponde à temporada selecionada
                     if(btn.innerText === `Temp ${seasonNum}`) btn.classList.add('active');
                 });
 
@@ -928,19 +837,10 @@
                 episodes.forEach((epTitle, index) => {
                     const epNum = index + 1;
                     let epId;
-                    if (seriesId === 'race') {
-                        epId = `T${seasonNum}_EP${epNum}`;
-                    } else {
-                        epId = `${seriesId}_EP${epNum}`;
-                    }
+                    if (seriesId === 'race') epId = `T${seasonNum}_EP${epNum}`;
+                    else epId = `${seriesId}_EP${epNum}`;
                     
-                    const link = mediaLinks[epId]?.assistir || '#';
-                    html += `
-                        <div class="episode-item" onclick="openLink('${link}')">
-                            <span>${epNum}. ${epTitle}</span>
-                            <i class="fas fa-play-circle"></i>
-                        </div>
-                    `;
+                    html += `<div class="episode-item" onclick="handlePlayClick('${epId}', '${epTitle}', '${seriesId}', '${seasonNum}')"><span>${epNum}. ${epTitle}</span><i class="fas fa-play-circle"></i></div>`;
                 });
                 html += '</div>';
                 container.innerHTML = html;
@@ -949,7 +849,7 @@
             document.querySelector('.close-btn').onclick = () => document.getElementById('modal').style.display = 'none';
             window.onclick = e => { if (e.target == document.getElementById('modal')) document.getElementById('modal').style.display = 'none'; };
 
-            // Geral
+            // --- Configurações Gerais e Background ---
             const images = [ 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg' ];
             const userBg = document.getElementById('userBg');
             const welcomeScreen = document.getElementById('welcomeScreen');
@@ -960,11 +860,8 @@
             let selectedBg = null;
 
             for(let i = 0; i < 20; i++) {
-                const p = document.createElement('div');
-                p.classList.add('particle');
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                p.style.animationDelay = Math.random() * 5 + 's';
+                const p = document.createElement('div'); p.classList.add('particle');
+                p.style.left = Math.random() * 100 + 'vw'; p.style.animationDuration = (Math.random() * 10 + 10) + 's'; p.style.animationDelay = Math.random() * 5 + 's';
                 particlesContainer.appendChild(p);
             }
 
@@ -974,87 +871,37 @@
             const hasVisited = localStorage.getItem('berk_visited');
             if (!hasVisited) {
                 images.forEach((img, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'welcome-card';
-                    card.style.backgroundImage = `url('${img}')`;
-                    card.onclick = () => selectWelcomeBg(index, `url('${img}')`);
-                    welcomeGrid.appendChild(card);
+                    const card = document.createElement('div'); card.className = 'welcome-card'; card.style.backgroundImage = `url('${img}')`;
+                    card.onclick = () => selectWelcomeBg(index, `url('${img}')`); welcomeGrid.appendChild(card);
                 });
-                const uploadCard = document.createElement('div');
-                uploadCard.className = 'welcome-card upload-card';
-                uploadCard.innerHTML = '<i class="fas fa-plus"></i> Adicionar';
-                const inputUpload = document.createElement('input');
-                inputUpload.type = 'file'; inputUpload.accept = 'image/*'; inputUpload.style.display = 'none';
-                inputUpload.onchange = (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (evt) => selectWelcomeBg(-1, `url('${evt.target.result}')`);
-                        reader.readAsDataURL(file);
-                    }
-                };
-                uploadCard.onclick = () => inputUpload.click();
-                welcomeGrid.appendChild(inputUpload);
-                welcomeGrid.appendChild(uploadCard);
-            } else {
-                welcomeScreen.classList.add('hidden');
-                const savedBg = localStorage.getItem('berk_bg');
-                if(savedBg) { userBg.style.backgroundImage = savedBg; userBg.classList.add('active'); }
-            }
+                const uploadCard = document.createElement('div'); uploadCard.className = 'welcome-card upload-card'; uploadCard.innerHTML = '<i class="fas fa-plus"></i> Adicionar';
+                const inputUpload = document.createElement('input'); inputUpload.type = 'file'; inputUpload.accept = 'image/*'; inputUpload.style.display = 'none';
+                inputUpload.onchange = (e) => { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = (evt) => selectWelcomeBg(-1, `url('${evt.target.result}')`); reader.readAsDataURL(file); } };
+                uploadCard.onclick = () => inputUpload.click(); welcomeGrid.appendChild(inputUpload); welcomeGrid.appendChild(uploadCard);
+            } else { welcomeScreen.classList.add('hidden'); const savedBg = localStorage.getItem('berk_bg'); if(savedBg) { userBg.style.backgroundImage = savedBg; userBg.classList.add('active'); } }
 
             function selectWelcomeBg(index, url) {
                 document.querySelectorAll('.welcome-card').forEach(c => c.classList.remove('selected'));
-                if (index === -1) document.querySelector('.upload-card').classList.add('selected');
-                else welcomeGrid.children[index].classList.add('selected');
-                selectedBg = url;
-                startBtn.disabled = false;
-                startBtn.classList.add('active');
+                if (index === -1) document.querySelector('.upload-card').classList.add('selected'); else welcomeGrid.children[index].classList.add('selected');
+                selectedBg = url; startBtn.disabled = false; startBtn.classList.add('active');
             }
 
-            startBtn.addEventListener('click', () => {
-                if (selectedBg) {
-                    userBg.style.backgroundImage = selectedBg;
-                    userBg.classList.add('active');
-                    localStorage.setItem('berk_visited', 'true');
-                    localStorage.setItem('berk_bg', selectedBg);
-                    welcomeScreen.classList.add('hidden');
-                }
-            });
+            startBtn.addEventListener('click', () => { if (selectedBg) { userBg.style.backgroundImage = selectedBg; userBg.classList.add('active'); localStorage.setItem('berk_visited', 'true'); localStorage.setItem('berk_bg', selectedBg); welcomeScreen.classList.add('hidden'); } });
 
             document.getElementById('settingsToggle').addEventListener('click', () => document.getElementById('settingsPanel').classList.toggle('active'));
             const thumbs = document.querySelectorAll('.settings-wrapper .bg-thumb:not(.upload-label)');
             
             window.changeBg = (index) => {
-                document.querySelectorAll('.settings-wrapper .bg-thumb').forEach(t => t.classList.remove('active'));
-                thumbs[index].classList.add('active');
-                userBg.style.backgroundImage = `url('${images[index]}')`;
-                userBg.classList.add('active');
-                localStorage.setItem('berk_bg', `url('${images[index]}')`);
+                document.querySelectorAll('.settings-wrapper .bg-thumb').forEach(t => t.classList.remove('active')); thumbs[index].classList.add('active');
+                userBg.style.backgroundImage = `url('${images[index]}')`; userBg.classList.add('active'); localStorage.setItem('berk_bg', `url('${images[index]}')`);
             };
 
             document.getElementById('customBgInput').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (evt) => {
-                        document.querySelectorAll('.settings-wrapper .bg-thumb').forEach(t => t.classList.remove('active'));
-                        document.querySelector('.settings-wrapper .upload-label').classList.add('active');
-                        userBg.style.backgroundImage = `url('${evt.target.result}')`;
-                        userBg.classList.add('active');
-                        localStorage.setItem('berk_bg', `url('${evt.target.result}')`);
-                    };
-                    reader.readAsDataURL(file);
-                }
+                const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = (evt) => { document.querySelectorAll('.settings-wrapper .bg-thumb').forEach(t => t.classList.remove('active')); document.querySelector('.settings-wrapper .upload-label').classList.add('active'); userBg.style.backgroundImage = `url('${evt.target.result}')`; userBg.classList.add('active'); localStorage.setItem('berk_bg', `url('${evt.target.result}')`); }; reader.readAsDataURL(file); }
             });
 
-            const bgMusic = document.getElementById('bgMusic');
-            const playStateBtn = document.getElementById('playStateBtn');
-            let isPlaying = false;
-            document.getElementById('musicControl').addEventListener('click', () => {
-                if (isPlaying) { bgMusic.pause(); playStateBtn.classList.remove('playing'); playStateBtn.innerHTML = '<i class="fas fa-play"></i>'; }
-                else { bgMusic.play().catch(e => {}); playStateBtn.classList.add('playing'); playStateBtn.innerHTML = '<i class="fas fa-pause"></i>'; }
-                isPlaying = !isPlaying;
-            });
+            const bgMusic = document.getElementById('bgMusic'); const playStateBtn = document.getElementById('playStateBtn'); let isPlaying = false;
+            document.getElementById('musicControl').addEventListener('click', () => { if (isPlaying) { bgMusic.pause(); playStateBtn.classList.remove('playing'); playStateBtn.innerHTML = '<i class="fas fa-play"></i>'; } else { bgMusic.play().catch(e => {}); playStateBtn.classList.add('playing'); playStateBtn.innerHTML = '<i class="fas fa-pause"></i>'; } isPlaying = !isPlaying; });
 
         });
     </script>
