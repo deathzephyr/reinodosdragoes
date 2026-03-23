@@ -27,9 +27,6 @@
             --color-series: #4facfe;    /* Azul */
             --color-specials: #a55eea;  /* Roxo */
             --color-comix: #26de81;     /* Verde */
-            
-            /* Cor do Botão Ativo */
-            --color-active-mode: #ff4d4d; /* Vermelho */
         }
 
         /* RESET E CONFIGURAÇÃO GLOBAL */
@@ -89,7 +86,12 @@
             background-size: 400% 400%; animation: auroraGradient 25s ease infinite; z-index: -2;
         }
 
-        .user-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1; opacity: 0; transition: opacity 1s ease; }
+        .user-bg { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-size: cover; background-position: center; 
+            background-attachment: fixed;
+            z-index: -1; opacity: 0; transition: opacity 1s ease; 
+        }
         .user-bg.active { opacity: 1; }
 
         /* Efeito de Partículas (Brasas) */
@@ -145,7 +147,7 @@
         header h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; color: white; text-shadow: 0 0 20px rgba(0,0,0,0.8); margin-bottom: 15px; }
         header p { max-width: 600px; margin: 0 auto; font-size: 1.2rem; color: #ddd; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; margin-bottom: 30px; }
 
-        /* --- SELETOR DE MODO (VERMELHO) --- */
+        /* --- SELETOR DE MODO --- */
         .view-mode-selector {
             display: flex;
             flex-wrap: wrap;
@@ -172,14 +174,60 @@
             gap: 8px;
         }
         .mode-btn:hover { border-color: #777; color: #fff; }
+        
         .mode-btn.active { 
-            background: linear-gradient(45deg, #ff4d4d, #c0392b); /* Vermelho */
+            background: linear-gradient(135deg, #00c6ff, #0072ff, #7303c0, #ec38bc);
             border-color: transparent;
             color: white;
-            box-shadow: 0 0 15px rgba(255, 77, 77, 0.4);
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.4);
             font-weight: bold;
+            animation: auroraMove 3s ease infinite;
+            background-size: 300% 300%; 
         }
+
+        @keyframes auroraMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .mode-btn i { font-size: 1rem; }
+
+        /* --- AVISO DE ANÚNCIO (NOVO) --- */
+        .ad-warning-header {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 15px;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            position: absolute; /* Para não empurrar o conteúdo */
+        }
+        .ad-warning-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+            position: relative;
+        }
+        .ad-warning-header i { color: #ffc107; font-size: 1.2rem; }
+        .ad-warning-header span { color: #ffc107; font-size: 0.9rem; text-align: left; flex: 1; }
+        .ad-warning-header .close-warning {
+            background: transparent;
+            border: none;
+            color: #ffc107;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 5px;
+        }
 
         /* --- Container --- */
         .container { max-width: 100%; margin: 0 auto; padding: 0; position: relative; z-index: 2; }
@@ -199,6 +247,10 @@
         #series .section-title { border-color: var(--color-series); }
         #especiais .section-title { border-color: var(--color-specials); }
         #comix .section-title { border-color: var(--color-comix); }
+        
+        /* Seção Histórico */
+        #historico .section-title { border-color: #ffc107; }
+
 
         /* --- ESTILO NETFLIX UNIFICADO --- */
         .netflix-row {
@@ -283,6 +335,9 @@
         .cat-comix:hover { border-color: var(--color-comix); }
         .cat-comix .btn-read { background: var(--color-comix); border-color: transparent; }
         
+        .cat-history:hover { border-color: #ffc107; }
+        .cat-history .btn-watch { background: #ffc107; border-color: transparent; color: black; }
+
         /* --- AJUSTE MOBILE --- */
         @media (max-width: 768px) {
             :root { --card-width: 125px; }
@@ -302,18 +357,13 @@
             #series .section-title { border-color: var(--color-series); }
             #especiais .section-title { border-color: var(--color-specials); }
             #comix .section-title { border-color: var(--color-comix); }
+            #historico .section-title { border-color: #ffc107; }
 
             .card-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent); padding-top: 30px; }
             .card-title { font-size: 0.75rem; margin-bottom: 5px; }
             .btn { padding: 5px 2px; font-size: 0.6rem; border-radius: 3px; }
             .settings-panel { width: 260px; }
         }
-
-        /* --- RODAPÉ --- */
-        footer { background: rgba(10, 10, 10, 0.95); border-top: 1px solid var(--border-color); padding: 40px 20px; text-align: center; margin-top: 60px; }
-        .footer-content { max-width: 800px; margin: 0 auto; }
-        .footer-logo { width: 80px; margin-bottom: 20px; opacity: 0.6; filter: grayscale(100%); }
-        .footer-text { color: #666; font-size: 0.9rem; margin-bottom: 15px; }
 
         /* --- BOTÃO VOLTAR AO TOPO --- */
         .scroll-top-btn {
@@ -429,25 +479,39 @@
 
     <!-- Header Principal -->
     <header>
-        <div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
             <h1>Reino dos Dragões</h1>
             <p>Acompanhe Soluço e Banguela em sua ascensão como a dupla mais lendária de Berk.</p>
             
             <!-- SELETOR DE MODO -->
             <div class="view-mode-selector">
-                <button id="btnModeDrive" class="mode-btn active" onclick="setWatchMode('drive')">
+                <button id="btnModeDrive" class="mode-btn" onclick="setWatchMode('drive')">
                     <i class="fab fa-google-drive"></i> Google Drive
                 </button>
                 <button id="btnModeEmbed" class="mode-btn" onclick="setWatchMode('embed')">
                     <i class="fas fa-play-circle"></i> Player do Site
                 </button>
             </div>
+
+            <!-- AVISO DE ANÚNCIO (DINÂMICO) -->
+            <div id="adWarningHeader" class="ad-warning-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Atenção: O player do site é gratuito e pode conter anúncios. Feche as janelas pop-up para assistir normalmente.</span>
+                <button class="close-warning" onclick="dismissAdWarning()"><i class="fas fa-times"></i></button>
+            </div>
+
         </div>
     </header>
 
     <!-- Conteúdo -->
     <div class="container">
         
+        <!-- HISTÓRICO (DINÂMICO) -->
+        <section id="historico" style="display: none;">
+            <h2 class="section-title">Continuar Assistindo</h2>
+            <div class="netflix-row" id="historyRow"></div>
+        </section>
+
         <!-- 1. FILMES -->
         <section id="filmes">
             <h2 class="section-title">Filmes</h2>
@@ -474,14 +538,6 @@
 
     </div>
 
-    <!-- RODAPÉ -->
-    <footer>
-        <div class="footer-content">
-            <img src="logo.png" class="footer-logo" alt="Logo Footer">
-            <p class="footer-text">Reino dos Dragões. Todos os direitos reservados aos criadores da franquia.</p>
-        </div>
-    </footer>
-
     <!-- BOTÃO VOLTAR AO TOPO -->
     <button class="scroll-top-btn" id="scrollTopBtn">
         <i class="fas fa-chevron-up"></i>
@@ -502,13 +558,36 @@
             // ==========================================================
             // CONFIGURAÇÃO GLOBAL
             // ==========================================================
-            window.watchMode = 'drive'; // Padrão: 'drive' ou 'embed'
-
+            
+            // Função para definir o modo e salvar
             window.setWatchMode = (mode) => {
                 window.watchMode = mode;
+                localStorage.setItem('berk_mode', mode); // SALVA A ESCOLHA
+                
                 document.getElementById('btnModeDrive').classList.toggle('active', mode === 'drive');
                 document.getElementById('btnModeEmbed').classList.toggle('active', mode === 'embed');
+
+                // Lógica do Aviso de Anúncio
+                if (mode === 'embed') {
+                    if (!localStorage.getItem('berk_ad_warning')) {
+                        document.getElementById('adWarningHeader').classList.add('visible');
+                    }
+                } else {
+                    document.getElementById('adWarningHeader').classList.remove('visible');
+                }
             };
+
+            // Função para fechar aviso
+            window.dismissAdWarning = () => {
+                localStorage.setItem('berk_ad_warning', 'true');
+                document.getElementById('adWarningHeader').classList.remove('visible');
+            };
+
+            // Carrega o modo salvo ao iniciar
+            const savedMode = localStorage.getItem('berk_mode') || 'drive';
+            window.watchMode = savedMode;
+            // Atualiza os botões visualmente (o script de setWatchMode fará isso, mas precisamos chamar uma vez)
+            // Nota: O setWatchMode é chamado no final do script para aplicar o estado inicial
 
             // ==========================================================
             // ÁREA DE CONFIGURAÇÃO DAS IMAGENS
@@ -527,7 +606,6 @@
                 { id: "defenders", title: "Defensores de Berk", img: "defensores.webp" }
             ];
 
-            // Especiais sem link foram removidos conforme solicitado
             const specialsData = [
                 { id: "esp_1", title: "O Presente do Furia da Noite", img: "presente.webp" },
                 { id: "esp_5", title: "Volta ao Lar", img: "https://m.media-amazon.com/images/M/MV5BMTQ4NjRjNjEtMWRlMS00NTA3LTk5NzUtNDE0NjVkOTFlYmM2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
@@ -543,8 +621,6 @@
             // ==========================================
             // LINKS DE ACESSO (EDITE AQUI)
             // ==========================================
-            // drive: Link do Google Drive (abre em nova aba)
-            // embed: Link do Player (Fembed, etc) para assistir no site
             
             const mediaLinks = {
                 // --- FILMES ---
@@ -553,11 +629,11 @@
                 "filme_3": { drive: "https://drive.google.com/file/d/1ULp1OronBhtQNDWfhEvGwHxs9nXlc-Xn/view?usp=drivesdk", embed: "" },
                 "filme_live_action": { drive: "https://drive.google.com/file/d/18IueeEx5pTfcMhPhqYAqH5iuRJWQBYgz/view?usp=drivesdk", embed: "" },
                 
-                // --- ESPECIAIS (Restantes) ---
+                // --- ESPECIAIS
                 "esp_1": { drive: "https://drive.google.com/file/d/1TyIWCjlQcbpWyRhslpwYr0YCKKmXDEFL/view?usp=drivesdk", embed: "" },
                 "esp_5": { drive: "https://drive.google.com/file/d/1Wpgz3cbFPt5JjRll6tDcTiNWEiUMit2r/view?usp=drivesdk", embed: "" }, 
 
-                // --- COMIX (Apenas Leitura/Drive) ---
+                // --- COMIX
                 "comic_1": { drive: "https://drive.google.com/file/d/1le69wyVpbHsDpp-EwamedHBebvM_iC0N/view?usp=drivesdk" },
                 "comic_2": { drive: "https://drive.google.com/file/d/11mMglXh0ylzwbJU6w5KNbHfTJCfK_gHF/view?usp=drivesdk" },
                 "comic_5": { drive: "https://drive.google.com/file/d/1dh8_eXz-et10TqEa4XSaZ8YKqvnalfei/view?usp=drivesdk" },
@@ -728,9 +804,15 @@
             // LÓGICA DO SISTEMA
             // ==========================================================
 
+            // Aplica o modo salvo ao iniciar
+            setWatchMode(savedMode);
+
             window.handlePlayClick = (id, title, seriesId, seasonNum) => {
                 const links = mediaLinks[id];
                 if (!links) { alert("Mídia não configurada."); return; }
+
+                // SALVAR NO HISTÓRICO
+                saveHistory(id, title, seriesId, seasonNum);
 
                 if (window.watchMode === 'drive') {
                     if (links.drive && links.drive !== "#") window.open(links.drive, '_blank');
@@ -769,7 +851,7 @@
                 setTimeout(() => showSeasonList(seriesId, seasonNum), 50);
             };
 
-            function createCard(item, categoryType) {
+            function createCard(item, categoryType, isHistory = false) {
                 let buttonsHtml = '';
                 const links = mediaLinks[item.id] || {};
 
@@ -779,10 +861,13 @@
                      buttonsHtml = `<a href="${links.drive || '#'}" target="_blank" class="btn btn-read"><i class="fas fa-book-open"></i> Ler</a>`;
                 } else if (categoryType === 'series') {
                     buttonsHtml = `<a href="#" class="btn btn-watch" onclick="event.preventDefault(); openSeriesModal('${item.id}', '${item.title}')"><i class="fas fa-list"></i> Episódios</a>`;
+                } else if (isHistory) {
+                    // Botão especial para histórico
+                    buttonsHtml = `<a href="#" class="btn btn-watch" onclick="event.preventDefault(); handlePlayClick('${item.id}', '${item.title}', '${item.seriesId || ''}', '${item.seasonNum || ''}')"><i class="fas fa-play"></i> Retomar</a>`;
                 }
 
                 return `
-                    <div class="content-card cat-${categoryType}">
+                    <div class="content-card ${isHistory ? 'cat-history' : 'cat-'+categoryType}">
                         <img src="${item.img}" alt="${item.title}" loading="lazy">
                         <div class="card-overlay">
                             <div class="card-title">${item.title}</div>
@@ -797,6 +882,38 @@
             document.getElementById('seriesRow').innerHTML = seriesData.map(item => createCard(item, 'series')).join('');
             document.getElementById('specialsRow').innerHTML = specialsData.map(item => createCard(item, 'special')).join('');
             document.getElementById('comixRow').innerHTML = comixData.map(item => createCard(item, 'comix')).join('');
+
+            // --- HISTÓRICO ---
+            function saveHistory(id, title, seriesId, seasonNum) {
+                let historyItem = { id, title, seriesId, seasonNum, timestamp: Date.now() };
+                
+                // Tentar buscar imagem para o histórico
+                const allData = [...moviesData, ...seriesData, ...specialsData, ...comixData];
+                const found = allData.find(d => d.id === id || d.id === seriesId);
+                if (found) historyItem.img = found.img;
+                else historyItem.img = 'logo.png'; // Fallback
+
+                localStorage.setItem('berk_history', JSON.stringify(historyItem));
+                loadHistory(); // Atualiza a UI
+            }
+
+            function loadHistory() {
+                const historyData = localStorage.getItem('berk_history');
+                const historySection = document.getElementById('historico');
+                const historyRow = document.getElementById('historyRow');
+
+                if (historyData) {
+                    const item = JSON.parse(historyData);
+                    historySection.style.display = 'block';
+                    // Passamos isHistory=true para usar o estilo diferente
+                    historyRow.innerHTML = createCard(item, 'history', true);
+                } else {
+                    historySection.style.display = 'none';
+                }
+            }
+
+            // Carregar histórico ao iniciar
+            loadHistory();
 
             // Modal de Séries
             window.openSeriesModal = (seriesId, title) => {
