@@ -188,52 +188,24 @@
 
         /* --- AVISO DE ANÚNCIO --- */
         .ad-warning-header {
-            width: 100%;
-            max-width: 600px;
-            margin-top: 15px;
-            background: rgba(255, 193, 7, 0.15);
-            border: 1px solid #ffc107;
-            border-radius: 10px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-            position: absolute; 
+            width: 100%; max-width: 600px; margin-top: 15px;
+            background: rgba(255, 193, 7, 0.15); border: 1px solid #ffc107; border-radius: 10px;
+            padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;
+            gap: 15px; opacity: 0; transform: translateY(-10px); transition: all 0.3s ease;
+            pointer-events: none; position: absolute;
         }
-        .ad-warning-header.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-            position: relative;
-        }
+        .ad-warning-header.visible { opacity: 1; transform: translateY(0); pointer-events: all; position: relative; }
         .ad-warning-header i { color: #ffc107; font-size: 1.2rem; }
         .ad-warning-header span { color: #ffc107; font-size: 0.9rem; text-align: left; flex: 1; }
-        .ad-warning-header .close-warning {
-            background: transparent;
-            border: none;
-            color: #ffc107;
-            cursor: pointer;
-            font-size: 1.1rem;
-            padding: 5px;
-        }
+        .ad-warning-header .close-warning { background: transparent; border: none; color: #ffc107; cursor: pointer; font-size: 1.1rem; padding: 5px; }
 
         /* --- Container --- */
         .container { max-width: 100%; margin: 0 auto; padding: 0; position: relative; z-index: 2; }
         section { margin-bottom: 40px; padding: 0 20px; }
 
         .section-title { 
-            font-family: 'Cinzel', serif; 
-            font-size: 1.6rem; 
-            margin-bottom: 15px; 
-            color: white; 
-            padding-left: 10px;
-            border-left: 4px solid var(--color-movies);
-            display: inline-block;
+            font-family: 'Cinzel', serif; font-size: 1.6rem; margin-bottom: 15px; color: white; 
+            padding-left: 10px; border-left: 4px solid var(--color-movies); display: inline-block;
         }
 
         #filmes .section-title { border-color: var(--color-movies); }
@@ -244,61 +216,31 @@
 
         /* --- ESTILO NETFLIX UNIFICADO --- */
         .netflix-row {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding-bottom: 15px;
-            padding-left: 5px;
-            scroll-behavior: smooth;
-            -ms-overflow-style: none;  
-            scrollbar-width: none;
-            scroll-snap-type: x mandatory; 
+            display: flex; overflow-x: auto; gap: 12px; padding-bottom: 15px; padding-left: 5px;
+            scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; scroll-snap-type: x mandatory;
         }
         .netflix-row::-webkit-scrollbar { display: none; }
 
         .content-card {
-            flex: 0 0 auto;
-            width: var(--card-width);
-            background: #141414;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 2px solid transparent;
-            cursor: pointer;
-            position: relative;
-            scroll-snap-align: start; 
+            flex: 0 0 auto; width: var(--card-width); background: #141414; border-radius: 8px;
+            overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent; cursor: pointer; position: relative; scroll-snap-align: start;
         }
         
         @media (hover: hover) and (pointer: fine) {
-            .content-card:hover {
-                transform: scale(1.08);
-                z-index: 10;
-                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            }
+            .content-card:hover { transform: scale(1.08); z-index: 10; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
             .content-card:hover .card-overlay { opacity: 1; }
         }
 
-        .content-card img {
-            width: 100%;
-            height: calc(var(--card-width) * 1.5); 
-            object-fit: cover;
-            display: block;
-            background-color: #222;
-        }
+        .content-card img { width: 100%; height: calc(var(--card-width) * 1.5); object-fit: cover; display: block; background-color: #222; }
 
         .card-overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
+            position: absolute; bottom: 0; left: 0; width: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7), transparent);
-            padding: 40px 8px 8px;
-            display: flex; flex-direction: column; height: auto; justify-content: flex-end;
+            padding: 40px 8px 8px; display: flex; flex-direction: column; height: auto; justify-content: flex-end;
         }
 
-        .card-title {
-            font-family: 'Cinzel', serif; font-size: 0.9rem; color: #fff; margin-bottom: 8px;
-            text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,1);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .card-title { font-family: 'Cinzel', serif; font-size: 0.9rem; color: #fff; margin-bottom: 8px; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .card-actions { display: flex; flex-direction: row; gap: 5px; width: 100%; }
 
@@ -315,32 +257,17 @@
         
         .cat-movie:hover { border-color: var(--color-movies); }
         .cat-movie .btn-watch { background: var(--color-movies); border-color: transparent; }
-        
         .cat-series:hover { border-color: var(--color-series); }
         .cat-series .btn-watch { background: var(--color-series); border-color: transparent; }
-        
         .cat-special:hover { border-color: var(--color-specials); }
         .cat-special .btn-watch { background: var(--color-specials); border-color: transparent; }
-
         .cat-comix:hover { border-color: var(--color-comix); }
         .cat-comix .btn-read { background: var(--color-comix); border-color: transparent; }
-        
         .cat-history:hover { border-color: var(--color-history); }
         .cat-history .btn-watch { background: var(--color-history); border-color: transparent; color: black; }
 
-        .btn-remove-history {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff4d4d;
-            flex: 0 0 auto;
-            width: 32px;
-            padding: 0;
-            border: 1px solid rgba(255, 0, 0, 0.3);
-        }
-        .btn-remove-history:hover {
-            background: #ff4d4d;
-            color: white;
-            border-color: transparent;
-        }
+        .btn-remove-history { background: rgba(255, 0, 0, 0.2); color: #ff4d4d; flex: 0 0 auto; width: 32px; padding: 0; border: 1px solid rgba(255, 0, 0, 0.3); }
+        .btn-remove-history:hover { background: #ff4d4d; color: white; border-color: transparent; }
 
         /* --- AJUSTE MOBILE --- */
         @media (max-width: 768px) {
@@ -348,21 +275,13 @@
             header { min-height: 300px; padding-top: 70px; }
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; padding: 10px; }
-            
             .settings-panel { width: 280px; }
-
-            .section-title {
-                font-size: 1.2rem; border-left: none;
-                border-bottom: 2px solid var(--color-movies);
-                padding-left: 0; padding-bottom: 5px; margin-bottom: 15px;
-                width: 100%; text-align: center;
-            }
+            .section-title { font-size: 1.2rem; border-left: none; border-bottom: 2px solid var(--color-movies); padding-left: 0; padding-bottom: 5px; margin-bottom: 15px; width: 100%; text-align: center; }
             #filmes .section-title { border-color: var(--color-movies); }
             #series .section-title { border-color: var(--color-series); }
             #especiais .section-title { border-color: var(--color-specials); }
             #comix .section-title { border-color: var(--color-comix); }
             #historico .section-title { border-color: var(--color-history); }
-
             .card-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent); padding-top: 30px; }
             .card-title { font-size: 0.75rem; margin-bottom: 5px; }
             .btn { padding: 5px 2px; font-size: 0.6rem; border-radius: 3px; }
@@ -371,8 +290,7 @@
         /* --- BOTÃO VOLTAR AO TOPO --- */
         .scroll-top-btn {
             position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
-            background: linear-gradient(45deg, var(--color-movies), #f7931e);
-            border: none; border-radius: 50%; color: white; font-size: 20px;
+            background: linear-gradient(45deg, var(--color-movies), #f7931e); border: none; border-radius: 50%; color: white; font-size: 20px;
             cursor: pointer; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
         }
@@ -400,11 +318,7 @@
         .close-btn:hover { background: #ff4d4d; border-color: #ff4d4d; color: white; transform: rotate(90deg); }
 
         .series-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .series-tab-btn { 
-            background: transparent; border: 1px solid #444; color: #aaa;
-            padding: 8px 20px; border-radius: 20px; cursor: pointer;
-            font-family: 'Cinzel', serif; font-size: 0.9rem; transition: all 0.3s;
-        }
+        .series-tab-btn { background: transparent; border: 1px solid #444; color: #aaa; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.9rem; transition: all 0.3s; }
         .series-tab-btn:hover { border-color: #777; color: #fff; }
         .series-tab-btn.active { background: var(--color-series); border-color: transparent; color: white; font-weight: bold; }
         
@@ -429,65 +343,64 @@
         }
         .btn-back-list:hover { background: rgba(255,255,255,0.2); color: #fff; border-color: #666; }
 
-        /* --- MODIFICAÇÃO: PLAYER FULLSCREEN NO MOBILE --- */
+        /* --- MODIFICAÇÃO: PLAYER FULLSCREEN E CENTRALIZADO NO MOBILE --- */
         @media (max-width: 768px) {
-            .modal {
-                padding: 0; /* Remove padding da tela */
-            }
-            .modal-content {
-                max-width: 100%;
-                width: 100%;
-                height: 100%;
-                max-height: 100%;
-                border-radius: 0;
-                border: none;
-                padding: 0;
-                background: #000; /* Fundo preto total */
+            .modal { padding: 0; }
+            
+            /* O container do modal vira uma caixa flex centralizada */
+            .modal-content.video-mode {
                 display: flex;
                 flex-direction: column;
+                justify-content: center; /* Centraliza verticalmente */
+                align-items: center; /* Centraliza horizontalmente */
+                max-width: 100%; width: 100%; height: 100%;
+                max-height: 100%; border-radius: 0; border: none; padding: 0;
+                background: #000; /* Fundo preto total */
             }
 
-            /* Esconde o título no modo vídeo mobile para ganhar espaço */
-            .modal-content.video-mode .modal-title {
-                display: none;
-            }
+            /* Esconde o título no modo vídeo para ganhar espaço */
+            .modal-content.video-mode .modal-title { display: none; }
 
-            .close-btn {
-                top: 10px;
-                right: 10px;
-                background: rgba(0,0,0,0.5);
-                z-index: 100;
-            }
-
-            /* O container do vídeo agora ocupa a tela toda */
+            /* O container do vídeo agora é flexível e centralizado */
             .modal-content.video-mode .video-container {
-                width: 100%;
-                height: 100%;
-                padding-bottom: 0; /* Remove a razão de aspecto fixa */
-                margin-bottom: 0;
-                flex-grow: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .modal-content.video-mode .video-container iframe {
                 position: relative;
                 width: 100%;
-                height: 100%;
-                flex-grow: 1;
+                height: auto; /* Altura automática */
+                flex-grow: 1; /* Ocupa o espaço restante */
+                max-height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0;
+                border-radius: 0;
+                padding-bottom: 0; /* Remove o aspect ratio fixo que estava deixando pequeno */
             }
 
+            /* O iframe preenche o container disponível */
+            .modal-content.video-mode .video-container iframe {
+                position: relative; /* Muda de absolute para relative */
+                width: 100%; 
+                height: 100%; 
+                min-height: 300px; /* Altura mínima para garantir que não suma */
+            }
+
+            /* Botões Flutuantes */
+            .modal-content.video-mode .close-btn {
+                position: fixed; /* Fixa na tela */
+                top: 20px; right: 20px;
+                background: rgba(0,0,0,0.8);
+                z-index: 100;
+            }
             .modal-content.video-mode .btn-back-list {
-                position: absolute;
+                position: fixed;
                 bottom: 20px;
                 left: 50%;
                 transform: translateX(-50%);
                 z-index: 100;
-                background: rgba(0,0,0,0.7);
+                background: rgba(0,0,0,0.8);
+                border: 1px solid rgba(255,255,255,0.3);
             }
         }
-
     </style>
 </head>
 <body ontouchstart="">
@@ -573,7 +486,7 @@
     <!-- Conteúdo -->
     <div class="container">
         
-        <!-- HISTÓRICO (DINÂMICO) -->
+        <!-- HISTÓRICO -->
         <section id="historico" style="display: none;">
             <h2 class="section-title">Continuar Assistindo</h2>
             <div class="netflix-row" id="historyRow"></div>
@@ -623,9 +536,23 @@
         document.addEventListener('DOMContentLoaded', () => {
             
             // ==========================================================
-            // CONFIGURAÇÃO GLOBAL
+            // CONFIGURAÇÃO GLOBAL E VARIAVEIS DE AUDIO
             // ==========================================================
-            
+
+            const bgMusic = document.getElementById('bgMusic');
+            const playStateBtn = document.getElementById('playStateBtn');
+            let isPlaying = false; // Estado inicial do áudio
+
+            // Função para pausar música de fundo (chamada ao abrir vídeo)
+            function pauseBackgroundMusic() {
+                if (isPlaying) {
+                    bgMusic.pause();
+                    playStateBtn.classList.remove('playing');
+                    playStateBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    isPlaying = false;
+                }
+            }
+
             window.setWatchMode = (mode) => {
                 window.watchMode = mode;
                 localStorage.setItem('berk_mode', mode); 
@@ -679,7 +606,7 @@
             ];
 
             // ==========================================
-            // LINKS DE ACESSO (EDITE AQUI)
+            // LINKS DE ACESSO
             // ==========================================
             
             const mediaLinks = {
@@ -886,7 +813,10 @@
                 const modalContent = document.getElementById('modal-dynamic-content');
                 const modalBox = document.getElementById('modalContentBox');
 
-                // Adiciona classe para estilização mobile fullscren
+                // Pausa música de fundo ao abrir vídeo
+                pauseBackgroundMusic();
+
+                // Adiciona classe para estilização mobile fullscreen
                 modalBox.classList.add('video-mode');
 
                 modalTitle.innerText = title;
@@ -910,13 +840,11 @@
                 modal.style.display = 'flex';
             };
 
-            // Função para limpar o estado de "assistindo agora"
             function clearPlaybackState() {
                 localStorage.removeItem(CURRENTLY_WATCHING_KEY);
             }
 
             window.backToList = (seriesId, seasonNum) => {
-                // Ao voltar para a lista, limpamos o estado de playback atual
                 clearPlaybackState(); 
                 const seriesNames = { race: "Corrida Até o Limite", riders: "Pilotos de Berk", defenders: "Defensores de Berk" };
                 openSeriesModal(seriesId, seriesNames[seriesId] || "Série");
@@ -954,14 +882,12 @@
             function checkSeriesHasEmbeds(seriesId) {
                 const seasons = episodesDB[seriesId];
                 if (!seasons) return false;
-
                 for (let seasonNum in seasons) {
                     const episodes = seasons[seasonNum];
                     for (let i = 0; i < episodes.length; i++) {
                         let epId;
                         if (seriesId === 'race') epId = `T${seasonNum}_EP${i + 1}`;
                         else epId = `${seriesId}_EP${i + 1}`;
-
                         const link = mediaLinks[epId];
                         if (link && link.embed && link.embed !== "") return true;
                     }
@@ -970,7 +896,6 @@
             }
 
             function renderLayout() {
-                // 1. Filmes
                 const moviesFiltered = moviesData.filter(item => {
                     if (window.watchMode === 'drive') return true;
                     const link = mediaLinks[item.id];
@@ -979,7 +904,6 @@
                 document.getElementById('moviesRow').innerHTML = moviesFiltered.map(item => createCard(item, 'movie')).join('');
                 document.getElementById('filmes').style.display = moviesFiltered.length > 0 ? 'block' : 'none';
 
-                // 2. Séries
                 const seriesFiltered = seriesData.filter(item => {
                     if (window.watchMode === 'drive') return true;
                     return checkSeriesHasEmbeds(item.id);
@@ -987,7 +911,6 @@
                 document.getElementById('seriesRow').innerHTML = seriesFiltered.map(item => createCard(item, 'series')).join('');
                 document.getElementById('series').style.display = seriesFiltered.length > 0 ? 'block' : 'none';
 
-                // 3. Especiais
                 const specialsFiltered = specialsData.filter(item => {
                     if (window.watchMode === 'drive') return true;
                     const link = mediaLinks[item.id];
@@ -996,7 +919,6 @@
                 document.getElementById('specialsRow').innerHTML = specialsFiltered.map(item => createCard(item, 'special')).join('');
                 document.getElementById('especiais').style.display = specialsFiltered.length > 0 ? 'block' : 'none';
 
-                // 4. Comix
                 const comixFiltered = comixData.filter(item => {
                     if (window.watchMode === 'drive') return true;
                     const link = mediaLinks[item.id];
@@ -1008,7 +930,7 @@
 
             renderLayout();
 
-            // --- HISTÓRICO ATUALIZADO ---
+            // --- HISTÓRICO ---
             const MAX_HISTORY = 10;
 
             function saveHistory(id, title, seriesId, seasonNum) {
@@ -1047,7 +969,6 @@
                             historyArray = [historyArray];
                             localStorage.setItem('berk_history', JSON.stringify(historyArray));
                         }
-
                         if (historyArray.length > 0) {
                             historySection.style.display = 'block';
                             historyRow.innerHTML = historyArray.map(item => createCard(item, 'history', true)).join('');
@@ -1071,7 +992,6 @@
                 const modalContent = document.getElementById('modal-dynamic-content');
                 const modalBox = document.getElementById('modalContentBox');
                 
-                // Remove classe de vídeo fullscreen
                 modalBox.classList.remove('video-mode');
 
                 modalTitle.textContent = title;
@@ -1125,35 +1045,31 @@
             // Fechar Modal
             document.getElementById('modalCloseBtn').onclick = () => {
                 document.getElementById('modal').style.display = 'none';
-                // Ao fechar manualmente, limpamos o estado para não reabrir no reload
+                document.getElementById('modalContentBox').classList.remove('video-mode');
                 clearPlaybackState();
             };
 
             window.onclick = e => { 
                 if (e.target == document.getElementById('modal')) {
                     document.getElementById('modal').style.display = 'none';
+                    document.getElementById('modalContentBox').classList.remove('video-mode');
                     clearPlaybackState();
                 }
             };
 
             // --- RESTAURAÇÃO AUTOMÁTICA ---
-            // Verifica se estava assistindo e recarrega o player
             function checkAndRestorePlayback() {
                 const playbackData = localStorage.getItem(CURRENTLY_WATCHING_KEY);
                 if (playbackData) {
                     try {
                         const data = JSON.parse(playbackData);
-                        // Pequeno delay para garantir que a UI carregou
                         setTimeout(() => {
                             playVideo(data.url, data.title, data.seriesId, data.seasonNum);
                         }, 300);
-                    } catch (e) {
-                        console.error("Erro ao restaurar vídeo", e);
-                    }
+                    } catch (e) { console.error("Erro ao restaurar vídeo", e); }
                 }
             }
 
-            // Executa verificação ao carregar
             checkAndRestorePlayback();
 
             // --- Configurações Gerais e Background ---
@@ -1211,8 +1127,12 @@
             window.watchMode = savedMode;
             setWatchMode(savedMode);
 
-            const bgMusic = document.getElementById('bgMusic'); const playStateBtn = document.getElementById('playStateBtn'); let isPlaying = false;
-            document.getElementById('musicControl').addEventListener('click', () => { if (isPlaying) { bgMusic.pause(); playStateBtn.classList.remove('playing'); playStateBtn.innerHTML = '<i class="fas fa-play"></i>'; } else { bgMusic.play().catch(e => {}); playStateBtn.classList.add('playing'); playStateBtn.innerHTML = '<i class="fas fa-pause"></i>'; } isPlaying = !isPlaying; });
+            // Controle de Música
+            document.getElementById('musicControl').addEventListener('click', () => { 
+                if (isPlaying) { bgMusic.pause(); playStateBtn.classList.remove('playing'); playStateBtn.innerHTML = '<i class="fas fa-play"></i>'; } 
+                else { bgMusic.play().catch(e => {}); playStateBtn.classList.add('playing'); playStateBtn.innerHTML = '<i class="fas fa-pause"></i>'; } 
+                isPlaying = !isPlaying; 
+            });
 
         });
     </script>
