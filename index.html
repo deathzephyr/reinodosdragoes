@@ -240,8 +240,6 @@
         #series .section-title { border-color: var(--color-series); }
         #especiais .section-title { border-color: var(--color-specials); }
         #comix .section-title { border-color: var(--color-comix); }
-        
-        /* Seção Histórico */
         #historico .section-title { border-color: var(--color-history); }
 
         /* --- ESTILO NETFLIX UNIFICADO --- */
@@ -330,11 +328,10 @@
         .cat-history:hover { border-color: var(--color-history); }
         .cat-history .btn-watch { background: var(--color-history); border-color: transparent; color: black; }
 
-        /* Botão Remover Histórico */
         .btn-remove-history {
             background: rgba(255, 0, 0, 0.2);
             color: #ff4d4d;
-            flex: 0 0 auto; /* Não estica, tamanho fixo */
+            flex: 0 0 auto;
             width: 32px;
             padding: 0;
             border: 1px solid rgba(255, 0, 0, 0.3);
@@ -431,6 +428,65 @@
             color: #ccc; font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s; border: 1px solid #444;
         }
         .btn-back-list:hover { background: rgba(255,255,255,0.2); color: #fff; border-color: #666; }
+
+        /* --- MODIFICAÇÃO: PLAYER FULLSCREEN NO MOBILE --- */
+        @media (max-width: 768px) {
+            .modal {
+                padding: 0; /* Remove padding da tela */
+            }
+            .modal-content {
+                max-width: 100%;
+                width: 100%;
+                height: 100%;
+                max-height: 100%;
+                border-radius: 0;
+                border: none;
+                padding: 0;
+                background: #000; /* Fundo preto total */
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Esconde o título no modo vídeo mobile para ganhar espaço */
+            .modal-content.video-mode .modal-title {
+                display: none;
+            }
+
+            .close-btn {
+                top: 10px;
+                right: 10px;
+                background: rgba(0,0,0,0.5);
+                z-index: 100;
+            }
+
+            /* O container do vídeo agora ocupa a tela toda */
+            .modal-content.video-mode .video-container {
+                width: 100%;
+                height: 100%;
+                padding-bottom: 0; /* Remove a razão de aspecto fixa */
+                margin-bottom: 0;
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .modal-content.video-mode .video-container iframe {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                flex-grow: 1;
+            }
+
+            .modal-content.video-mode .btn-back-list {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 100;
+                background: rgba(0,0,0,0.7);
+            }
+        }
 
     </style>
 </head>
@@ -556,8 +612,8 @@
 
     <!-- Modal Principal -->
     <div class="modal" id="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
+        <div class="modal-content" id="modalContentBox">
+            <span class="close-btn" id="modalCloseBtn">&times;</span>
             <h3 class="modal-title" id="modal-title">Opções</h3>
             <div id="modal-dynamic-content"></div>
         </div>
@@ -807,6 +863,8 @@
             // LÓGICA DO SISTEMA
             // ==========================================================
 
+            const CURRENTLY_WATCHING_KEY = 'berk_currently_watching';
+
             window.handlePlayClick = (id, title, seriesId, seasonNum) => {
                 const links = mediaLinks[id];
                 if (!links) { alert("Mídia não configurada."); return; }
@@ -826,9 +884,17 @@
                 const modal = document.getElementById('modal');
                 const modalTitle = document.getElementById('modal-title');
                 const modalContent = document.getElementById('modal-dynamic-content');
+                const modalBox = document.getElementById('modalContentBox');
+
+                // Adiciona classe para estilização mobile fullscren
+                modalBox.classList.add('video-mode');
 
                 modalTitle.innerText = title;
                 
+                // Salva estado para restaurar em caso de reload
+                const playbackData = { url, title, seriesId, seasonNum };
+                localStorage.setItem(CURRENTLY_WATCHING_KEY, JSON.stringify(playbackData));
+
                 let playerHtml = `
                     <div class="video-container">
                         <iframe src="${url}" allowfullscreen></iframe>
@@ -844,7 +910,14 @@
                 modal.style.display = 'flex';
             };
 
+            // Função para limpar o estado de "assistindo agora"
+            function clearPlaybackState() {
+                localStorage.removeItem(CURRENTLY_WATCHING_KEY);
+            }
+
             window.backToList = (seriesId, seasonNum) => {
+                // Ao voltar para a lista, limpamos o estado de playback atual
+                clearPlaybackState(); 
                 const seriesNames = { race: "Corrida Até o Limite", riders: "Pilotos de Berk", defenders: "Defensores de Berk" };
                 openSeriesModal(seriesId, seriesNames[seriesId] || "Série");
                 setTimeout(() => showSeasonList(seriesId, seasonNum), 50);
@@ -861,7 +934,6 @@
                 } else if (categoryType === 'series') {
                     buttonsHtml = `<a href="#" class="btn btn-watch" onclick="event.preventDefault(); openSeriesModal('${item.id}', '${item.title}')"><i class="fas fa-list"></i> Episódios</a>`;
                 } else if (isHistory) {
-                    // Botões para Histórico: Retomar + Remover
                     buttonsHtml = `
                         <a href="#" class="btn btn-watch" onclick="event.preventDefault(); handlePlayClick('${item.id}', '${item.title}', '${item.seriesId || ''}', '${item.seasonNum || ''}')"><i class="fas fa-play"></i> Retomar</a>
                         <button class="btn btn-remove-history" onclick="event.stopPropagation(); removeFromHistory('${item.id}')"><i class="fas fa-times"></i></button>
@@ -937,30 +1009,20 @@
             renderLayout();
 
             // --- HISTÓRICO ATUALIZADO ---
-            const MAX_HISTORY = 10; // Limite de itens no histórico
+            const MAX_HISTORY = 10;
 
             function saveHistory(id, title, seriesId, seasonNum) {
                 let history = JSON.parse(localStorage.getItem('berk_history')) || [];
-                
-                // Cria novo item
                 let historyItem = { id, title, seriesId, seasonNum, timestamp: Date.now() };
                 
-                // Tenta achar imagem
                 const allData = [...moviesData, ...seriesData, ...specialsData, ...comixData];
                 const found = allData.find(d => d.id === id || d.id === seriesId);
                 if (found) historyItem.img = found.img;
                 else historyItem.img = 'logo.png'; 
 
-                // Remove se já existir (para mover pro topo)
                 history = history.filter(item => item.id !== id);
-
-                // Adiciona no topo
                 history.unshift(historyItem);
-
-                // Limita o tamanho
-                if (history.length > MAX_HISTORY) {
-                    history = history.slice(0, MAX_HISTORY);
-                }
+                if (history.length > MAX_HISTORY) history = history.slice(0, MAX_HISTORY);
 
                 localStorage.setItem('berk_history', JSON.stringify(history));
                 loadHistory();
@@ -981,8 +1043,6 @@
                 if (historyData) {
                     try {
                         let historyArray = JSON.parse(historyData);
-                        
-                        // Converte formato antigo (objeto único) para array, se necessário
                         if (!Array.isArray(historyArray) && typeof historyArray === 'object' && historyArray !== null) {
                             historyArray = [historyArray];
                             localStorage.setItem('berk_history', JSON.stringify(historyArray));
@@ -995,7 +1055,6 @@
                             historySection.style.display = 'none';
                         }
                     } catch (e) {
-                        console.error("Erro ao carregar histórico", e);
                         historySection.style.display = 'none';
                     }
                 } else {
@@ -1010,6 +1069,11 @@
                 const modal = document.getElementById('modal');
                 const modalTitle = document.getElementById('modal-title');
                 const modalContent = document.getElementById('modal-dynamic-content');
+                const modalBox = document.getElementById('modalContentBox');
+                
+                // Remove classe de vídeo fullscreen
+                modalBox.classList.remove('video-mode');
+
                 modalTitle.textContent = title;
                 modalContent.innerHTML = '';
                 const seriesEps = episodesDB[seriesId];
@@ -1049,9 +1113,7 @@
 
                     if (window.watchMode === 'embed') {
                         const link = mediaLinks[epId];
-                        if (!link || !link.embed || link.embed === "") {
-                            return; 
-                        }
+                        if (!link || !link.embed || link.embed === "") return; 
                     }
                     
                     html += `<div class="episode-item" onclick="handlePlayClick('${epId}', '${epTitle}', '${seriesId}', '${seasonNum}')"><span>${epNum}. ${epTitle}</span><i class="fas fa-play-circle"></i></div>`;
@@ -1060,8 +1122,39 @@
                 container.innerHTML = html;
             };
 
-            document.querySelector('.close-btn').onclick = () => document.getElementById('modal').style.display = 'none';
-            window.onclick = e => { if (e.target == document.getElementById('modal')) document.getElementById('modal').style.display = 'none'; };
+            // Fechar Modal
+            document.getElementById('modalCloseBtn').onclick = () => {
+                document.getElementById('modal').style.display = 'none';
+                // Ao fechar manualmente, limpamos o estado para não reabrir no reload
+                clearPlaybackState();
+            };
+
+            window.onclick = e => { 
+                if (e.target == document.getElementById('modal')) {
+                    document.getElementById('modal').style.display = 'none';
+                    clearPlaybackState();
+                }
+            };
+
+            // --- RESTAURAÇÃO AUTOMÁTICA ---
+            // Verifica se estava assistindo e recarrega o player
+            function checkAndRestorePlayback() {
+                const playbackData = localStorage.getItem(CURRENTLY_WATCHING_KEY);
+                if (playbackData) {
+                    try {
+                        const data = JSON.parse(playbackData);
+                        // Pequeno delay para garantir que a UI carregou
+                        setTimeout(() => {
+                            playVideo(data.url, data.title, data.seriesId, data.seasonNum);
+                        }, 300);
+                    } catch (e) {
+                        console.error("Erro ao restaurar vídeo", e);
+                    }
+                }
+            }
+
+            // Executa verificação ao carregar
+            checkAndRestorePlayback();
 
             // --- Configurações Gerais e Background ---
             const images = [ 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg' ];
