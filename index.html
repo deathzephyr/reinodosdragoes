@@ -1042,18 +1042,28 @@
                 container.innerHTML = html;
             };
 
-            // Fechar Modal
-            document.getElementById('modalCloseBtn').onclick = () => {
-                document.getElementById('modal').style.display = 'none';
-                document.getElementById('modalContentBox').classList.remove('video-mode');
+            // --- FUNÇÃO FECHAR MODAL E PARAR ÁUDIO ---
+            function closeModal() {
+                const modal = document.getElementById('modal');
+                const modalBox = document.getElementById('modalContentBox');
+                const modalContent = document.getElementById('modal-dynamic-content');
+                
+                // Passo 1: Para o vídeo destruindo o conteúdo (remove o iframe da memória)
+                modalContent.innerHTML = ''; 
+                
+                // Passo 2: Esconde o modal e limpa classes
+                modal.style.display = 'none';
+                modalBox.classList.remove('video-mode');
+                
+                // Passo 3: Limpa o estado de "assistindo agora"
                 clearPlaybackState();
-            };
+            }
+
+            document.getElementById('modalCloseBtn').onclick = closeModal;
 
             window.onclick = e => { 
                 if (e.target == document.getElementById('modal')) {
-                    document.getElementById('modal').style.display = 'none';
-                    document.getElementById('modalContentBox').classList.remove('video-mode');
-                    clearPlaybackState();
+                    closeModal();
                 }
             };
 
